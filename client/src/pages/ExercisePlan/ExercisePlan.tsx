@@ -1,61 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ExerciseCard from '../../components/ExerciseCard';
 import Exercise from '../../models/Exercise';
-
-let fakeExerciseDB = [
-  new Exercise(7, 'alternate lateral pulldown', 'cable', 'https://v2.exercisedb.io/image/nu49rfV054HZ0d', 'back'),
-  new Exercise(3293, 'archer pull up', 'body weight', 'https://v2.exercisedb.io/image/XctQDLeRc80gSD', 'back'),
-  new Exercise(1, '3/4 sit-up', 'body weight', 'https://v2.exercisedb.io/image/TkoOSCuhS37DYY', 'waist'),
-  new Exercise(1512, 'all fours squad stretch', 'body weight', 'https://v2.exercisedb.io/image/YdLOOdiYOau-xf', 'upper legs'),
-  new Exercise(1368, 'ankle circles', 'body weight', 'https://v2.exercisedb.io/image/hlw8NxVgMLYv5S', 'lower legs'),
-  new Exercise(3294, 'archer push up', 'body weight', 'https://v2.exercisedb.io/image/WZkGTUPsd6NXoh', 'chest'),
-  new Exercise(994, 'band reversse wrist curl', 'band', 'https://v2.exercisedb.io/image/7chGsVIa0yIaVp', 'lower arms')
-]
-
-let arr:Exercise[] = [];
-
-function getRandomInt(min: number, max: number) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
-}
-
+const NBEXERCISES = 6;
+/*
 function fillArr(){
   arr.pop();
-  const NBEXERCISES = 6;
+  
   for(let i = 0; i < NBEXERCISES; i++){
     arr.push(getRandomExercise());
     console.log('fillingArr')
   }
 }
 
-function getRandomExercise(): Exercise{
-  let i = getRandomInt(0, fakeExerciseDB.length);
-  console.log('getRandomEx' + i)
-  return fakeExerciseDB[i];
-}
+async function fetchEx(bodyPart:string){}
 
+async function getRandomExercise(bodyPart: string): Exercise{
+  const response = await fetch('http://localhost:3500/testGabe/getRandomFromBodyPart/waist', {method: 'GET'})
+  const { data, errors } = await response.json();
+  if(response.ok){
+    console.log(data);
+  }
+  //return await response.json();
+  return new Exercise('','','',1,'','',[],[]);
+
+}*/
 
 function App() {
-  if(arr.length == 0){
-    fillArr();
-  }
-  const [exerciseDB, setExerciseDB] = useState(arr);
+  const [nbExercises, setNbExercises] = useState(NBEXERCISES);
+  const [exercises, setExercises] = useState(new Array<Exercise>(6));
 
-  function handleClick()
-  {
-    console.log("update")
-    const newArr = exerciseDB.map( exercise => {
-      return getRandomExercise();
-    })
-    setExerciseDB(newArr);
+  async function handleClick(){
+    try{
+      console.log('fetching');
+      const response = await fetch('http://localhost:3500/testGabe/getRandomExercises/' + nbExercises, { method: 'GET' });
+      const data = await response.json();
+      if(response.ok){
+        setExercises(data);
+      }else{
+        console.log('Response not ok')
+      }
+    }catch(error){
+      console.log(error);
+      console.log('catch');
+    }
   }
 
   return (
     <>
       <button onClick={ handleClick }>Get new exercises</button>
       <div className='container card'>
-        { exerciseDB.map( (item, i) => (<ExerciseCard key={ i } exercise={item}/>)) }
+        { exercises.map( (item, i) => (<ExerciseCard key={ i } exercise={item}/>)) }
       </div>
     </>
   )

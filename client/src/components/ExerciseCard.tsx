@@ -16,8 +16,8 @@ function ExerciseCard( { exercise }: IProps) {
       <div className='card'>
         <h2>{EXERCISE_NAME_LABEL}{exercise.name}</h2>
         <p>{EXERCISE_EQUIPMENT_LABEL}{exercise.equipment}</p>
-        <p>{EXERCISE_BODYPART_LABEL}{exercise.bodypart}</p>
-        <img src={exercise.gifurl}></img>
+        <p>{EXERCISE_BODYPART_LABEL}{exercise.bodyPart}</p>
+        <img src={exercise.gifUrl}></img>
       </div>
     </>
   )

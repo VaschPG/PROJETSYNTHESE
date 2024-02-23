@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 //mongoose 6.10.0
 const uri =
-  "mongodb+srv://username:Password@cluster0.qm5dbem.mongodb.net/PlanificateurDB";
+  "mongodb+srv://Gabriel:Password12345@cluster0.qm5dbem.mongodb.net/PlanificateurDB";
 
 const ExerciseModel = new mongoose.Schema({
   bodyPart: {

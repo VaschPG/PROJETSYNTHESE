@@ -1,19 +1,33 @@
 class Exercise{
+  bodyPart: string;
+  equipment: string;
+  gifUrl?: string;
   id: number;
   name: string;
-  equipment: string;
-  gifurl?: string;
-  bodypart?: string;
-  instructions?: string[];
+  target: string;
+  secondaryMuscles: string[];
+  instructions: string[];
 
-  constructor(id:number, name: string, equipment: string, gifurl?: string, bodypart?: string,  instructions?: string[]){
+  constructor(
+    bodyPart: string, 
+    equipment: string, 
+    gifUrl: string, 
+    id: number, 
+    name: string, 
+    target: string, 
+    secondaryMuscles: string[], 
+    instructions: string[]
+  ) {
+    this.bodyPart = bodyPart;
+    this.equipment = equipment;
+    this.gifUrl = gifUrl;
     this.id = id;
     this.name = name;
-    this.equipment = equipment;
-    this.gifurl = gifurl;
-    this.bodypart = bodypart;
+    this.target = target;
+    this.secondaryMuscles = secondaryMuscles;
     this.instructions = instructions;
-  }
+  }  
+
 }
 
 export default Exercise;
