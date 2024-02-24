@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ExerciseCard from './components/ExerciseCard';
 import Exercise from '../../models/Exercise';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const NBEXERCISES = 6;
+const NB_EXERCISES = 6;
+const GET_RANDOM_EXERCISES_URL = '/testGabe/getRandomExercises/';
 
 function App() {
-  const [nbExercises, setNbExercises] = useState(NBEXERCISES);
+  const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
   const [exercises, setExercises] = useState(new Array<Exercise>(nbExercises));
 
   /**
@@ -17,11 +18,14 @@ function App() {
     getNewExercises();
   }
 
+  /**
+   * Fetch new exercises from our back-end
+   */
   async function getNewExercises(){
     try{
       console.log('fetching from ' + BASE_URL);
       console.time('fetch-timer');
-      const response = await fetch(BASE_URL + '/testGabe/getRandomExercises/' + nbExercises, { method: 'GET' });
+      const response = await fetch(BASE_URL + GET_RANDOM_EXERCISES_URL + nbExercises, { method: 'GET' });
       const data = await response.json();
       console.log('Successfully fetching in: ')
       console.timeEnd('fetch-timer');
