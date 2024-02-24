@@ -1,43 +1,15 @@
 #root {
-  max-width: 1280px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   flex: 1;
-  padding: 1em;
-  border: solid;
-  background: red;
+  padding: 2em;
+  border:#888;
+  background: rgb(55, 47, 109);
   filter: drop-shadow(0 0 5px black);
 }
 
@@ -45,9 +17,29 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  gap: 10px;
+  gap: 2em;
+  background-color: rgb(33, 27, 71);
 }
 
-.read-the-docs {
-  color: #888;
+.exercise-name {
+  margin: .1em;
+}
+
+.exercise-name-div {
+  border: .1em solid darkslateblue;
+  filter: drop-shadow(0 0 5px black);
+}
+
+.info {
+  height: 32%;
+}
+.image {
+  border: .3em solid black;
+}
+
+.button{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: .2em;
+  margin-right: .2em;
 }
