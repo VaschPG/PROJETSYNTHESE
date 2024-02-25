@@ -1,4 +1,4 @@
-const Model = require('../models/ExerciseModel');
+const Model = require('../models/exercise_model');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const dbString = process.env.TEST_DATABASE_URI;

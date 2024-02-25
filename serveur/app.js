@@ -2,20 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const cors = require ('cors');
+const cors = require('cors');
 
 const app = express();
 
 const dbString = process.env.TEST_DATABASE_URI;
 const port = process.env.PORT || 5000;
 
-const testGabeRouter = require('./routes/testGabe');
+const exerciseRouter = require('./routes/exercise_router');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 
-app.use('/testGabe', testGabeRouter);
+app.use('/api/', exerciseRouter);
 
 mongoose.connect(dbString);
 const db = mongoose.connection;

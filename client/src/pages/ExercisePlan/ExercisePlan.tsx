@@ -4,7 +4,7 @@ import Exercise from '../../models/Exercise';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
-const GET_RANDOM_EXERCISES_URL = '/testGabe/getRandomExercises/';
+const GET_RANDOM_EXERCISES_URL = '/api/getRandomExercises/';
 
 function App() {
 	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
@@ -43,6 +43,43 @@ function App() {
 	}
 
 	/**
+	 * Test function that handles test button and calls test function.
+	 */
+	function handleTestClick() {
+		getSpecificExercises();
+	}
+
+	/**
+	 * test function
+	 * TODO: Delete this later.
+	 */
+	async function getSpecificExercises() {
+		try {
+			const testEquipArr = ['cable', 'body weight', 'barbell'];
+			let params = new URLSearchParams();
+			testEquipArr.forEach((element) => {
+				params.append('equipment', element);
+			});
+			console.log(params);
+
+			console.log('fetching from ' + BASE_URL);
+			console.time('fetch-timer');
+			const response = await fetch(BASE_URL + '/api/testQuery/?' + params);
+			const data = await response.json();
+			console.log('Successfully fetching in: ');
+			console.timeEnd('fetch-timer');
+			if (response.ok) {
+				console.log(data);
+			} else {
+				console.log('Response not ok');
+			}
+		} catch (error) {
+			console.log(error);
+			console.log('catch');
+		}
+	}
+
+	/**
 	 * Change the number of exercises to the amount in the nbExercises input when the input text changes.
 	 * @param e nbExercises number input
 	 */
@@ -56,6 +93,9 @@ function App() {
 	return (
 		<>
 			<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
+			<button onClick={handleTestClick} disabled={true}>
+				Test
+			</button>
 			<button className='button' onClick={handleSearchClick}>
 				Get new exercises
 			</button>
