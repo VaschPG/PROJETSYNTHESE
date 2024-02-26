@@ -56,18 +56,6 @@ const PersonalInfo: React.FC = () => {
                 </div>
                 <div>
                     <label>
-                        Username:
-                        <input type="text" name="username" value={formData.username} onChange={handleInputChange} required />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Password:
-                        <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
-                    </label>
-                </div>
-                <div>
-                    <label>
                         Age:
                         <input type="number" name="age" value={formData.age} onChange={handleInputChange} required />
                     </label>
@@ -81,7 +69,7 @@ const PersonalInfo: React.FC = () => {
                             <option value="female">Female</option>
                             <option value="non-binary">Non-Binary</option>
                             <option value="other">Other</option>
-                            <option value="prefer not to answer">Prefer not tp answer</option>
+                            <option value="prefer not to answer">Prefer not to answer</option>
                         </select>
                     </label>
                 </div>
