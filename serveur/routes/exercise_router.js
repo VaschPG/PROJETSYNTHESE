@@ -51,4 +51,24 @@ router.get('/testQuery/', async (req, res) => {
 	res.status(200).json(equipment);
 });
 
+router.get('/getExercisesByBodyPartQuery/', async (req, res) => {
+	const bodyPartArr = req.query.bodyPart;
+	const returnedArray = new Array();
+	for (let i = 0; i < bodyPartArr.length; i++) {
+		let exercise = await dbo.getRandomExercisesFromBodyPart(bodyPartArr[i], 1);
+		returnedArray[i] = exercise[0];
+	}
+	res.status(200).json(returnedArray);
+});
+
+router.get('/testQueryTime/', async (req, res) => {
+	const nbRequests = 50;
+	let arr = new Array();
+	for (let i = 0; i < nbRequests; i++) {
+		let o = await dbo.getRandomExercises(1);
+		arr.push(o);
+	}
+	res.status(200).json(arr);
+});
+
 module.exports = router;
