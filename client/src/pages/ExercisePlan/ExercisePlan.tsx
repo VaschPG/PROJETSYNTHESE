@@ -14,10 +14,15 @@ interface BodyPartAndEquipmentArray {
 	equipmentArray: string[];
 }
 
+interface ExerciseCardData {
+	exercise: Exercise | null;
+	selectedBodyPart: string;
+}
+
 function App() {
 	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
-	const [exercises, setExercises] = useState(new Array<Exercise | null>(nbExercises));
-	const [testData, setTestData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
+	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -25,7 +30,8 @@ function App() {
 	 */
 	useEffect(() => {
 		const arr = exercises;
-		arr.fill(null);
+		arr.fill({ exercise: null, selectedBodyPart: '' });
+		setExercises(arr);
 		fetchBodyPartAndEquipmentArray();
 	}, []);
 
@@ -49,14 +55,14 @@ function App() {
 			console.log('Successfully fetched in: ');
 			console.timeEnd('initial-data-fetch-timer');
 			if (response.ok) {
-				setTestData(data);
+				setInitData(data);
 			} else {
 				console.log('Response not ok');
 			}
 		} catch (error) {
 			console.log('Error on fetchBodyPartArray:' + error);
 		}
-		console.log(testData);
+		console.log(initData);
 	}
 
 	/**
@@ -81,7 +87,10 @@ function App() {
 			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
-				setExercises(data);
+				const newExercises = exercises.map((item, i) => {
+					return { exercise: data[i], selectedBodyPart: item.selectedBodyPart };
+				});
+				setExercises(newExercises);
 			} else {
 				console.log('Response not ok');
 			}
@@ -96,11 +105,11 @@ function App() {
 	function handleTestClick() {
 		//fetchSpecificExercises();
 		//fetchBodyPartAndEquipmentArray();
-		const arr = testData.bodyPartArray.map((item, i) => item);
-		const td = testData;
-		setTestData({ ...testData, bodyPartArray: arr });
+		const arr = initData.bodyPartArray.map((item, i) => item);
+		const td = initData;
+		setInitData({ ...initData, bodyPartArray: arr });
 		console.log(arr);
-		console.log(testData);
+		console.log(initData);
 	}
 
 	/**
@@ -142,6 +151,17 @@ function App() {
 		}
 	}
 
+	let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
+		const newExercises = exercises.map((item, i) => {
+			if (cardID == i) {
+				return { exercise: item.exercise, selectedBodyPart: e.target.value };
+			} else {
+				return { exercise: item.exercise, selectedBodyPart: item.selectedBodyPart };
+			}
+		});
+		setExercises(newExercises);
+	};
+
 	return (
 		<>
 			<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
@@ -151,7 +171,13 @@ function App() {
 			</button>
 			<div className='container card'>
 				{exercises.map((item, i) => (
-					<ExerciseCard key={i} exercise={item} bodyPartArray={testData.bodyPartArray} />
+					<ExerciseCard
+						key={i}
+						exercise={item.exercise}
+						bodyPartArray={initData.bodyPartArray}
+						cardID={i}
+						handleSelectChange={handleCardSelectChange}
+					/>
 				))}
 			</div>
 			<div style={{ display: 'contents' }}>

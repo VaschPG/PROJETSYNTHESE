@@ -7,24 +7,20 @@ import '../ExercisePlan.css';
 interface IProps {
 	exercise: Exercise | null;
 	bodyPartArray: string[];
+	cardID: number;
+	handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>, i: number) => void;
 }
 
 const EXERCISE_NAME_LABEL = 'Exercise name: ';
 const EXERCISE_EQUIPMENT_LABEL = 'Equipment required: ';
 const EXERCISE_BODYPART_LABEL = 'Primary muscle group: ';
 
-//-If(!bodyPartsArray)
-//-Show loading on dropdown menu
-//else map => dropdown elements
-//if(exercise != null)
-//render exercise info.
-
-function ExerciseCard({ exercise, bodyPartArray }: IProps) {
+function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange }: IProps) {
 	return (
 		<>
 			<div className='card'>
 				<div className='card-bodypart-select-div'>
-					<select className='card-bodypart-select'>
+					<select className='card-bodypart-select' onChange={(e) => handleSelectChange(e, cardID)}>
 						{bodyPartArray != undefined &&
 							bodyPartArray.map((item, i) => (
 								<option value={Object.values(item)} key={i}>
@@ -33,7 +29,6 @@ function ExerciseCard({ exercise, bodyPartArray }: IProps) {
 							))}
 					</select>
 				</div>
-
 				{exercise != null && (
 					<div>
 						<div className='card-text-div'>
