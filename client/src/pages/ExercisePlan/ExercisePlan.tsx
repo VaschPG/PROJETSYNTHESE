@@ -29,8 +29,11 @@ function App() {
 	 * Data: bodyPart and equipment array
 	 */
 	useEffect(() => {
+		console.log(exercises);
 		const arr = exercises;
-		arr.fill({ exercise: null, selectedBodyPart: '' });
+		if (arr[0] === undefined) {
+			arr.fill({ exercise: null, selectedBodyPart: '' });
+		}
 		setExercises(arr);
 		fetchBodyPartAndEquipmentArray();
 	}, []);
