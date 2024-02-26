@@ -23,12 +23,12 @@ function ExerciseCard({ exercise, bodyPartArray }: IProps) {
 	return (
 		<>
 			<div className='card'>
-				<div className='card-bodypart-picker-div'>
-					<select className='card-bodypart-picker'>
+				<div className='card-bodypart-select-div'>
+					<select className='card-bodypart-select'>
 						{bodyPartArray != undefined &&
 							bodyPartArray.map((item, i) => (
 								<option value={Object.values(item)} key={i}>
-									{Object.values(item)}
+									{toUpperFirstLetter(Object.values(item))}
 								</option>
 							))}
 					</select>
@@ -60,8 +60,16 @@ function ExerciseCard({ exercise, bodyPartArray }: IProps) {
 	);
 }
 
-function toUpperFirstLetter(input: string): string {
-	return input.charAt(0).toUpperCase() + input.slice(1);
+function toUpperFirstLetter(input: string | string[]): string | string[] {
+	if (typeof input === 'string') {
+		return input.charAt(0).toUpperCase() + input.slice(1);
+	} else {
+		let array = new Array();
+		for (let i = 0; i < input.length; i++) {
+			array[i] = input[i].charAt(0).toUpperCase() + input[i].slice(1);
+		}
+		return array;
+	}
 }
 
 export default ExerciseCard;

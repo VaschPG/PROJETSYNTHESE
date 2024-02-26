@@ -44,8 +44,11 @@
 	margin-right: 0.2em;
 }
 
-.card-bodypart-picker {
+.card-bodypart-select {
 	padding: 0.5em;
-	padding-left: 1em;
-	padding-right: 1em;
+	padding-left: 10%;
+	padding-right: 7.5%;
+	margin: 0.2em;
+	margin-bottom: 1.5em;
+	margin-top: 1em;
 }
