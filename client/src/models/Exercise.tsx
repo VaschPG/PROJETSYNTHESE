@@ -8,7 +8,16 @@ class Exercise {
 	secondaryMuscles: string[];
 	instructions: string[];
 
-	constructor(bodyPart: string, equipment: string, gifUrl: string, id: number, name: string, target: string, secondaryMuscles: string[], instructions: string[]) {
+	constructor(
+		bodyPart: string,
+		equipment: string,
+		gifUrl: string,
+		id: number,
+		name: string,
+		target: string,
+		secondaryMuscles: string[],
+		instructions: string[]
+	) {
 		this.bodyPart = bodyPart;
 		this.equipment = equipment;
 		this.gifUrl = gifUrl;

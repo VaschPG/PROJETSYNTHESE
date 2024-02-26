@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ExerciseCard from './components/ExerciseCard';
 import Exercise from '../../models/Exercise';
 
@@ -6,22 +6,71 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
 const GET_RANDOM_EXERCISES_URL = '/api/getRandomExercises/';
 
+/**
+ *
+ */
+interface BodyPartsAndEquipmentArray {
+	bodyPart: string[];
+	equipment: string[];
+}
+
 function App() {
 	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
-	const [exercises, setExercises] = useState(new Array<Exercise>(nbExercises));
+	const [exercises, setExercises] = useState(new Array<Exercise | null>(nbExercises));
+	const [testData, setTestData] = useState<BodyPartsAndEquipmentArray | null>(null);
+
+	/**
+	 * Fetch all the data we need that will not change.
+	 * Data: bodyPart and equipment array
+	 */
+	useEffect(() => {
+		fetchBodyPartAndEquipmentArray();
+	}, []);
+
+	/**
+	 * There has to be a better way to do this.
+	 * Fill exercise array with dummy Exercises on the first render of this page so that we can render empty exercise cards.
+	 */
+	useEffect(() => {
+		const arr = exercises;
+		arr.fill(null);
+	}, []);
+
+	/**
+	 * Fetches the list of all distinct values of bodyParts and equipment in our database
+	 */
+	async function fetchBodyPartAndEquipmentArray() {
+		try {
+			console.log('fetching from ' + BASE_URL + '/api/getBodyPartAndEquipmentArray');
+			console.time('initial-data-fetch-timer');
+			const response = await fetch(BASE_URL + '/api/getBodyPartAndEquipmentArray', {
+				method: 'GET',
+			});
+			const data = await response.json();
+			console.log('Successfully fetched in: ');
+			console.timeEnd('initial-data-fetch-timer');
+			if (response.ok) {
+				setTestData(data);
+			} else {
+				console.log('Response not ok');
+			}
+		} catch (error) {
+			console.log('Error on fetchBodyPartArray:' + error);
+		}
+	}
 
 	/**
 	 * On click event handler for the search button
 	 * Calls getNewExercises to fetch exercises from our back end and add them to exercises state object.
 	 */
-	async function handleSearchClick() {
-		getNewExercises();
+	function handleSearchClick() {
+		fetchNewExercises();
 	}
 
 	/**
 	 * Fetch new exercises from our back-end
 	 */
-	async function getNewExercises() {
+	async function fetchNewExercises() {
 		try {
 			console.log('fetching from ' + BASE_URL);
 			console.time('fetch-timer');
@@ -29,7 +78,7 @@ function App() {
 				method: 'GET',
 			});
 			const data = await response.json();
-			console.log('Successfully fetching in: ');
+			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
 				setExercises(data);
@@ -37,8 +86,7 @@ function App() {
 				console.log('Response not ok');
 			}
 		} catch (error) {
-			console.log(error);
-			console.log('catch');
+			console.log('Error on fetchNewExercises:' + error);
 		}
 	}
 
@@ -46,14 +94,14 @@ function App() {
 	 * Test function that handles test button and calls test function.
 	 */
 	function handleTestClick() {
-		getSpecificExercises();
+		//fetchSpecificExercises();
+		//fetchBodyPartAndEquipmentArray();
 	}
 
 	/**
-	 * test function
-	 * TODO: Delete this later.
+	 *
 	 */
-	async function getSpecificExercises() {
+	async function fetchSpecificExercises() {
 		try {
 			const testEquipArr = ['cable', 'body weight', 'barbell'];
 			let params = new URLSearchParams();
@@ -66,7 +114,7 @@ function App() {
 			console.time('fetch-timer');
 			const response = await fetch(BASE_URL + '/api/testQuery/?' + params);
 			const data = await response.json();
-			console.log('Successfully fetching in: ');
+			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
 				console.log(data);
@@ -74,8 +122,7 @@ function App() {
 				console.log('Response not ok');
 			}
 		} catch (error) {
-			console.log(error);
-			console.log('catch');
+			console.log('Error on fetchSpecificExercises:' + error);
 		}
 	}
 
@@ -93,16 +140,19 @@ function App() {
 	return (
 		<>
 			<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
-			<button onClick={handleTestClick} disabled={true}>
-				Test
-			</button>
+
 			<button className='button' onClick={handleSearchClick}>
 				Get new exercises
 			</button>
 			<div className='container card'>
 				{exercises.map((item, i) => (
-					<ExerciseCard key={i} exercise={item} />
+					<ExerciseCard key={i} exercise={item} bodyPartsArray={testData} />
 				))}
+			</div>
+			<div style={{ display: 'contents' }}>
+				<button className='button' onClick={handleTestClick}>
+					Test
+				</button>
 			</div>
 		</>
 	);
