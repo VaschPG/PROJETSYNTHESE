@@ -117,13 +117,6 @@ function App() {
 	 */
 	async function fetchSpecificExercises() {
 		try {
-			/*const testEquipArr = ['cable', 'body weight', 'barbell'];
-			let params = new URLSearchParams();
-			testEquipArr.forEach((element) => {
-				params.append('equipment', element);
-			});
-			console.log(params);
-            */
 			const bodyPartArray = ['upper legs', 'upper arms', 'waist', 'back'];
 			let params = new URLSearchParams();
 			bodyPartArray.forEach((element) => {
@@ -136,7 +129,10 @@ function App() {
 			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
-				console.log(data);
+				const newExercises = data.map((item: ExerciseCardData, i: number) => {
+					return { exercise: data[i], selectedBodyPart: item.selectedBodyPart };
+				});
+				setExercises(newExercises);
 			} else {
 				console.log('Response not ok');
 			}
