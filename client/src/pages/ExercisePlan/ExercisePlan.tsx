@@ -218,6 +218,8 @@ function App() {
     <>
       <Container>
         <Form.Control
+          style={{ width: "auto", display: "inline" }}
+          className="bg-secondary text-light"
           type="number"
           placeholder="6"
           value={nbExercises}

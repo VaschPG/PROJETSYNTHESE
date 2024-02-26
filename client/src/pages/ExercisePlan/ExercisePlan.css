@@ -11,13 +11,13 @@
   filter: drop-shadow(0 0 5px black) !important;
 }
 
-.container.card {
+/* .container.card {
   display: flex !important;
-  flex-flow: col wrap !important;
+  flex-flow: row wrap !important;
   justify-content: space-evenly !important;
   gap: 2em !important;
   background-color: rgb(33, 27, 71) !important;
-}
+} */
 
 .exercise-name {
   margin: 0.1em !important;
