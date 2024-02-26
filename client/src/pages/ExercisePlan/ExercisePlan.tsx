@@ -21,7 +21,7 @@ interface ExerciseCardData {
 
 function App() {
 	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
-	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(nbExercises));
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
 
 	/**
@@ -35,6 +35,11 @@ function App() {
 		fetchBodyPartAndEquipmentArray();
 	}, []);
 
+	/*
+    useEffect(() => {
+        setExercises(exercises.filter( {item,i} => ))
+    },[nbExercises])
+    */
 	/**
 	 * There has to be a better way to do this.
 	 * Fill exercise array with dummy Exercises on the first render of this page so that we can render empty exercise cards.
@@ -87,7 +92,7 @@ function App() {
 			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
-				const newExercises = exercises.map((item, i) => {
+				const newExercises = data.map((item: ExerciseCardData, i: number) => {
 					return { exercise: data[i], selectedBodyPart: item.selectedBodyPart };
 				});
 				setExercises(newExercises);
