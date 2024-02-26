@@ -1,5 +1,8 @@
 import Exercise from "../../../models/Exercise";
 import "../ExercisePlan.css";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
 
 /**
  * Interface to ensure type security for our props.
@@ -26,10 +29,11 @@ function ExerciseCard({
 }: IProps) {
   return (
     <>
-      <div className="card">
-        <div className="card-bodypart-select-div">
-          <select
+      <Card>
+        <Container className="row d-flex justify-content-center">
+          <Form.Select
             className="card-bodypart-select"
+            size="sm"
             onChange={(e) => handleSelectChange(e, cardID)}
           >
             {bodyPartArray != undefined &&
@@ -38,18 +42,18 @@ function ExerciseCard({
                   {toUpperFirstLetter(Object.values(item))}
                 </option>
               ))}
-          </select>
-        </div>
+          </Form.Select>
+        </Container>
         {exercise != null && (
-          <div>
-            <div className="card-text-div">
-              <div className="exercise-name-div">
+          <Container>
+            <Card.Body>
+              <Card.Title className="text-light">
                 <h2 className="exercise-name">{EXERCISE_NAME_LABEL}</h2>
                 <h2 className="exercise-name">
                   {toUpperFirstLetter(exercise.name)}
                 </h2>
-              </div>
-              <div className="exercise-info-div">
+              </Card.Title>
+              <Card.Text className="text-light">
                 <p>
                   {EXERCISE_EQUIPMENT_LABEL}
                   {toUpperFirstLetter(exercise.equipment)}
@@ -58,12 +62,12 @@ function ExerciseCard({
                   {EXERCISE_BODYPART_LABEL}
                   {toUpperFirstLetter(exercise.bodyPart)}
                 </p>
-              </div>
-            </div>
-            <img src={exercise.gifUrl} className="image"></img>
-          </div>
+              </Card.Text>
+            </Card.Body>
+            <Card.Img src={exercise.gifUrl} className="image"></Card.Img>
+          </Container>
         )}
-      </div>
+      </Card>
     </>
   );
 }

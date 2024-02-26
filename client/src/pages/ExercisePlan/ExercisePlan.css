@@ -4,35 +4,37 @@
 }
 
 .card {
-  flex: 1;
-  padding: 2em;
-  border: #888;
-  background: rgb(55, 47, 109);
-  filter: drop-shadow(0 0 5px black);
+  flex: 1 !important;
+  padding: 2em !important;
+  border: #888 !important;
+  background: rgb(55, 47, 109) !important;
+  filter: drop-shadow(0 0 5px black) !important;
 }
 
 .container.card {
-  display: flex;
-  flex-flow: col wrap;
-  justify-content: space-evenly;
-  gap: 2em;
-  background-color: rgb(33, 27, 71);
+  display: flex !important;
+  flex-flow: col wrap !important;
+  justify-content: space-evenly !important;
+  gap: 2em !important;
+  background-color: rgb(33, 27, 71) !important;
 }
 
 .exercise-name {
-  margin: 0.1em;
+  margin: 0.1em !important;
 }
 
 .exercise-name-div {
-  border: 0.1em solid darkslateblue;
-  filter: drop-shadow(0 0 5px black);
+  border: 0.1em solid darkslateblue !important;
+  /* filter: drop-shadow(0 0 5px black) !important; */
 }
 
 .info {
   height: 32%;
 }
 .image {
-  border: 0.3em solid black;
+  border: 0.3em solid black !important;
+  width: 300px !important;
+  height: 300px !important;
 }
 
 .button {
@@ -43,6 +45,7 @@
 }
 
 .card-bodypart-select {
+  width: auto !important;
   padding: 0.5em;
   padding-left: 10%;
   padding-right: 7.5%;

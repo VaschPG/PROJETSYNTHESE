@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import ExerciseCard from "./components/ExerciseCard";
 import Exercise from "../../models/Exercise";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
@@ -212,37 +216,38 @@ function App() {
 
   return (
     <>
-      <input
-        type="number"
-        placeholder="6"
-        value={nbExercises}
-        onChange={handleNbExercisesChange}
-        min="1"
-        max="10"
-      ></input>
-
-      <button className="button" onClick={handleChangeNbClick}>
-        Change number of exercises(Doesn't care about selected body part)
-      </button>
-      <button className="button" onClick={handleSearchClick}>
-        Get exercises based on body part selected
-      </button>
-      <div className="container card">
-        {exercises.map((item, i) => (
-          <ExerciseCard
-            key={i}
-            exercise={item.exercise}
-            bodyPartArray={initData.bodyPartArray}
-            cardID={i}
-            handleSelectChange={handleCardSelectChange}
-          />
-        ))}
-      </div>
-      <div style={{ display: "contents" }}>
-        <button className="button" onClick={handleTestClick}>
+      <Container>
+        <Form.Control
+          type="number"
+          placeholder="6"
+          value={nbExercises}
+          onChange={handleNbExercisesChange}
+          min="1"
+          max="10"
+        ></Form.Control>
+        <Button className="button btn-dark" onClick={handleChangeNbClick}>
+          Change number of exercises(Doesn't care about selected body part)
+        </Button>
+        <Button className="button btn-dark" onClick={handleSearchClick}>
+          Get exercises based on body part selected
+        </Button>
+        <Container>
+          <Card>
+            {exercises.map((item, i) => (
+              <ExerciseCard
+                key={i}
+                exercise={item.exercise}
+                bodyPartArray={initData.bodyPartArray}
+                cardID={i}
+                handleSelectChange={handleCardSelectChange}
+              />
+            ))}
+          </Card>
+        </Container>
+        <Button className="button btn-dark" onClick={handleTestClick}>
           Test
-        </button>
-      </div>
+        </Button>
+      </Container>
     </>
   );
 }
