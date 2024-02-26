@@ -79,6 +79,9 @@ const PersonalInfo: React.FC = () => {
                             <option value="">Select...</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
+                            <option value="non-binary">Non-Binary</option>
+                            <option value="other">Other</option>
+                            <option value="prefer not to answer">Prefer not tp answer</option>
                         </select>
                     </label>
                 </div>
