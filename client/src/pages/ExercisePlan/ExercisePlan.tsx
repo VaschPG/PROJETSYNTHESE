@@ -29,20 +29,29 @@ function App() {
 	 * Data: bodyPart and equipment array
 	 */
 	useEffect(() => {
-		console.log(exercises);
+		fetchBodyPartAndEquipmentArray();
 		const arr = exercises;
 		if (arr[0] === undefined) {
 			arr.fill({ exercise: null, selectedBodyPart: '' });
 		}
 		setExercises(arr);
-		fetchBodyPartAndEquipmentArray();
 	}, []);
 
-	/*
-    useEffect(() => {
-        setExercises(exercises.filter( {item,i} => ))
-    },[nbExercises])
-    */
+	/**
+	 * When initData changes we change the value of exercises.selectedBodyPart to be the first element in the array if they're undefined or an empty string.
+	 */
+	useEffect(() => {
+		console.log(Object.values(initData.bodyPartArray[0])[0]);
+		const arr = exercises.map((item) => {
+			if (item.selectedBodyPart == '' || item.selectedBodyPart == undefined) {
+				return { exercise: item.exercise, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] };
+			} else {
+				return { exercise: item.exercise, selectedBodyPart: item.selectedBodyPart };
+			}
+		});
+		setExercises(arr);
+	}, [initData.bodyPartArray]);
+
 	/**
 	 * There has to be a better way to do this.
 	 * Fill exercise array with dummy Exercises on the first render of this page so that we can render empty exercise cards.
@@ -78,7 +87,7 @@ function App() {
 	 * Calls getNewExercises to fetch exercises from our back end and add them to exercises state object.
 	 */
 	function handleSearchClick() {
-		fetchNewExercises();
+		fetchSpecificExercises();
 	}
 
 	/**
@@ -96,7 +105,7 @@ function App() {
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
 				const newExercises = data.map((item: ExerciseCardData, i: number) => {
-					return { exercise: data[i], selectedBodyPart: item.selectedBodyPart };
+					return { exercise: item, selectedBodyPart: exercises[i].selectedBodyPart };
 				});
 				setExercises(newExercises);
 			} else {
@@ -120,10 +129,9 @@ function App() {
 	 */
 	async function fetchSpecificExercises() {
 		try {
-			const bodyPartArray = ['upper legs', 'upper arms', 'waist', 'back'];
 			let params = new URLSearchParams();
-			bodyPartArray.forEach((element) => {
-				params.append('bodyPart', element);
+			const bodyPartArray = exercises.map((item) => {
+				params.append('bodyPart', item.selectedBodyPart);
 			});
 			console.log('fetching from ' + BASE_URL);
 			console.time('fetch-timer');
@@ -133,7 +141,7 @@ function App() {
 			console.timeEnd('fetch-timer');
 			if (response.ok) {
 				const newExercises = data.map((item: ExerciseCardData, i: number) => {
-					return { exercise: data[i], selectedBodyPart: item.selectedBodyPart };
+					return { exercise: item, selectedBodyPart: exercises[i].selectedBodyPart };
 				});
 				setExercises(newExercises);
 			} else {
@@ -166,12 +174,19 @@ function App() {
 		setExercises(newExercises);
 	};
 
+	function handleChangeNbClick() {
+		fetchNewExercises();
+	}
+
 	return (
 		<>
 			<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
 
+			<button className='button' onClick={handleChangeNbClick}>
+				Change number of exercises(Doesn't care about selected body part)
+			</button>
 			<button className='button' onClick={handleSearchClick}>
-				Get new exercises
+				Get exercises based on body part selected
 			</button>
 			<div className='container card'>
 				{exercises.map((item, i) => (
