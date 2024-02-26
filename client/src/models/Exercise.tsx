@@ -1,33 +1,32 @@
-class Exercise{
-  bodyPart: string;
-  equipment: string;
-  gifUrl?: string;
-  id: number;
-  name: string;
-  target: string;
-  secondaryMuscles: string[];
-  instructions: string[];
+class Exercise {
+	bodyPart: string;
+	equipment: string;
+	gifUrl?: string;
+	id: number;
+	name: string;
+	target: string;
+	secondaryMuscles: string[];
+	instructions: string[];
 
-  constructor(
-    bodyPart: string, 
-    equipment: string, 
-    gifUrl: string, 
-    id: number, 
-    name: string, 
-    target: string, 
-    secondaryMuscles: string[], 
-    instructions: string[]
-  ) {
-    this.bodyPart = bodyPart;
-    this.equipment = equipment;
-    this.gifUrl = gifUrl;
-    this.id = id;
-    this.name = name;
-    this.target = target;
-    this.secondaryMuscles = secondaryMuscles;
-    this.instructions = instructions;
-  }  
-
+	constructor(
+		bodyPart: string,
+		equipment: string,
+		gifUrl: string,
+		id: number,
+		name: string,
+		target: string,
+		secondaryMuscles: string[],
+		instructions: string[]
+	) {
+		this.bodyPart = bodyPart;
+		this.equipment = equipment;
+		this.gifUrl = gifUrl;
+		this.id = id;
+		this.name = name;
+		this.target = target;
+		this.secondaryMuscles = secondaryMuscles;
+		this.instructions = instructions;
+	}
 }
 
 export default Exercise;
