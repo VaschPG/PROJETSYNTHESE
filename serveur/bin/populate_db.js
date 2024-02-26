@@ -13,6 +13,7 @@ function populateDB() {
 }
 
 async function getData() {
+	let count = 0;
 	const url = 'https://exercisedb.p.rapidapi.com/exercises?limit=1500';
 	const options = {
 		method: 'GET',
@@ -24,6 +25,7 @@ async function getData() {
 	try {
 		const postData = await fetch(url, options);
 		const reponse = await postData.json();
+
 		for (let i = 0; i < reponse.length; i++) {
 			const Exercises = new Model({
 				bodyPart: reponse[i]['bodyPart'],
@@ -36,12 +38,14 @@ async function getData() {
 				instructions: reponse[i]['instructions'],
 			});
 			Exercises.save();
+
 			console.log('Saved');
+			count++;
 		}
 	} catch (error) {
 		console.error(error);
 	}
-	console.log('Done! C:');
+	console.log('Done! C:' + '\n Saved this many documents: ' + count);
 }
 
 module.exports = { populateDB };

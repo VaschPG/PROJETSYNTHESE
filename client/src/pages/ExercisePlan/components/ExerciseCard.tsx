@@ -6,12 +6,7 @@ import '../ExercisePlan.css';
  */
 interface IProps {
 	exercise: Exercise | null;
-	bodyPartsArray: BodyPartsAndEquipmentArray | null;
-}
-
-interface BodyPartsAndEquipmentArray {
-	bodyPart: string[];
-	equipment: string[];
+	bodyPartArray: string[];
 }
 
 const EXERCISE_NAME_LABEL = 'Exercise name: ';
@@ -24,12 +19,19 @@ const EXERCISE_BODYPART_LABEL = 'Primary muscle group: ';
 //if(exercise != null)
 //render exercise info.
 
-function ExerciseCard({ exercise, bodyPartsArray }: IProps) {
+function ExerciseCard({ exercise, bodyPartArray }: IProps) {
 	return (
 		<>
 			<div className='card'>
-				<div className='card-bodypart-picker'>
-					<select>{}</select>
+				<div className='card-bodypart-picker-div'>
+					<select className='card-bodypart-picker'>
+						{bodyPartArray != undefined &&
+							bodyPartArray.map((item, i) => (
+								<option value={Object.values(item)} key={i}>
+									{Object.values(item)}
+								</option>
+							))}
+					</select>
 				</div>
 
 				{exercise != null && (

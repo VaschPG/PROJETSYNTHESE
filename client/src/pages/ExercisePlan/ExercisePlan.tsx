@@ -9,21 +9,23 @@ const GET_RANDOM_EXERCISES_URL = '/api/getRandomExercises/';
 /**
  *
  */
-interface BodyPartsAndEquipmentArray {
-	bodyPart: string[];
-	equipment: string[];
+interface BodyPartAndEquipmentArray {
+	bodyPartArray: string[];
+	equipmentArray: string[];
 }
 
 function App() {
 	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
 	const [exercises, setExercises] = useState(new Array<Exercise | null>(nbExercises));
-	const [testData, setTestData] = useState<BodyPartsAndEquipmentArray | null>(null);
+	const [testData, setTestData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
 
 	/**
 	 * Fetch all the data we need that will not change.
 	 * Data: bodyPart and equipment array
 	 */
 	useEffect(() => {
+		const arr = exercises;
+		arr.fill(null);
 		fetchBodyPartAndEquipmentArray();
 	}, []);
 
@@ -31,10 +33,7 @@ function App() {
 	 * There has to be a better way to do this.
 	 * Fill exercise array with dummy Exercises on the first render of this page so that we can render empty exercise cards.
 	 */
-	useEffect(() => {
-		const arr = exercises;
-		arr.fill(null);
-	}, []);
+	//useEffect(() => {}, []);
 
 	/**
 	 * Fetches the list of all distinct values of bodyParts and equipment in our database
@@ -57,6 +56,7 @@ function App() {
 		} catch (error) {
 			console.log('Error on fetchBodyPartArray:' + error);
 		}
+		console.log(testData);
 	}
 
 	/**
@@ -96,6 +96,11 @@ function App() {
 	function handleTestClick() {
 		//fetchSpecificExercises();
 		//fetchBodyPartAndEquipmentArray();
+		const arr = testData.bodyPartArray.map((item, i) => item);
+		const td = testData;
+		setTestData({ ...testData, bodyPartArray: arr });
+		console.log(arr);
+		console.log(testData);
 	}
 
 	/**
@@ -146,7 +151,7 @@ function App() {
 			</button>
 			<div className='container card'>
 				{exercises.map((item, i) => (
-					<ExerciseCard key={i} exercise={item} bodyPartsArray={testData} />
+					<ExerciseCard key={i} exercise={item} bodyPartArray={testData.bodyPartArray} />
 				))}
 			</div>
 			<div style={{ display: 'contents' }}>

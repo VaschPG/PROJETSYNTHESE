@@ -43,3 +43,9 @@
 	margin-left: 0.2em;
 	margin-right: 0.2em;
 }
+
+.card-bodypart-picker {
+	padding: 0.5em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
