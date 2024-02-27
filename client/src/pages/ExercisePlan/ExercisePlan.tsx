@@ -175,7 +175,15 @@ function App() {
 	return (
 		<>
 			<div className='exercise-plan-root'>
-				<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
+				<input
+					className='ex-input'
+					type='number'
+					placeholder='6'
+					value={nbExercises}
+					onChange={handleNbExercisesChange}
+					min='1'
+					max='10'
+				></input>
 
 				<button className='ex-button' onClick={handleChangeNbClick}>
 					Change number of exercises(Doesn't care about selected body part)
