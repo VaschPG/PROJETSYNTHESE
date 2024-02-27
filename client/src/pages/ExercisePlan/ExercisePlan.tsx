@@ -162,7 +162,7 @@ function App() {
 			if (cardID == i) {
 				return { exercise: item.exercise, selectedBodyPart: e.target.value };
 			} else {
-				return { exercise: item.exercise, selectedBodyPart: item.selectedBodyPart };
+				return item;
 			}
 		});
 		setExercises(newExercises);
