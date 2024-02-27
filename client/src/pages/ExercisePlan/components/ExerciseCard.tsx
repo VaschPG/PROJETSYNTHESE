@@ -20,6 +20,7 @@ function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange }: I
 	return (
 		<>
 			<div className='exercise-card'>
+				<button className='btn-pin'>Pin</button>
 				<div className='card-bodypart-select-div'>
 					<select className='card-bodypart-select' onChange={(e) => handleSelectChange(e, cardID)}>
 						{bodyPartArray != undefined &&
@@ -53,6 +54,9 @@ function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange }: I
 						<img src={exercise.gifUrl} className='image'></img>
 					</div>
 				)}
+				<div>
+					<button className='ex-button'>-</button>
+				</div>
 			</div>
 		</>
 	);

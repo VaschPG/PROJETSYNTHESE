@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "populateDB": "run-func ./bin/populate_db.js populateDB"
+    "populatedb": "run-func ./bin/populate_db.js populateDB"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
