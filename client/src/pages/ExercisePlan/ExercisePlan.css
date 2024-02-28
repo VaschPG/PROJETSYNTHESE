@@ -1,7 +1,7 @@
 .exercise-plan-root {
 	max-width: 100%;
 	margin: 0 auto;
-	padding: 2rem;
+	padding: 1em;
 	text-align: center;
 	background-color: rgb(18, 15, 39);
 }
@@ -9,14 +9,15 @@
 .exercise-card {
 	flex: 1;
 	padding: 2em;
-	padding-bottom: 5em;
+	padding-bottom: 1em;
 	border: #888;
 	background: rgb(55, 47, 109);
 	filter: drop-shadow(0 0 5px black);
+	border-radius: 5px;
 }
 
 .div-card {
-	max-width: 90%;
+	max-width: 95%;
 	padding: 2em;
 	display: flex;
 	flex-flow: row wrap;
@@ -25,11 +26,13 @@
 	background-color: rgb(33, 27, 71);
 	margin-left: auto;
 	margin-right: auto;
+	border-radius: 5px;
 }
 
 .exercise-name {
 	margin: 0.2em;
 	color: white;
+	filter: none;
 }
 
 .exercise-info-text {
@@ -43,25 +46,27 @@
 
 .exercise-name-div-div {
 	border: 0.1em solid darkslateblue;
-	filter: drop-shadow(0 0 5px black);
+	border-radius: 3px;
+	box-shadow: 0 0 3px white;
 }
 
 .card-text-div {
-	height: 40%;
 	margin-bottom: 1em;
 }
 
 .image {
 	border: 0.3em solid black;
-	width: auto;
-	max-height: 100%;
+	margin-bottom: 1em;
+	border-radius: 10px;
 }
 
-.button {
+.ex-button {
+	background-color: rgb(63, 76, 92);
+	border-radius: 5px;
 	margin-top: 1em;
 	margin-bottom: 1em;
-	margin-left: 0.2em;
-	margin-right: 0.2em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 .card-bodypart-select {
@@ -71,4 +76,54 @@
 	margin: 0.2em;
 	margin-bottom: 1.5em;
 	margin-top: 1em;
+	border-radius: 3px;
+}
+
+.btn-pin {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 8px;
+}
+
+.section-card-and-equipment-list {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.div-div-card {
+	flex: 8;
+}
+
+.div-equipment-list {
+	flex: 1;
+	padding: 2em;
+	padding-bottom: 1em;
+	border: #888;
+	background-color: rgb(33, 27, 71);
+	filter: drop-shadow(0 0 5px black);
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.3em;
+}
+
+.label-equipment {
+	color: white;
+}
+
+.checkbox-equipment {
+	padding: 0.1em;
+	margin-left: 0.5em;
+}
+
+.div-equipment {
+	padding: 0.1em;
+	padding-bottom: 0.1em;
+
+	border: #888;
+	background: rgb(55, 47, 109);
+	filter: drop-shadow(0 0 2px black);
+	border-radius: 1px;
 }

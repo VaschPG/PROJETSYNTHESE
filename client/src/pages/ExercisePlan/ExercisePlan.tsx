@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import ExerciseCard from './components/ExerciseCard';
 import Exercise from '../../models/Exercise';
+import CheckBox from './components/CheckBox';
+import './ExercisePlan.css';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
-const GET_RANDOM_EXERCISES_URL = '/api/getRandomExercises/';
+
+//TODO --Check if there's a way to ensure no duplicates when we search--Done, Dunno we just gotta implement the request here.
 
 /**
  *
@@ -19,10 +22,14 @@ interface ExerciseCardData {
 	selectedBodyPart: string;
 }
 
+interface CheckedEquipmentList {
+	equipmentList: string[];
+}
+
 function App() {
-	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
-	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(nbExercises));
-	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
+	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
+	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['empty']);
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -35,13 +42,15 @@ function App() {
 			arr.fill({ exercise: null, selectedBodyPart: '' });
 		}
 		setExercises(arr);
+		if (checkedEquipmentList.length > 0 && checkedEquipmentList[0] == 'empty') {
+			setCheckedEquipmentList(['body weight']);
+		}
 	}, []);
 
 	/**
 	 * When initData changes we change the value of exercises.selectedBodyPart to be the first element in the array if they're undefined or an empty string.
 	 */
 	useEffect(() => {
-		console.log(Object.values(initData.bodyPartArray[0])[0]);
 		const arr = exercises.map((item) => {
 			if (item.selectedBodyPart == '' || item.selectedBodyPart == undefined) {
 				return { exercise: item.exercise, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] };
@@ -85,41 +94,9 @@ function App() {
 	}
 
 	/**
-	 * Fetch new exercises from our back-end
-	 */
-	async function fetchNewExercises() {
-		try {
-			console.log('fetching from ' + BASE_URL);
-			console.time('fetch-timer');
-			const response = await fetch(BASE_URL + GET_RANDOM_EXERCISES_URL + nbExercises, {
-				method: 'GET',
-			});
-			const data = await response.json();
-			console.log('Successfully fetched in: ');
-			console.timeEnd('fetch-timer');
-			if (response.ok) {
-				const newExercises = data.map((item: ExerciseCardData, i: number) => {
-					return { exercise: item, selectedBodyPart: exercises[i].selectedBodyPart };
-				});
-				setExercises(newExercises);
-			} else {
-				console.log('Response not ok');
-			}
-		} catch (error) {
-			console.log('Error on fetchNewExercises:' + error);
-		}
-	}
-
-	/**
-	 * Test function that handles test button and calls test function.
-	 */
-	function handleTestClick() {
-		fetchSpecificExercises();
-		//fetchBodyPartAndEquipmentArray();
-	}
-
-	/**
-	 *
+	 * Requires a if(fetchSpecificExercises.length > 0) check before otherwise it could throw error cos there's no equipment.
+	 * Or a change to the back end that uses the no equipment one if there's no equipment
+	 * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
 	 */
 	async function fetchSpecificExercises() {
 		try {
@@ -127,9 +104,13 @@ function App() {
 			exercises.map((item) => {
 				params.append('bodyPart', item.selectedBodyPart);
 			});
+			checkedEquipmentList.map((item) => {
+				params.append('equipment', item);
+				console.log(item);
+			});
 			console.log('fetching from ' + BASE_URL);
 			console.time('fetch-timer');
-			const response = await fetch(BASE_URL + '/api/getExercisesByBodyPartQuery/?' + params);
+			const response = await fetch(BASE_URL + '/api/gigaQuery2/?' + params);
 			const data = await response.json();
 			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
@@ -146,17 +127,6 @@ function App() {
 		}
 	}
 
-	/**
-	 * Change the number of exercises to the amount in the nbExercises input when the input text changes.
-	 * @param e nbExercises number input
-	 */
-	function handleNbExercisesChange(e: React.ChangeEvent<HTMLInputElement>) {
-		const inputValue = +e.target.value;
-		if (inputValue != null) {
-			setNbExercises(inputValue);
-		}
-	}
-
 	let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
 		const newExercises = exercises.map((item, i) => {
 			if (cardID == i) {
@@ -168,32 +138,84 @@ function App() {
 		setExercises(newExercises);
 	};
 
-	function handleChangeNbClick() {
-		fetchNewExercises();
+	function handleTestClick() {
+		testFetch();
 	}
+
+	function handleAddExerciseOnClick() {
+		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
+	}
+
+	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
+		setExercises(exercises.filter((item, i) => i !== cardID));
+	};
+
+	let handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+		//Make sure value is not null
+		if (value != null && value != undefined) {
+			//If checked (check if in array(in case of fuckery)) and add it otherwise filter from array
+			if (e.target.checked) {
+				if (!checkedEquipmentList.includes(value)) {
+					setCheckedEquipmentList([...checkedEquipmentList, value]);
+				}
+			} else {
+				setCheckedEquipmentList(checkedEquipmentList.filter((item) => item != value));
+			}
+		}
+	};
+
+	async function testFetch() {}
 
 	return (
 		<>
 			<div className='exercise-plan-root'>
-				<input type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10'></input>
-
-				<button className='ex-button' onClick={handleChangeNbClick}>
-					Change number of exercises(Doesn't care about selected body part)
+				<button className='ex-button' onClick={handleAddExerciseOnClick}>
+					+
 				</button>
 				<button className='ex-button' onClick={handleSearchClick}>
-					Get exercises based on body part selected
+					Search
 				</button>
-				<div className='div-card'>
-					{exercises.map((item, i) => (
-						<ExerciseCard
-							key={i}
-							exercise={item.exercise}
-							bodyPartArray={initData.bodyPartArray}
-							cardID={i}
-							handleSelectChange={handleCardSelectChange}
-						/>
-					))}
-				</div>
+				<section className='section-card-and-equipment-list'>
+					<div className='div-div-card'>
+						<div className='div-card'>
+							{exercises.map((item, i) => (
+								<ExerciseCard
+									key={i}
+									exercise={item.exercise}
+									bodyPartArray={initData.bodyPartArray}
+									cardID={i}
+									handleSelectChange={handleCardSelectChange}
+									handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
+									selectBodyPart={item.selectedBodyPart}
+								/>
+							))}
+						</div>
+					</div>
+					<div className='div-equipment-list'>
+						{
+							/*ISSUE HERE WHERE RELOADING GIVES A DIFFERENT LIST WHICH UNTICKS BOXES*/ initData.equipmentArray.map((item, i) => (
+								<div>
+									{Object.values(item)[0] != 'body weight' ? (
+										<CheckBox
+											key={Object.values(item)[0]}
+											label={Object.values(item)[0]}
+											value={Object.values(item)[0]}
+											handleOnCheck={handleOnCheckEquipment}
+										/>
+									) : (
+										<CheckBox
+											key={Object.values(item)[0]}
+											label={Object.values(item)[0]}
+											value={Object.values(item)[0]}
+											handleOnCheck={handleOnCheckEquipment}
+											isDefaultChecked={true}
+										/>
+									)}
+								</div>
+							))
+						}
+					</div>
+				</section>
 				<div style={{ display: 'none' }}>
 					<button className='ex-button' onClick={handleTestClick}>
 						Test

@@ -1,5 +1,4 @@
 import Exercise from '../../../models/Exercise';
-import '../ExercisePlan.css';
 
 /**
  * Interface to ensure type security for our props.
@@ -9,6 +8,8 @@ interface IProps {
 	bodyPartArray: string[];
 	cardID: number;
 	handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>, i: number) => void;
+	handleRemoveExerciseOnClick: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void;
+	selectBodyPart: string;
 }
 
 const EXERCISE_NAME_LABEL = 'Exercise name: ';
@@ -16,12 +17,13 @@ const EXERCISE_EQUIPMENT_LABEL = 'Equipment required: ';
 const EXERCISE_BODYPART_LABEL = 'Primary muscle group: ';
 
 //Eventually switch this from divs with fixed spacing to flex col? Idk we'll see when we switch to bootstrap
-function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange }: IProps) {
+function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange, handleRemoveExerciseOnClick, selectBodyPart }: IProps) {
 	return (
 		<>
 			<div className='exercise-card'>
+				<button className='btn-pin'>Pin</button>
 				<div className='card-bodypart-select-div'>
-					<select className='card-bodypart-select' onChange={(e) => handleSelectChange(e, cardID)}>
+					<select className='card-bodypart-select' value={selectBodyPart} onChange={(e) => handleSelectChange(e, cardID)}>
 						{bodyPartArray != undefined &&
 							bodyPartArray.map((item, i) => (
 								<option value={Object.values(item)} key={i}>
@@ -53,6 +55,11 @@ function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange }: I
 						<img src={exercise.gifUrl} className='image'></img>
 					</div>
 				)}
+				<div>
+					<button className='ex-button' onClick={(e) => handleRemoveExerciseOnClick(e, cardID)}>
+						-
+					</button>
+				</div>
 			</div>
 		</>
 	);

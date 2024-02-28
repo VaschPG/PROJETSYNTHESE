@@ -1,7 +1,7 @@
 const express = require('express');
 const exerciseModel = require('../models/exercise_model');
 const router = express.Router();
-const dbo = require('../db/dbo');
+const exerciseDBO = require('../db/exercise_dbo');
 
 /**
  * Get a number of random exercises based on the bodypart.
@@ -26,7 +26,7 @@ router.get('/getRandomExercisesFromBodyPart/:bodyPart/:nb?', async (req, res) =>
 router.get('/getRandomExercises/:nb', async (req, res) => {
 	try {
 		let nb = Number(req.params['nb']);
-		const data = await dbo.getRandomExercises(nb);
+		const data = await exerciseDBO.getRandomExercises(nb);
 		res.status(200).json(data);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -38,7 +38,7 @@ router.get('/getRandomExercises/:nb', async (req, res) => {
  */
 router.get('/getBodyPartArray', async (req, res) => {
 	try {
-		const data = await dbo.getDistinctEquipmentArray();
+		const data = await exerciseDBO.getDistinctEquipmentArray();
 		console.log('data' + data);
 		res.status(200).json(data);
 	} catch (error) {
@@ -56,8 +56,8 @@ router.get('/getBodyPartArray', async (req, res) => {
 router.get('/getBodyPartAndEquipmentArray', async (req, res) => {
 	try {
 		const array = { equipmentArray: [], bodyPartArray: [] };
-		array.equipmentArray = await dbo.getDistinctEquipmentArray();
-		array.bodyPartArray = await dbo.getDistinctBodyPartArray();
+		array.equipmentArray = await exerciseDBO.getDistinctEquipmentArray();
+		array.bodyPartArray = await exerciseDBO.getDistinctBodyPartArray();
 		res.status(200).json(array);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -71,10 +71,10 @@ router.get('/getBodyPartAndEquipmentArray', async (req, res) => {
  */
 router.get('/getExercisesByBodyPartQuery/', async (req, res) => {
 	try {
-		const bodyPartArr = req.query.bodyPart;
+		const bodyPartArray = req.query.bodyPart;
 		const returnedArray = new Array();
-		for (let i = 0; i < bodyPartArr.length; i++) {
-			let exercise = await dbo.getRandomExercisesFromBodyPart(bodyPartArr[i], 1);
+		for (let i = 0; i < bodyPartArray.length; i++) {
+			let exercise = await exerciseDBO.getRandomExercisesFromBodyPart(bodyPartArray[i], 1);
 			returnedArray[i] = exercise[0];
 		}
 		res.status(200).json(returnedArray);
@@ -87,8 +87,10 @@ router.get('/getExercisesByBodyPartQuery/', async (req, res) => {
  * Just a test route, was using it to test using query.
  */
 router.get('/testQuery/', async (req, res) => {
-	const equipment = req.query.equipment;
-	res.status(200).json(equipment);
+	//const equipment = req.query.equipment;
+	//res.status(200).json(equipment);
+	const data = await exerciseDBO.otherGetDistinctBodyPartArray();
+	res.status(200).json(data);
 });
 
 /**
@@ -98,10 +100,53 @@ router.get('/testQueryTime/', async (req, res) => {
 	const nbRequests = 50;
 	let arr = new Array();
 	for (let i = 0; i < nbRequests; i++) {
-		let o = await dbo.getRandomExercises(1);
+		let o = await exerciseDBO.getRandomExercises(1);
 		arr.push(o);
 	}
 	res.status(200).json(arr);
 });
 
+/**
+ * CHANGE THE ROUTE OF THIS LATER
+ */
+router.get('/gigaQuery/', async (req, res) => {
+	try {
+		const bodyPartArray = req.query.bodyPart;
+		const equipmentArray = req.query.equipmentArray;
+		const returnedArray = new Array();
+		for (let i = 0; i < bodyPartArray.length; i++) {
+			let exercise = await exerciseDBO.getOneExerciseMatchingBodyPartAndEquipment(bodyPartArray[i], equipmentArray);
+			returnedArray[i] = exercise[0];
+		}
+		res.status(200).json(returnedArray);
+	} catch (error) {
+		res.status(500).json({ data });
+	}
+});
+
+/**
+ * CHANGE THE ROUTE OF THIS LATER
+ */
+router.get('/gigaQuery2/', async (req, res) => {
+	try {
+		const bodyPartArray = req.query.bodyPart;
+		const equipmentArray = req.query.equipment;
+		const returnedArray = new Array();
+		const noDuplicateCheckingArray = new Array();
+		for (let i = 0; i < bodyPartArray.length; i++) {
+			let exercise = await exerciseDBO.getOneExerciseNotInArrayAndMatchingBodyPartAndEquipment(
+				bodyPartArray[i],
+				noDuplicateCheckingArray,
+				equipmentArray
+			);
+			returnedArray[i] = exercise[0];
+			if (exercise[0] != null || undefined) {
+				noDuplicateCheckingArray[i] = exercise[0].id;
+			}
+		}
+		res.status(200).json(returnedArray);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 module.exports = router;
