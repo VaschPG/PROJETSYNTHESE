@@ -10,12 +10,14 @@ const dbString = process.env.DATABASE_URI;
 const port = process.env.PORT || 5000;
 
 const exerciseRouter = require("./routes/exercise_router");
+const profileRouter = require("./routes/profile_router");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(cors());
 
 app.use("/api/", exerciseRouter);
+app.use("/api/", profileRouter);
 
 mongoose.connect(dbString);
 const db = mongoose.connection;
