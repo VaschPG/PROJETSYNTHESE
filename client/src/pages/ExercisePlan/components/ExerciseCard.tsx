@@ -1,5 +1,4 @@
 import Exercise from '../../../models/Exercise';
-import '../ExercisePlan.css';
 
 /**
  * Interface to ensure type security for our props.

@@ -48,7 +48,7 @@ module.exports = {
 					id: {
 						$nin: idArray,
 					},
-					bodyPart: 'waist',
+					bodyPart: _bodyPart,
 					equipment: { $in: equipmentArray },
 				},
 			},

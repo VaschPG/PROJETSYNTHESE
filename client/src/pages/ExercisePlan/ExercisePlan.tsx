@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import ExerciseCard from './components/ExerciseCard';
 import Exercise from '../../models/Exercise';
 import CheckBox from './components/CheckBox';
+import './ExercisePlan.css';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
 
-//TODO --Check if there's a way to ensure no duplicates when we search--Done, Dunno if we want to use it tho but the dbo function is done
+//TODO --Check if there's a way to ensure no duplicates when we search--Done, Dunno we just gotta implement the request here.
 
 /**
  *
@@ -28,7 +29,7 @@ interface CheckedEquipmentList {
 function App() {
 	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
-	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>([]);
+	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['empty']);
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -41,6 +42,9 @@ function App() {
 			arr.fill({ exercise: null, selectedBodyPart: '' });
 		}
 		setExercises(arr);
+		if (checkedEquipmentList.length > 0 && checkedEquipmentList[0] == 'empty') {
+			setCheckedEquipmentList(['body weight']);
+		}
 	}, []);
 
 	/**
@@ -90,7 +94,9 @@ function App() {
 	}
 
 	/**
-	 *
+	 * Requires a if(fetchSpecificExercises.length > 0) check before otherwise it could throw error cos there's no equipment.
+	 * Or a change to the back end that uses the no equipment one if there's no equipment
+	 * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
 	 */
 	async function fetchSpecificExercises() {
 		try {
@@ -98,9 +104,13 @@ function App() {
 			exercises.map((item) => {
 				params.append('bodyPart', item.selectedBodyPart);
 			});
+			checkedEquipmentList.map((item) => {
+				params.append('equipment', item);
+				console.log(item);
+			});
 			console.log('fetching from ' + BASE_URL);
 			console.time('fetch-timer');
-			const response = await fetch(BASE_URL + '/api/getExercisesByBodyPartQuery/?' + params);
+			const response = await fetch(BASE_URL + '/api/gigaQuery2/?' + params);
 			const data = await response.json();
 			console.log('Successfully fetched in: ');
 			console.timeEnd('fetch-timer');
@@ -128,7 +138,9 @@ function App() {
 		setExercises(newExercises);
 	};
 
-	function handleTestClick() {}
+	function handleTestClick() {
+		testFetch();
+	}
 
 	function handleAddExerciseOnClick() {
 		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
@@ -151,6 +163,8 @@ function App() {
 			}
 		}
 	};
+
+	async function testFetch() {}
 
 	return (
 		<>
@@ -178,9 +192,28 @@ function App() {
 						</div>
 					</div>
 					<div className='div-equipment-list'>
-						{initData.equipmentArray.map((item, i) => (
-							<CheckBox label={Object.values(item)[0]} value={Object.values(item)[0]} handleOnCheck={handleOnCheckEquipment} />
-						))}
+						{
+							/*ISSUE HERE WHERE RELOADING GIVES A DIFFERENT LIST WHICH UNTICKS BOXES*/ initData.equipmentArray.map((item, i) => (
+								<div>
+									{Object.values(item)[0] != 'body weight' ? (
+										<CheckBox
+											key={Object.values(item)[0]}
+											label={Object.values(item)[0]}
+											value={Object.values(item)[0]}
+											handleOnCheck={handleOnCheckEquipment}
+										/>
+									) : (
+										<CheckBox
+											key={Object.values(item)[0]}
+											label={Object.values(item)[0]}
+											value={Object.values(item)[0]}
+											handleOnCheck={handleOnCheckEquipment}
+											isDefaultChecked={true}
+										/>
+									)}
+								</div>
+							))
+						}
 					</div>
 				</section>
 				<div style={{ display: 'none' }}>
