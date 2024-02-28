@@ -90,3 +90,34 @@
 	right: 10px;
 	font-size: 8px;
 }
+
+.section-card-and-equipment-list {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.div-div-card {
+	flex: 8;
+}
+
+.div-equipment-list {
+	flex: 1;
+	padding: 2em;
+	padding-bottom: 1em;
+	border: #888;
+	background-color: rgb(33, 27, 71);
+	filter: drop-shadow(0 0 5px black);
+}
+
+.label-equipment {
+	color: white;
+}
+
+.div-equipment {
+	padding: 0.1em;
+	padding-bottom: 0.1em;
+	border: #888;
+	background: rgb(55, 47, 109);
+	filter: drop-shadow(0 0 2px black);
+}

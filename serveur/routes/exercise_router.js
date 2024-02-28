@@ -71,10 +71,10 @@ router.get('/getBodyPartAndEquipmentArray', async (req, res) => {
  */
 router.get('/getExercisesByBodyPartQuery/', async (req, res) => {
 	try {
-		const bodyPartArr = req.query.bodyPart;
+		const bodyPartArray = req.query.bodyPart;
 		const returnedArray = new Array();
-		for (let i = 0; i < bodyPartArr.length; i++) {
-			let exercise = await dbo.getRandomExercisesFromBodyPart(bodyPartArr[i], 1);
+		for (let i = 0; i < bodyPartArray.length; i++) {
+			let exercise = await dbo.getRandomExercisesFromBodyPart(bodyPartArray[i], 1);
 			returnedArray[i] = exercise[0];
 		}
 		res.status(200).json(returnedArray);
@@ -106,4 +106,21 @@ router.get('/testQueryTime/', async (req, res) => {
 	res.status(200).json(arr);
 });
 
+/**
+ * CHANGE THE ROUTE OF THIS LATER
+ */
+router.get('/gigaQuery/', async (req, res) => {
+	try {
+		const bodyPartArray = req.query.bodyPart;
+		const equipmentArray = req.query.equipmentArray;
+		const returnedArray = new Array();
+		for (let i = 0; i < bodyPartArray.length; i++) {
+			let exercise = await dbo.getOneExerciseMatchingBodyPartAndEquipment(bodyPartArray[i], equipmentArray);
+			returnedArray[i] = exercise[0];
+		}
+		res.status(200).json(returnedArray);
+	} catch (error) {
+		res.status(500).json({ data });
+	}
+});
 module.exports = router;

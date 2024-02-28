@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import ExerciseCard from './components/ExerciseCard';
 import Exercise from '../../models/Exercise';
+import CheckBox from './components/CheckBox';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
 
-//TODO Check if there's a way to ensure no duplicates when we search
+//TODO --Check if there's a way to ensure no duplicates when we search--Done, Dunno if we want to use it tho but the dbo function is done
 
 /**
  *
@@ -20,10 +21,14 @@ interface ExerciseCardData {
 	selectedBodyPart: string;
 }
 
+interface CheckedEquipmentList {
+	equipmentList: string[];
+}
+
 function App() {
-	const [nbExercises, setNbExercises] = useState(NB_EXERCISES);
-	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(nbExercises));
-	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: ['', ''], equipmentArray: ['', ''] });
+	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
+	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>([]);
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -38,15 +43,10 @@ function App() {
 		setExercises(arr);
 	}, []);
 
-	useEffect(() => {
-		console.log(exercises);
-	}, [exercises]);
-
 	/**
 	 * When initData changes we change the value of exercises.selectedBodyPart to be the first element in the array if they're undefined or an empty string.
 	 */
 	useEffect(() => {
-		console.log(Object.values(initData.bodyPartArray[0])[0]);
 		const arr = exercises.map((item) => {
 			if (item.selectedBodyPart == '' || item.selectedBodyPart == undefined) {
 				return { exercise: item.exercise, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] };
@@ -117,17 +117,6 @@ function App() {
 		}
 	}
 
-	/**
-	 * Change the number of exercises to the amount in the nbExercises input when the input text changes.
-	 * @param e nbExercises number input
-	 */
-	function handleNbExercisesChange(e: React.ChangeEvent<HTMLInputElement>) {
-		const inputValue = +e.target.value;
-		if (inputValue != null) {
-			setNbExercises(inputValue);
-		}
-	}
-
 	let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
 		const newExercises = exercises.map((item, i) => {
 			if (cardID == i) {
@@ -147,7 +136,20 @@ function App() {
 
 	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
 		setExercises(exercises.filter((item, i) => i !== cardID));
-		console.log(exercises);
+	};
+
+	let handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+		//Make sure value is not null
+		if (value != null && value != undefined) {
+			//If checked (check if in array(in case of fuckery)) and add it otherwise filter from array
+			if (e.target.checked) {
+				if (!checkedEquipmentList.includes(value)) {
+					setCheckedEquipmentList([...checkedEquipmentList, value]);
+				}
+			} else {
+				setCheckedEquipmentList(checkedEquipmentList.filter((item) => item != value));
+			}
+		}
 	};
 
 	return (
@@ -159,19 +161,28 @@ function App() {
 				<button className='ex-button' onClick={handleSearchClick}>
 					Search
 				</button>
-				<div className='div-card'>
-					{exercises.map((item, i) => (
-						<ExerciseCard
-							key={i}
-							exercise={item.exercise}
-							bodyPartArray={initData.bodyPartArray}
-							cardID={i}
-							handleSelectChange={handleCardSelectChange}
-							handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
-							selectBodyPart={item.selectedBodyPart}
-						/>
-					))}
-				</div>
+				<section className='section-card-and-equipment-list'>
+					<div className='div-div-card'>
+						<div className='div-card'>
+							{exercises.map((item, i) => (
+								<ExerciseCard
+									key={i}
+									exercise={item.exercise}
+									bodyPartArray={initData.bodyPartArray}
+									cardID={i}
+									handleSelectChange={handleCardSelectChange}
+									handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
+									selectBodyPart={item.selectedBodyPart}
+								/>
+							))}
+						</div>
+					</div>
+					<div className='div-equipment-list'>
+						{initData.equipmentArray.map((item, i) => (
+							<CheckBox label={Object.values(item)[0]} value={Object.values(item)[0]} handleOnCheck={handleOnCheckEquipment} />
+						))}
+					</div>
+				</section>
 				<div style={{ display: 'none' }}>
 					<button className='ex-button' onClick={handleTestClick}>
 						Test
