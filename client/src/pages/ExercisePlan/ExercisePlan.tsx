@@ -25,7 +25,7 @@ interface ExerciseCardData {
 function App() {
 	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
-	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['empty']);
+	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['body weight']);
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -38,9 +38,6 @@ function App() {
 			arr.fill({ exercise: null, selectedBodyPart: '' });
 		}
 		setExercises(arr);
-		if (checkedEquipmentList.length > 0 && checkedEquipmentList[0] == 'empty') {
-			setCheckedEquipmentList(['body weight']);
-		}
 	}, []);
 
 	/**
@@ -56,6 +53,10 @@ function App() {
 		});
 		setExercises(arr);
 	}, [initData.bodyPartArray]);
+
+	useEffect(() => {
+		console.log(checkedEquipmentList);
+	}, [checkedEquipmentList]);
 
 	/**
 	 * Fetches the list of all distinct values of bodyParts and equipment in our database
@@ -116,7 +117,7 @@ function App() {
 				});
 				setExercises(newExercises);
 			} else {
-				console.log('Response not ok');
+				console.log('Response not ok' + data.message);
 			}
 		} catch (error) {
 			console.log('Error on fetchSpecificExercises:' + error);
@@ -134,9 +135,7 @@ function App() {
 		setExercises(newExercises);
 	};
 
-	function handleTestClick() {
-		testFetch();
-	}
+	function handleTestClick() {}
 
 	function handleAddExerciseOnClick() {
 		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
@@ -159,8 +158,6 @@ function App() {
 			}
 		}
 	};
-
-	async function testFetch() {}
 
 	return (
 		<>
@@ -189,26 +186,20 @@ function App() {
 					</div>
 					<div className='div-equipment-list'>
 						{
-							/*ISSUE HERE WHERE RELOADING GIVES A DIFFERENT LIST WHICH UNTICKS BOXES*/ initData.equipmentArray.map((item, i) => (
-								<div>
-									{Object.values(item)[0] != 'body weight' ? (
-										<CheckBox
-											key={Object.values(item)[0]}
-											label={Object.values(item)[0]}
-											value={Object.values(item)[0]}
-											handleOnCheck={handleOnCheckEquipment}
-										/>
-									) : (
-										<CheckBox
-											key={Object.values(item)[0]}
-											label={Object.values(item)[0]}
-											value={Object.values(item)[0]}
-											handleOnCheck={handleOnCheckEquipment}
-											isDefaultChecked={true}
-										/>
-									)}
-								</div>
-							))
+							/*ISSUE HERE WHERE RELOADING GIVES A DIFFERENT LIST WHICH UNTICKS BOXES*/
+							initData.equipmentArray.length > 0 && initData.equipmentArray[0] != '' ? (
+								initData.equipmentArray.map((item, i) => (
+									<CheckBox
+										key={Object.values(item)[0]}
+										label={Object.values(item)[0]}
+										value={Object.values(item)[0]}
+										handleOnCheck={handleOnCheckEquipment}
+										isDefaultChecked={Object.values(item)[0] == 'body weight' ? true : false}
+									/>
+								))
+							) : (
+								<div></div>
+							)
 						}
 					</div>
 				</section>
