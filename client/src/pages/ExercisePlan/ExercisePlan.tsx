@@ -135,15 +135,59 @@ function App() {
 		setExercises(newExercises);
 	};
 
-	function handleTestClick() {}
+  /**
+   *
+   */
+  async function fetchSpecificExercises() {
+    try {
+      const params = new URLSearchParams();
+      const bodyPartArray = exercises.map((item) => {
+        params.append("bodyPart", item.selectedBodyPart);
+      });
+      console.log("fetching from " + BASE_URL);
+      console.time("fetch-timer");
+      const response = await fetch(
+        BASE_URL + "/api/getExercisesByBodyPartQuery/?" + params
+      );
+      const data = await response.json();
+      console.log("Successfully fetched in: ");
+      console.timeEnd("fetch-timer");
+      if (response.ok) {
+        const newExercises = data.map((item: ExerciseCardData, i: number) => {
+          return {
+            exercise: item,
+            selectedBodyPart: exercises[i].selectedBodyPart,
+          };
+        });
+        setExercises(newExercises);
+      } else {
+        console.log("Response not ok");
+      }
+    } catch (error) {
+      console.log("Error on fetchSpecificExercises:" + error);
+    }
+  }
 
 	function handleAddExerciseOnClick() {
 		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
 	}
 
-	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
-		setExercises(exercises.filter((item, i) => i !== cardID));
-	};
+  const handleCardSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    cardID: number
+  ): void => {
+    const newExercises = exercises.map((item, i) => {
+      if (cardID == i) {
+        return { exercise: item.exercise, selectedBodyPart: e.target.value };
+      } else {
+        return {
+          exercise: item.exercise,
+          selectedBodyPart: item.selectedBodyPart,
+        };
+      }
+    });
+    setExercises(newExercises);
+  };
 
 	let handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
 		//Make sure value is not null
