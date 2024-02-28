@@ -154,7 +154,7 @@ function App() {
    */
   async function fetchSpecificExercises() {
     try {
-      let params = new URLSearchParams();
+      const params = new URLSearchParams();
       const bodyPartArray = exercises.map((item) => {
         params.append("bodyPart", item.selectedBodyPart);
       });
@@ -193,7 +193,7 @@ function App() {
     }
   }
 
-  let handleCardSelectChange = (
+  const handleCardSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     cardID: number
   ): void => {
