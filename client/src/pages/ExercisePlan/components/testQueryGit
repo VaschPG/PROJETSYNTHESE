@@ -1,4 +1,6 @@
 {
+    "equipmentArray": [
+        {
             "equipment": "body weight"
         },
         {
@@ -59,26 +61,60 @@
             "equipment": "olympic barbell"
         },
         {
-            "equipment": "stationary bike"
-        },
-        {
-            "equipment": "elliptical machine"
-        },
-        {
             "equipment": "trap bar"
         },
         {
             "equipment": "stepmill machine"
         },
         {
-            "equipment": "upper body ergometer"
+            "equipment": "elliptical machine"
         },
         {
-            "equipment": "skierg machine"
+            "equipment": "hammer"
+        },
+        {
+            "equipment": "stationary bike"
         },
         {
             "equipment": "tire"
         },
         {
-            "equipment": "hammer"
+            "equipment": "upper body ergometer"
+        },
+        {
+            "equipment": "skierg machine"
         }
+    ],
+    "bodyPartArray": [
+        {
+            "bodyPart": "upper arms"
+        },
+        {
+            "bodyPart": "upper legs"
+        },
+        {
+            "bodyPart": "back"
+        },
+        {
+            "bodyPart": "waist"
+        },
+        {
+            "bodyPart": "chest"
+        },
+        {
+            "bodyPart": "shoulders"
+        },
+        {
+            "bodyPart": "lower legs"
+        },
+        {
+            "bodyPart": "lower arms"
+        },
+        {
+            "bodyPart": "cardio"
+        },
+        {
+            "bodyPart": "neck"
+        }
+    ]
+}
