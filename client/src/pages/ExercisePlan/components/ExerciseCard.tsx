@@ -17,6 +17,7 @@ const EXERCISE_EQUIPMENT_LABEL = 'Equipment required: ';
 const EXERCISE_BODYPART_LABEL = 'Primary muscle group: ';
 
 //Eventually switch this from divs with fixed spacing to flex col? Idk we'll see when we switch to bootstrap
+//TODO- Add instructions/gif button that switches between gif and instructions when pressed.
 function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange, handleRemoveExerciseOnClick, selectBodyPart }: IProps) {
 	return (
 		<>

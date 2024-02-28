@@ -1,1 +1,4 @@
 serveur/.env
+client.bat
+populatedb.bat
+server.bat
