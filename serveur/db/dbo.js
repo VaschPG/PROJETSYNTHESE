@@ -2,49 +2,21 @@ const express = require('express');
 const exerciseModel = require('../models/exercise_model');
 
 module.exports = {
-	getDistinctEquipmentArray: async function () {
+	getDistinctBodyPartArray: async function () {
 		const data = await exerciseModel
-			.aggregate(
-				[
-					{
-						$group: {
-							_id: '$equipment',
-							count: { $sum: 1 },
-						},
-					},
-					{ $sort: { count: -1 } },
-					{
-						$project: {
-							_id: 0,
-							equipment: '$_id',
-						},
-					},
-				],
-				{ maxTimeMS: 60000, allowDiskUse: true }
-			)
+			.aggregate([{ $limit: 1500 }, { $sortByCount: '$bodyPart' }, { $project: { _id: 0, bodyPart: '$_id' } }], {
+				maxTimeMS: 60000,
+				allowDiskUse: true,
+			})
 			.exec();
 		return data;
 	},
-	getDistinctBodyPartArray: async function () {
+	getDistinctEquipmentArray: async function () {
 		const data = await exerciseModel
-			.aggregate(
-				[
-					{
-						$group: {
-							_id: '$bodyPart',
-							count: { $sum: 1 },
-						},
-					},
-					{ $sort: { count: -1 } },
-					{
-						$project: {
-							_id: 0,
-							bodyPart: '$_id',
-						},
-					},
-				],
-				{ maxTimeMS: 60000, allowDiskUse: true }
-			)
+			.aggregate([{ $limit: 1500 }, { $sortByCount: '$equipment' }, { $project: { _id: 0, equipment: '$_id' } }], {
+				maxTimeMS: 60000,
+				allowDiskUse: true,
+			})
 			.exec();
 		return data;
 	},
@@ -52,6 +24,22 @@ module.exports = {
 		return await exerciseModel.aggregate([{ $sample: { size: nbExercises } }]).exec();
 	},
 	getRandomExercisesFromBodyPart: async function (_bodyPart, nbExercises) {
-		return await exerciseModel.aggregate([{ $match: { bodyPart: _bodyPart } }, { $sample: { size: 1 } }]).exec();
+		return await exerciseModel.aggregate([{ $match: { bodyPart: _bodyPart } }, { $sample: { size: nbExercises } }]).exec();
+	},
+	getOneExerciseNotInArrayAndMatchingBodyPartAndEquipment: async function (_bodyPart, idArray, equipmentArray) {
+		const data = await exerciseModel.aggregate([
+			{
+				$match: {
+					id: {
+						$nin: idArray,
+					},
+					bodyPart: 'waist',
+					equipment: { $in: equipmentArray },
+				},
+			},
+			{
+				$limit: 1,
+			},
+		]);
 	},
 };

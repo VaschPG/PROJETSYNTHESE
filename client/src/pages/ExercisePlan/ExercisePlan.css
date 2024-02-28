@@ -9,7 +9,7 @@
 .exercise-card {
 	flex: 1;
 	padding: 2em;
-	padding-bottom: 3em;
+	padding-bottom: 1em;
 	border: #888;
 	background: rgb(55, 47, 109);
 	filter: drop-shadow(0 0 5px black);
@@ -55,8 +55,7 @@
 
 .image {
 	border: 0.3em solid black;
-	width: auto;
-	max-height: 100%;
+	margin-bottom: 3em;
 }
 
 .ex-button {
@@ -64,8 +63,8 @@
 	border-radius: 3px;
 	margin-top: 1em;
 	margin-bottom: 1em;
-	margin-left: 0.2em;
-	margin-right: 0.2em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 .card-bodypart-select {

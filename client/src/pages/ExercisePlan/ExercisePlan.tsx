@@ -4,7 +4,8 @@ import Exercise from '../../models/Exercise';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
-const GET_RANDOM_EXERCISES_URL = '/api/getRandomExercises/';
+
+//TODO Check if there's a way to ensure no duplicates when we search
 
 /**
  *
@@ -36,6 +37,10 @@ function App() {
 		}
 		setExercises(arr);
 	}, []);
+
+	useEffect(() => {
+		console.log(exercises);
+	}, [exercises]);
 
 	/**
 	 * When initData changes we change the value of exercises.selectedBodyPart to be the first element in the array if they're undefined or an empty string.
@@ -82,40 +87,6 @@ function App() {
 	 */
 	function handleSearchClick() {
 		fetchSpecificExercises();
-	}
-
-	/**
-	 * Fetch new exercises from our back-end
-	 */
-	async function fetchNewExercises() {
-		try {
-			console.log('fetching from ' + BASE_URL);
-			console.time('fetch-timer');
-			const response = await fetch(BASE_URL + GET_RANDOM_EXERCISES_URL + nbExercises, {
-				method: 'GET',
-			});
-			const data = await response.json();
-			console.log('Successfully fetched in: ');
-			console.timeEnd('fetch-timer');
-			if (response.ok) {
-				const newExercises = data.map((item: ExerciseCardData, i: number) => {
-					return { exercise: item, selectedBodyPart: exercises[i].selectedBodyPart };
-				});
-				setExercises(newExercises);
-			} else {
-				console.log('Response not ok');
-			}
-		} catch (error) {
-			console.log('Error on fetchNewExercises:' + error);
-		}
-	}
-
-	/**
-	 * Test function that handles test button and calls test function.
-	 */
-	function handleTestClick() {
-		fetchSpecificExercises();
-		//fetchBodyPartAndEquipmentArray();
 	}
 
 	/**
@@ -168,20 +139,25 @@ function App() {
 		setExercises(newExercises);
 	};
 
-	function handleChangeNbClick() {
-		fetchNewExercises();
+	function handleTestClick() {}
+
+	function handleAddExerciseOnClick() {
+		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
 	}
+
+	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
+		setExercises(exercises.filter((item, i) => i !== cardID));
+		console.log(exercises);
+	};
 
 	return (
 		<>
 			<div className='exercise-plan-root'>
-				<input className='ex-input' type='number' placeholder='6' value={nbExercises} onChange={handleNbExercisesChange} min='1' max='10' />
-				<button className='ex-button'>+</button>
-				<button className='ex-button' onClick={handleChangeNbClick}>
-					Change number of exercises(Doesn't care about selected body part)
+				<button className='ex-button' onClick={handleAddExerciseOnClick}>
+					+
 				</button>
 				<button className='ex-button' onClick={handleSearchClick}>
-					Get exercises based on body part selected
+					Search
 				</button>
 				<div className='div-card'>
 					{exercises.map((item, i) => (
@@ -191,6 +167,8 @@ function App() {
 							bodyPartArray={initData.bodyPartArray}
 							cardID={i}
 							handleSelectChange={handleCardSelectChange}
+							handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
+							selectBodyPart={item.selectedBodyPart}
 						/>
 					))}
 				</div>

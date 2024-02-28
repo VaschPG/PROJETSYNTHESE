@@ -87,8 +87,10 @@ router.get('/getExercisesByBodyPartQuery/', async (req, res) => {
  * Just a test route, was using it to test using query.
  */
 router.get('/testQuery/', async (req, res) => {
-	const equipment = req.query.equipment;
-	res.status(200).json(equipment);
+	//const equipment = req.query.equipment;
+	//res.status(200).json(equipment);
+	const data = await dbo.otherGetDistinctBodyPartArray();
+	res.status(200).json(data);
 });
 
 /**
