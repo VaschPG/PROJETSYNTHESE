@@ -22,10 +22,6 @@ interface ExerciseCardData {
 	selectedBodyPart: string;
 }
 
-interface CheckedEquipmentList {
-	equipmentList: string[];
-}
-
 function App() {
 	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
