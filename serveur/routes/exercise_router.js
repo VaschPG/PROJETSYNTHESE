@@ -130,11 +130,14 @@ router.get('/gigaQuery/', async (req, res) => {
 router.get('/gigaQuery2/', async (req, res) => {
 	try {
 		const bodyPartArray = req.query.bodyPart;
-		const equipmentArray = req.query.equipment;
+		let equipmentArray = req.query.equipment;
+		if (typeof equipmentArray === 'string') {
+			equipmentArray = [equipmentArray];
+		}
 		const returnedArray = new Array();
 		const noDuplicateCheckingArray = new Array();
 		for (let i = 0; i < bodyPartArray.length; i++) {
-			let exercise = await exerciseDBO.getOneExerciseNotInArrayAndMatchingBodyPartAndEquipment(
+			let exercise = await exerciseDBO.getOneExerciseNotInArrayMatchingBodyPartAndEquipment(
 				bodyPartArray[i],
 				noDuplicateCheckingArray,
 				equipmentArray

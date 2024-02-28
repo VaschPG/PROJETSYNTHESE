@@ -41,7 +41,7 @@ module.exports = {
 			},
 		]);
 	},
-	getOneExerciseNotInArrayAndMatchingBodyPartAndEquipment: async function (_bodyPart, idArray, equipmentArray) {
+	getOneExerciseNotInArrayMatchingBodyPartAndEquipment: async function (_bodyPart, idArray, equipmentArray) {
 		return await exerciseModel.aggregate([
 			{
 				$match: {
