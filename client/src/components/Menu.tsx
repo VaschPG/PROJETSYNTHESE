@@ -12,6 +12,7 @@ function Menu() {
           <Nav className="ms-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="#profilepage">Profile</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
