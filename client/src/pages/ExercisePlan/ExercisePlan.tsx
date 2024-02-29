@@ -3,6 +3,7 @@ import ExerciseCard from "./components/ExerciseCard";
 import Exercise from "../../models/Exercise";
 import CheckBox from "./components/CheckBox";
 import "./ExercisePlan.css";
+import Menu from "../../components/Menu";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const NB_EXERCISES = 6;
@@ -199,6 +200,7 @@ function App() {
 
   return (
     <>
+      <Menu />
       <div className="exercise-plan-root">
         <button className="ex-button" onClick={handleAddExerciseOnClick}>
           +
