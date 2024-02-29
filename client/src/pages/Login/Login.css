@@ -1,0 +1,21 @@
+.backgroundLogin {
+  background-image: url("./images/background_Login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.ContainerLogin {
+  background-color: lightgray;
+  min-width: 500px;
+  min-height: 500px;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 10px;
+  opacity: 90%;
+  padding: 60px;
+  font-size: 2em;
+}
+
+a {
+  font-size: 0.5em;
+}

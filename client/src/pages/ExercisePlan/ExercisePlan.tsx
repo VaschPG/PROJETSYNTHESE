@@ -4,10 +4,13 @@ import Exercise from '../../models/Exercise';
 import CheckBox from './components/CheckBox';
 import './ExercisePlan.css';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+const API_EXERCISES_URL = import.meta.env.VITE_API_EXERCISES_URL;
+const FULL_API_URL = BASE_API_URL + API_EXERCISES_URL;
 const NB_EXERCISES = 6;
 
-//TODO --Check if there's a way to ensure no duplicates when we search--Done, Dunno we just gotta implement the request here.
+////TODO Add pin button implementation
+////TODO COMMENT BETTER.
 
 /**
  *
@@ -17,6 +20,9 @@ interface BodyPartAndEquipmentArray {
 	equipmentArray: string[];
 }
 
+/**
+ *
+ */
 interface ExerciseCardData {
 	exercise: Exercise | null;
 	selectedBodyPart: string;
@@ -24,7 +30,10 @@ interface ExerciseCardData {
 
 function App() {
 	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
-	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({ bodyPartArray: [''], equipmentArray: [''] });
+	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({
+		bodyPartArray: [''],
+		equipmentArray: [''],
+	});
 	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['body weight']);
 
 	/**
@@ -46,40 +55,89 @@ function App() {
 	useEffect(() => {
 		const arr = exercises.map((item) => {
 			if (item.selectedBodyPart == '' || item.selectedBodyPart == undefined) {
-				return { exercise: item.exercise, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] };
+				return {
+					exercise: item.exercise,
+					selectedBodyPart: Object.values(initData.bodyPartArray[0])[0],
+				};
 			} else {
-				return { exercise: item.exercise, selectedBodyPart: item.selectedBodyPart };
+				return {
+					exercise: item.exercise,
+					selectedBodyPart: item.selectedBodyPart,
+				};
 			}
 		});
 		setExercises(arr);
 	}, [initData.bodyPartArray]);
-
-	useEffect(() => {
-		console.log(checkedEquipmentList);
-	}, [checkedEquipmentList]);
 
 	/**
 	 * Fetches the list of all distinct values of bodyParts and equipment in our database
 	 */
 	async function fetchBodyPartAndEquipmentArray() {
 		try {
-			console.log('fetching from ' + BASE_URL + '/api/getBodyPartAndEquipmentArray');
-			console.time('initial-data-fetch-timer');
-			const response = await fetch(BASE_URL + '/api/getBodyPartAndEquipmentArray', {
+			const FETCH_URL = FULL_API_URL + 'DistinctBodyPartAndEquipmentValues';
+			const FETCH_TIMER_NAME = 'exercise-initial-data-fetch-timer';
+			console.log('fetching from ' + FETCH_URL);
+			console.time(FETCH_TIMER_NAME);
+			const response = await fetch(FETCH_URL, {
 				method: 'GET',
 			});
 			const data = await response.json();
-			console.log('Successfully fetched in: ');
-			console.timeEnd('initial-data-fetch-timer');
 			if (response.ok) {
+				console.log('Successfully fetched in: ');
+				console.timeEnd(FETCH_TIMER_NAME);
 				setInitData(data);
 			} else {
-				console.log('Response not ok');
+				console.log('Response not ok' + data.message);
+				console.timeEnd(FETCH_TIMER_NAME);
 			}
 		} catch (error) {
 			console.log('Error on fetchBodyPartArray:' + error);
 		}
 		console.log(initData);
+	}
+
+	/**
+	 * ---DISREGARD-Requires a if(fetchSpecificExercises.length > 0) check before otherwise it could throw error cos there's no equipment.
+	 * ---Or a change to the back end that uses the no equipment one if there's no equipment
+	 * -ABOUT ^ DO IT BACK END, BACK END IS WHERE WE ALWAYS NEED TO VERIFY-
+	 * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
+	 */
+	async function fetchSpecificExercises() {
+		try {
+			///Fetch url info///
+			const FETCH_URL = FULL_API_URL + 'WithBodyPartsAndEquipmentQuery/?';
+			const FETCH_TIMER_NAME = 'exercise-fetch-timer';
+			console.log('fetching from ' + FETCH_URL);
+
+			let params = new URLSearchParams();
+			exercises.map((item) => {
+				params.append('bodyPart', item.selectedBodyPart);
+			});
+			checkedEquipmentList.map((item) => {
+				params.append('equipment', item);
+				console.log(item);
+			});
+
+			console.time(FETCH_TIMER_NAME);
+			const response = await fetch(FETCH_URL + params);
+			const data = await response.json();
+			if (response.ok) {
+				console.log('Successfully fetched in: ');
+				console.timeEnd(FETCH_TIMER_NAME);
+				const newExercises = data.map((item: ExerciseCardData, i: number) => {
+					return {
+						exercise: item,
+						selectedBodyPart: exercises[i].selectedBodyPart,
+					};
+				});
+				setExercises(newExercises);
+			} else {
+				console.log('Response not ok' + data.message);
+				console.timeEnd(FETCH_TIMER_NAME);
+			}
+		} catch (error) {
+			console.log('Error on fetchSpecificExercises:' + error);
+		}
 	}
 
 	/**
@@ -91,39 +149,10 @@ function App() {
 	}
 
 	/**
-	 * Requires a if(fetchSpecificExercises.length > 0) check before otherwise it could throw error cos there's no equipment.
-	 * Or a change to the back end that uses the no equipment one if there's no equipment
-	 * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
+	 *
+	 * @param e
+	 * @param cardID
 	 */
-	async function fetchSpecificExercises() {
-		try {
-			let params = new URLSearchParams();
-			exercises.map((item) => {
-				params.append('bodyPart', item.selectedBodyPart);
-			});
-			checkedEquipmentList.map((item) => {
-				params.append('equipment', item);
-				console.log(item);
-			});
-			console.log('fetching from ' + BASE_URL);
-			console.time('fetch-timer');
-			const response = await fetch(BASE_URL + '/api/gigaQuery2/?' + params);
-			const data = await response.json();
-			console.log('Successfully fetched in: ');
-			console.timeEnd('fetch-timer');
-			if (response.ok) {
-				const newExercises = data.map((item: ExerciseCardData, i: number) => {
-					return { exercise: item, selectedBodyPart: exercises[i].selectedBodyPart };
-				});
-				setExercises(newExercises);
-			} else {
-				console.log('Response not ok' + data.message);
-			}
-		} catch (error) {
-			console.log('Error on fetchSpecificExercises:' + error);
-		}
-	}
-
 	let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
 		const newExercises = exercises.map((item, i) => {
 			if (cardID == i) {
@@ -135,16 +164,38 @@ function App() {
 		setExercises(newExercises);
 	};
 
+	/**
+	 *
+	 */
 	function handleTestClick() {}
 
+	/**
+	 *
+	 */
 	function handleAddExerciseOnClick() {
-		setExercises([...exercises, { exercise: null, selectedBodyPart: Object.values(initData.bodyPartArray[0])[0] }]);
+		setExercises([
+			...exercises,
+			{
+				exercise: null,
+				selectedBodyPart: Object.values(initData.bodyPartArray[0])[0],
+			},
+		]);
 	}
 
+	/**
+	 *
+	 * @param e
+	 * @param cardID
+	 */
 	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
 		setExercises(exercises.filter((item, i) => i !== cardID));
 	};
 
+	/**
+	 *
+	 * @param e
+	 * @param value
+	 */
 	let handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
 		//Make sure value is not null
 		if (value != null && value != undefined) {

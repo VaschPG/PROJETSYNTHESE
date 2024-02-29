@@ -1,0 +1,21 @@
+.backgroundInscription {
+  background-image: url("./images/background_Inscription.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.ContainerInscription {
+  background-color: lightgray;
+  min-width: 700px;
+  min-height: 800px;
+  max-width: 700px;
+  max-height: 800px;
+  border-radius: 10px;
+  opacity: 90%;
+  padding: 40px;
+  font-size: 1.5em;
+}
+
+a {
+  font-size: 0.5em;
+}

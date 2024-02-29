@@ -23,7 +23,7 @@ module.exports = {
 	getRandomExercises: async function (nbExercises) {
 		return await exerciseModel.aggregate([{ $sample: { size: nbExercises } }]).exec();
 	},
-	getRandomExercisesFromBodyPart: async function (_bodyPart, nbExercises) {
+	getRandomExercisesWithBodyPart: async function (_bodyPart, nbExercises) {
 		return await exerciseModel.aggregate([{ $match: { bodyPart: _bodyPart } }, { $sample: { size: nbExercises } }]).exec();
 	},
 	getOneExerciseMatchingBodyPartAndEquipment: async function (_bodyPart, equipmentArray) {
