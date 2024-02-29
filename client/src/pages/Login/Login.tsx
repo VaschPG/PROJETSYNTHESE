@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import "./Login.css";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
+import LoginButton from "./components/LoginButton";
 
 function Login() {
   return (
@@ -27,9 +27,7 @@ function Login() {
             </Row>
 
             <Row className="m-4">
-              <Button size="lg" type="submit">
-                Continue
-              </Button>
+              <LoginButton></LoginButton>
             </Row>
           </Form>
         </Container>

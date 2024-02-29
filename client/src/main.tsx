@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login";
 import Menu from "./components/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import Inscription from "./pages/Inscription/Inscription";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,15 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Auth0Provider
+      domain="dev-rekba4e7mrcfdxqe.us.auth0.com"
+      clientId="c8ZkUTknic6Z9KLRansymHxFV3L0CfaF"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <RouterProvider router={router} />
+    </Auth0Provider>
+    ,
   </React.StrictMode>
 );
