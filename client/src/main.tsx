@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Menu from './components/Menu';
 import ProfilePage from './pages/Profile/ProfilePage';
+import Inscription from './pages/Inscription/Inscription';
 
 const router = createBrowserRouter([
 	{
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/inscription',
-		element: <Login />,
+		element: <Inscription />,
 	},
 ]);
 

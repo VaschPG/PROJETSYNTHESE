@@ -7,19 +7,19 @@ import Button from "react-bootstrap/Button";
 function Login() {
   return (
     <>
-      <div className="vh-100 d-flex align-items-center justify-content-center background">
+      <div className="vh-100 d-flex align-items-center justify-content-center backgroundLogin">
         <Container className="ContainerLogin">
           <Form>
             <Row>
-              <Form.Group>
+              <Form.Group controlId="formUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control required type="text"></Form.Control>
               </Form.Group>
             </Row>
             <Row className="mt-3">
-              <Form.Group>
+              <Form.Group controlId="formPassword">
                 <Form.Label className="m10">Password</Form.Label>
-                <Form.Control required type="text"></Form.Control>
+                <Form.Control required type="Password"></Form.Control>
               </Form.Group>
             </Row>
             <Row className="mt-2">
