@@ -9,18 +9,21 @@ function Menu() {
 		<>
 			<Navbar expand='lg' className='bg-body-tertiary' data-bs-theme='dark'>
 				<Container>
-					<Navbar.Brand href='#home'>Traqueur</Navbar.Brand>
+					<Navbar.Brand href='/'>Traqueur</Navbar.Brand>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ms-auto'>
+							<Link className='nav-link' to='/exercise'>
+								Entrainement
+							</Link>
+							<Link className='nav-link' to='/profile'>
+								Profile
+							</Link>
 							<Link className='nav-link' to='/login'>
 								Login
 							</Link>
 							<Link className='nav-link' to='/inscription'>
 								Inscription
-							</Link>
-							<Link className='nav-link' to='/profile'>
-								Profile
 							</Link>
 						</Nav>
 					</Navbar.Collapse>

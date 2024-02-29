@@ -15,7 +15,7 @@ const router = createBrowserRouter([
 		element: <Menu />,
 		children: [
 			{
-				path: '',
+				path: 'exercise',
 				element: <ExercisePlan />,
 			},
 			{
