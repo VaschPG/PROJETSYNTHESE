@@ -213,7 +213,6 @@ function App() {
 
 	return (
 		<>
-			<Menu />
 			<div className='exercise-plan-root'>
 				<button className='ex-button' onClick={handleAddExerciseOnClick}>
 					+
