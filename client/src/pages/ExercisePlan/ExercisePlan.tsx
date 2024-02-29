@@ -26,10 +26,11 @@ interface BodyPartAndEquipmentArray {
 interface ExerciseCardData {
 	exercise: Exercise | null;
 	selectedBodyPart: string;
+	isPinned: boolean;
 }
 
 function App() {
-	const [exercises, setExercises] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [exerciseCardData, setExerciseCardData] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({
 		bodyPartArray: [''],
 		equipmentArray: [''],
@@ -42,31 +43,28 @@ function App() {
 	 */
 	useEffect(() => {
 		fetchBodyPartAndEquipmentArray();
-		const arr = exercises;
+		const arr = exerciseCardData;
 		if (arr[0] === undefined) {
-			arr.fill({ exercise: null, selectedBodyPart: '' });
+			arr.fill({ exercise: null, selectedBodyPart: '', isPinned: false });
 		}
-		setExercises(arr);
+		setExerciseCardData(arr);
 	}, []);
 
 	/**
 	 * When initData changes we change the value of exercises.selectedBodyPart to be the first element in the array if they're undefined or an empty string.
 	 */
 	useEffect(() => {
-		const arr = exercises.map((item) => {
+		const arr = exerciseCardData.map((item) => {
 			if (item.selectedBodyPart == '' || item.selectedBodyPart == undefined) {
 				return {
-					exercise: item.exercise,
+					...item,
 					selectedBodyPart: Object.values(initData.bodyPartArray[0])[0],
 				};
 			} else {
-				return {
-					exercise: item.exercise,
-					selectedBodyPart: item.selectedBodyPart,
-				};
+				return item;
 			}
 		});
-		setExercises(arr);
+		setExerciseCardData(arr);
 	}, [initData.bodyPartArray]);
 
 	/**
@@ -101,6 +99,8 @@ function App() {
 	 * ---Or a change to the back end that uses the no equipment one if there's no equipment
 	 * -ABOUT ^ DO IT BACK END, BACK END IS WHERE WE ALWAYS NEED TO VERIFY-
 	 * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
+	 *
+	 * MEDIUM ISSUE, INTRODUCING PIN MEANS WE NEED TO SEND OVER THE PINNED IDS SO WE CAN MAKE SURE NOT TO GET DUPLICATES.
 	 */
 	async function fetchSpecificExercises() {
 		try {
@@ -110,8 +110,12 @@ function App() {
 			console.log('fetching from ' + FETCH_URL);
 
 			let params = new URLSearchParams();
-			exercises.map((item) => {
-				params.append('bodyPart', item.selectedBodyPart);
+			exerciseCardData.map((item) => {
+				if (item.isPinned) {
+					params.append('bodyPart', '');
+				} else {
+					params.append('bodyPart', item.selectedBodyPart);
+				}
 			});
 			checkedEquipmentList.map((item) => {
 				params.append('equipment', item);
@@ -124,13 +128,15 @@ function App() {
 			if (response.ok) {
 				console.log('Successfully fetched in: ');
 				console.timeEnd(FETCH_TIMER_NAME);
-				const newExercises = data.map((item: ExerciseCardData, i: number) => {
+				const newExercises = data.map((item: ExerciseCardData['exercise'], i: number) => {
+					let _exercise = exerciseCardData[i].isPinned ? exerciseCardData[i].exercise : item;
 					return {
-						exercise: item,
-						selectedBodyPart: exercises[i].selectedBodyPart,
+						exercise: _exercise,
+						selectedBodyPart: exerciseCardData[i].selectedBodyPart,
+						isPinned: exerciseCardData[i].isPinned,
 					};
 				});
-				setExercises(newExercises);
+				setExerciseCardData(newExercises);
 			} else {
 				console.log('Response not ok' + data.message);
 				console.timeEnd(FETCH_TIMER_NAME);
@@ -154,14 +160,14 @@ function App() {
 	 * @param cardID
 	 */
 	let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
-		const newExercises = exercises.map((item, i) => {
+		const newExercises = exerciseCardData.map((item, i) => {
 			if (cardID == i) {
-				return { exercise: item.exercise, selectedBodyPart: e.target.value };
+				return { ...item, selectedBodyPart: e.target.value };
 			} else {
 				return item;
 			}
 		});
-		setExercises(newExercises);
+		setExerciseCardData(newExercises);
 	};
 
 	/**
@@ -173,11 +179,12 @@ function App() {
 	 *
 	 */
 	function handleAddExerciseOnClick() {
-		setExercises([
-			...exercises,
+		setExerciseCardData([
+			...exerciseCardData,
 			{
 				exercise: null,
 				selectedBodyPart: Object.values(initData.bodyPartArray[0])[0],
+				isPinned: false,
 			},
 		]);
 	}
@@ -188,7 +195,7 @@ function App() {
 	 * @param cardID
 	 */
 	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
-		setExercises(exercises.filter((item, i) => i !== cardID));
+		setExerciseCardData(exerciseCardData.filter((item, i) => i !== cardID));
 	};
 
 	/**
@@ -210,6 +217,17 @@ function App() {
 		}
 	};
 
+	let handleOnClickPin = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
+		const newExercises = exerciseCardData.map((item, i) => {
+			if (cardID == i) {
+				return { ...item, isPinned: !item.isPinned };
+			} else {
+				return item;
+			}
+		});
+		setExerciseCardData(newExercises);
+	};
+
 	return (
 		<>
 			<div className='exercise-plan-root'>
@@ -222,7 +240,7 @@ function App() {
 				<section className='section-card-and-equipment-list'>
 					<div className='div-div-card'>
 						<div className='div-card'>
-							{exercises.map((item, i) => (
+							{exerciseCardData.map((item, i) => (
 								<ExerciseCard
 									key={i}
 									exercise={item.exercise}
@@ -231,6 +249,8 @@ function App() {
 									handleSelectChange={handleCardSelectChange}
 									handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
 									selectBodyPart={item.selectedBodyPart}
+									handleOnClickPin={handleOnClickPin}
+									isPinned={item.isPinned}
 								/>
 							))}
 						</div>

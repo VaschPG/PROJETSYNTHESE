@@ -10,6 +10,8 @@ interface IProps {
 	handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>, i: number) => void;
 	handleRemoveExerciseOnClick: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void;
 	selectBodyPart: string;
+	handleOnClickPin: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void;
+	isPinned: boolean;
 }
 
 const EXERCISE_NAME_LABEL = 'Exercise name: ';
@@ -18,11 +20,22 @@ const EXERCISE_BODYPART_LABEL = 'Primary muscle group: ';
 
 //Eventually switch this from divs with fixed spacing to flex col? Idk we'll see when we switch to bootstrap
 //TODO- Add instructions/gif button that switches between gif and instructions when pressed.
-function ExerciseCard({ exercise, bodyPartArray, cardID, handleSelectChange, handleRemoveExerciseOnClick, selectBodyPart }: IProps) {
+function ExerciseCard({
+	exercise,
+	bodyPartArray,
+	cardID,
+	handleSelectChange,
+	handleRemoveExerciseOnClick,
+	selectBodyPart,
+	handleOnClickPin,
+	isPinned,
+}: IProps) {
 	return (
 		<>
 			<div className='exercise-card'>
-				<button className='btn-pin'>Pin</button>
+				<button className={!isPinned ? 'btn-pin' : 'btn-pinned'} onClick={(e) => handleOnClickPin(e, cardID)}>
+					{!isPinned ? 'Pin' : 'Pinned'}
+				</button>
 				<div className='card-bodypart-select-div'>
 					<select className='card-bodypart-select' value={selectBodyPart} onChange={(e) => handleSelectChange(e, cardID)}>
 						{bodyPartArray != undefined &&
