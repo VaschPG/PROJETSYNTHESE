@@ -8,9 +8,18 @@ const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_EXERCISES_URL;
 const FULL_API_URL = BASE_API_URL + API_EXERCISES_URL;
 const NB_EXERCISES = 6;
+const LOCAL_STORAGE_CARD_DATA_NAME = 'exerciseCardData';
 
-////TODO Add pin button implementation
-////TODO COMMENT BETTER.
+/**
+ * TODO LIST:
+ * Implement saving data to db! (Maybe wait on user/login to be done?)
+ * Implement more info to see all the info of an exercise(By expanding the card, probably only expand one at a time, like when one expands the one that was expanded before goes back to normal size).
+ * Implement switching between gif and instructions? Or maybe just add instructions below the gif? ASK EMA
+ * Internationalisation
+ * Tests
+ *
+ *  DOCUMENT EVERYTHING!
+ */
 
 /**
  *
@@ -30,12 +39,38 @@ interface ExerciseCardData {
 }
 
 function App() {
-	const [exerciseCardData, setExerciseCardData] = useState(new Array<ExerciseCardData>(NB_EXERCISES));
+	const [exerciseCardData, setExerciseCardData] = useState<ExerciseCardData[]>(getLocalCardData());
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({
 		bodyPartArray: [''],
 		equipmentArray: [''],
 	});
 	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['body weight']);
+
+	function getLocalCardData(): ExerciseCardData[] {
+		const localCardData = localStorage.getItem(LOCAL_STORAGE_CARD_DATA_NAME);
+		let localCardDataParsed;
+		if (localCardData != null) {
+			localCardDataParsed = JSON.parse(localCardData);
+		}
+		let arr: ExerciseCardData[] = new Array<ExerciseCardData>(NB_EXERCISES);
+		if (localCardDataParsed == null) {
+			arr.fill({ exercise: null, selectedBodyPart: '', isPinned: false });
+		} else if (localCardDataParsed[0] != null) {
+			if (localCardDataParsed[0].selectedBodyPart == null) {
+				arr.fill({ exercise: null, selectedBodyPart: '', isPinned: false });
+			} else {
+				arr = localCardDataParsed;
+			}
+		}
+		return arr;
+	}
+
+	function setLocalCardData(): ExerciseCardData[] {
+		if (exerciseCardData[0] != null) {
+			localStorage.setItem(LOCAL_STORAGE_CARD_DATA_NAME, JSON.stringify(exerciseCardData));
+		}
+		return exerciseCardData;
+	}
 
 	/**
 	 * Fetch all the data we need that will not change.
@@ -43,11 +78,6 @@ function App() {
 	 */
 	useEffect(() => {
 		fetchBodyPartAndEquipmentArray();
-		const arr = exerciseCardData;
-		if (arr[0] === undefined) {
-			arr.fill({ exercise: null, selectedBodyPart: '', isPinned: false });
-		}
-		setExerciseCardData(arr);
 	}, []);
 
 	/**
@@ -66,6 +96,10 @@ function App() {
 		});
 		setExerciseCardData(arr);
 	}, [initData.bodyPartArray]);
+
+	useEffect(() => {
+		setExerciseCardData(setLocalCardData());
+	}, [exerciseCardData]);
 
 	/**
 	 * Fetches the list of all distinct values of bodyParts and equipment in our database
