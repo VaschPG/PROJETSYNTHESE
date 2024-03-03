@@ -38,14 +38,12 @@ async function getData() {
 				instructions: reponse[i]['instructions'],
 			});
 			exercises.save();
-
-			console.log('Saved');
 			count++;
 		}
 	} catch (error) {
 		console.error(error);
 	}
-	console.log('Done! C:' + '\n Saved this many documents: ' + count);
+	console.log('Please wait a few moments to make sure all the documents get saved! C:' + '\nSaved this many documents: ' + count);
 }
 
 module.exports = { populateDB };
