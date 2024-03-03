@@ -2,23 +2,24 @@ const express = require('express');
 const exerciseModel = require('../models/exercise_model');
 
 module.exports = {
+	getExerciseByID: async function (exerciseID) {
+		return await exerciseModel.aggregate([{ $match: { id: exerciseID } }]).exec();
+	},
 	getDistinctBodyPartArray: async function () {
-		const data = await exerciseModel
+		return await exerciseModel
 			.aggregate([{ $limit: 1500 }, { $sortByCount: '$bodyPart' }, { $project: { _id: 0, bodyPart: '$_id' } }], {
 				maxTimeMS: 60000,
 				allowDiskUse: true,
 			})
 			.exec();
-		return data;
 	},
 	getDistinctEquipmentArray: async function () {
-		const data = await exerciseModel
+		return await exerciseModel
 			.aggregate([{ $limit: 2000 }, { $sortByCount: '$equipment' }, { $project: { _id: 0, equipment: '$_id' } }], {
 				maxTimeMS: 60000,
 				allowDiskUse: true,
 			})
 			.exec();
-		return data;
 	},
 	getRandomExercises: async function (nbExercises) {
 		return await exerciseModel.aggregate([{ $sample: { size: nbExercises } }]).exec();
@@ -45,7 +46,7 @@ module.exports = {
 		return await exerciseModel.aggregate([
 			{
 				$match: {
-					id: {
+					_id: {
 						$nin: idArray,
 					},
 					bodyPart: _bodyPart,

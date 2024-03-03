@@ -12,13 +12,14 @@ const LOCAL_STORAGE_CARD_DATA_NAME = 'exerciseCardData';
 
 /**
  * TODO LIST:
+ * --MOSTLY DONE-- Update gifurl when it's busted. Think about fixing gifurl in onError vs on loading data card.
  * Implement saving data to db! (Maybe wait on user/login to be done?)
  * Implement more info to see all the info of an exercise(By expanding the card, probably only expand one at a time, like when one expands the one that was expanded before goes back to normal size).
  * Implement switching between gif and instructions? Or maybe just add instructions below the gif? ASK EMA
  * Internationalisation
  * Tests
- *
- *  DOCUMENT EVERYTHING!
+ * DOCUMENT EVERYTHING!
+ * Make a const of the default exerciseDataCard and use it/parts of it instead of having that { exercise: null, selectedBodyPart: '', isPinned: false } shit everywhere.
  */
 
 /**
@@ -38,7 +39,11 @@ interface ExerciseCardData {
 	isPinned: boolean;
 }
 
-function App() {
+/**
+ *
+ * @returns
+ */
+function ExercisePlan() {
 	const [exerciseCardData, setExerciseCardData] = useState<ExerciseCardData[]>(getLocalCardData());
 	const [initData, setInitData] = useState<BodyPartAndEquipmentArray>({
 		bodyPartArray: [''],
@@ -98,7 +103,7 @@ function App() {
 	}, [initData.bodyPartArray]);
 
 	useEffect(() => {
-		setExerciseCardData(setLocalCardData());
+		setLocalCardData();
 	}, [exerciseCardData]);
 
 	/**
@@ -153,7 +158,6 @@ function App() {
 			});
 			checkedEquipmentList.map((item) => {
 				params.append('equipment', item);
-				console.log(item);
 			});
 
 			console.time(FETCH_TIMER_NAME);
@@ -207,11 +211,6 @@ function App() {
 	/**
 	 *
 	 */
-	function handleTestClick() {}
-
-	/**
-	 *
-	 */
 	function handleAddExerciseOnClick() {
 		setExerciseCardData([
 			...exerciseCardData,
@@ -228,8 +227,8 @@ function App() {
 	 * @param e
 	 * @param cardID
 	 */
-	let handleRemoveExerciseOnClick = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
-		setExerciseCardData(exerciseCardData.filter((item, i) => i !== cardID));
+	let handleRemoveExerciseOnClick = (cardID: number): void => {
+		setExerciseCardData(exerciseCardData.filter((_item, i) => i !== cardID));
 	};
 
 	/**
@@ -251,7 +250,7 @@ function App() {
 		}
 	};
 
-	let handleOnClickPin = (e: React.MouseEvent<HTMLButtonElement>, cardID: number): void => {
+	let handleOnClickPin = (cardID: number): void => {
 		const newExercises = exerciseCardData.map((item, i) => {
 			if (cardID == i) {
 				return { ...item, isPinned: !item.isPinned };
@@ -261,6 +260,68 @@ function App() {
 		});
 		setExerciseCardData(newExercises);
 	};
+
+	let onImageError = (_e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
+		fetchCardData(cardID);
+	};
+
+	async function fetchCardData(cardID: number) {
+		try {
+			const FETCH_URL = FULL_API_URL + 'GetByID/' + exerciseCardData[cardID].exercise?.id;
+			const FETCH_TIMER_NAME = 'exercise-fetch-data-timer';
+			console.log('fetching from ' + FETCH_URL);
+			console.time(FETCH_TIMER_NAME);
+			const response = await fetch(FETCH_URL);
+			const data = await response.json();
+			console.log(data);
+			if (response.ok) {
+				console.log('Successfully fetched in: ');
+				console.timeEnd(FETCH_TIMER_NAME);
+				const arr = exerciseCardData.map((item, i) => {
+					if (i === cardID) {
+						return { ...item, exercise: data };
+					}
+					return item;
+				});
+				setExerciseCardData(arr);
+			} else {
+				console.log('Response not ok' + data.message);
+				console.timeEnd(FETCH_TIMER_NAME);
+			}
+		} catch (error) {
+			console.log('Error on fetchBodyPartArray:' + error);
+		}
+	}
+
+	/**
+	 *
+	 */
+	function handleTestClick() {
+		const bungus = {
+			exercise: {
+				_id: '65e3880bdd0996da4963923d',
+				bodyPart: 'upper arms',
+				equipment: 'body weight',
+				gifUrl: 'https://v2.exercisedb.io/image/bo0nCeGrclG0Y4',
+				id: 139,
+				name: 'biceps narrow pull-ups',
+				target: 'biceps',
+				secondaryMuscles: ['forearms', 'shoulders'],
+				instructions: [
+					'Hang from a pull-up bar with your palms facing towards you and your hands shoulder-width apart.',
+					'Engage your core and pull yourself up towards the bar, focusing on using your biceps to lift your body.',
+					'Pause for a moment at the top, then slowly lower yourself back down to the starting position.',
+					'Repeat for the desired number of repetitions.',
+				],
+			},
+			selectedBodyPart: '',
+			isPinned: false,
+		};
+
+		setExerciseCardData([...exerciseCardData, bungus]);
+	}
+
+	///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id
 
 	return (
 		<>
@@ -280,11 +341,12 @@ function App() {
 									exercise={item.exercise}
 									bodyPartArray={initData.bodyPartArray}
 									cardID={i}
-									handleSelectChange={handleCardSelectChange}
-									handleRemoveExerciseOnClick={handleRemoveExerciseOnClick}
+									handleSelectChangeCallback={handleCardSelectChange}
+									handleRemoveExerciseOnClickCallback={handleRemoveExerciseOnClick}
 									selectBodyPart={item.selectedBodyPart}
-									handleOnClickPin={handleOnClickPin}
+									handleOnClickPinCallback={handleOnClickPin}
 									isPinned={item.isPinned}
+									onImageErrorCallback={onImageError}
 								/>
 							))}
 						</div>
@@ -292,8 +354,8 @@ function App() {
 					<div className='div-equipment-list'>
 						{
 							/*ISSUE HERE WHERE RELOADING GIVES A DIFFERENT LIST WHICH UNTICKS BOXES*/
-							initData.equipmentArray.length > 0 && initData.equipmentArray[0] != '' ? (
-								initData.equipmentArray.map((item, i) => (
+							initData.equipmentArray != null && initData.equipmentArray.length > 0 && initData.equipmentArray[0] != '' ? (
+								initData.equipmentArray.map((item) => (
 									<CheckBox
 										key={Object.values(item)[0]}
 										label={Object.values(item)[0]}
@@ -308,7 +370,7 @@ function App() {
 						}
 					</div>
 				</section>
-				<div style={{ display: 'none' }}>
+				<div style={{ display: 'visible' }}>
 					<button className='ex-button' onClick={handleTestClick}>
 						Test
 					</button>
@@ -318,4 +380,4 @@ function App() {
 	);
 }
 
-export default App;
+export default ExercisePlan;

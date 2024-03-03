@@ -7,11 +7,12 @@ interface IProps {
 	exercise: Exercise | null;
 	bodyPartArray: string[];
 	cardID: number;
-	handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>, i: number) => void;
-	handleRemoveExerciseOnClick: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void;
+	handleSelectChangeCallback: (e: React.ChangeEvent<HTMLSelectElement>, cardID: number) => void;
+	handleRemoveExerciseOnClickCallback: (cardID: number) => void;
 	selectBodyPart: string;
-	handleOnClickPin: (e: React.MouseEvent<HTMLButtonElement>, i: number) => void;
+	handleOnClickPinCallback: (cardID: number) => void;
 	isPinned: boolean;
+	onImageErrorCallback: (e: React.SyntheticEvent<HTMLImageElement>, cardID: number) => void;
 }
 
 const EXERCISE_NAME_LABEL = 'Exercise name: ';
@@ -24,20 +25,21 @@ function ExerciseCard({
 	exercise,
 	bodyPartArray,
 	cardID,
-	handleSelectChange,
-	handleRemoveExerciseOnClick,
+	handleSelectChangeCallback,
+	handleRemoveExerciseOnClickCallback,
 	selectBodyPart,
-	handleOnClickPin,
+	handleOnClickPinCallback,
 	isPinned,
+	onImageErrorCallback,
 }: IProps) {
 	return (
 		<>
 			<div className='exercise-card'>
-				<button className={!isPinned ? 'btn-pin' : 'btn-pinned'} onClick={(e) => handleOnClickPin(e, cardID)}>
+				<button className={!isPinned ? 'btn-pin' : 'btn-pinned'} onClick={() => handleOnClickPinCallback(cardID)}>
 					{!isPinned ? 'Pin' : 'Pinned'}
 				</button>
 				<div className='card-bodypart-select-div'>
-					<select className='card-bodypart-select' value={selectBodyPart} onChange={(e) => handleSelectChange(e, cardID)}>
+					<select className='card-bodypart-select' value={selectBodyPart} onChange={(e) => handleSelectChangeCallback(e, cardID)}>
 						{bodyPartArray != undefined &&
 							bodyPartArray.map((item, i) => (
 								<option value={Object.values(item)} key={i}>
@@ -66,11 +68,11 @@ function ExerciseCard({
 								</p>
 							</div>
 						</div>
-						<img src={exercise.gifUrl} className='image'></img>
+						<img src={exercise.gifUrl} className='image' onError={(e) => onImageErrorCallback(e, cardID)}></img>
 					</div>
 				)}
 				<div>
-					<button className='ex-button' onClick={(e) => handleRemoveExerciseOnClick(e, cardID)}>
+					<button className='ex-button' onClick={() => handleRemoveExerciseOnClickCallback(cardID)}>
 						-
 					</button>
 				</div>
@@ -80,6 +82,9 @@ function ExerciseCard({
 }
 
 function toUpperFirstLetter(input: string | string[]): string | string[] {
+	if (input == null) {
+		return '';
+	}
 	if (typeof input === 'string') {
 		return input.charAt(0).toUpperCase() + input.slice(1);
 	} else {
