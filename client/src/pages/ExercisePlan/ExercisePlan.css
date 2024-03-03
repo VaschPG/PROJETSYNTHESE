@@ -83,7 +83,18 @@
 	position: absolute;
 	top: 10px;
 	right: 10px;
-	font-size: 8px;
+	font-size: 10px;
+	border-radius: 40%;
+}
+
+.btn-pinned {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 10px;
+	border-radius: 30%;
+	background-color: white;
+	color: black;
 }
 
 .section-card-and-equipment-list {

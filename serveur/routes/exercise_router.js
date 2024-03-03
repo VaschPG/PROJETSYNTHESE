@@ -4,6 +4,20 @@ const router = express.Router();
 const exerciseDBO = require('../db/exercise_dbo');
 
 /**
+ * Get the information of exercise by it's id
+ * @param id: id of exercise
+ */
+router.get('/GetByID/:id', async (req, res) => {
+	try {
+		const id = Number(req.params['id']);
+		const data = await exerciseDBO.getExerciseByID(id);
+		res.status(200).json(data[0]);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
+
+/**
  * Get {nb} amount of random exercises with a specified bodypart.
  * @param bodyPart:string Body part of exercises.
  * @param nb:number Amount of exercises. *Optional, defaults to 1 if absent*

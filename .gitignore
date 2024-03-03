@@ -2,3 +2,4 @@ serveur/.env
 client.bat
 populatedb.bat
 server.bat
+start server and client.bat
