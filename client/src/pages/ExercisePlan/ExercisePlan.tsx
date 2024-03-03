@@ -11,15 +11,16 @@ const NB_EXERCISES = 6;
 const LOCAL_STORAGE_CARD_DATA_NAME = 'exerciseCardData';
 
 /**
- * TODO LIST:
- * --MOSTLY DONE-- Update gifurl when it's busted. Think about fixing gifurl in onError vs on loading data card.
- * Implement saving data to db! (Maybe wait on user/login to be done?)
+ * TODO LIST: --Status-- Task. -Comment
+ * --DONE-- Update gifurl when it's busted. -Fixes the issue on broken links from storage and pins C:-Need to do more tests to make sure it's working correctly without the possibility of an infinite loop.
+ * Implement bootstrap.
+ * Internationalisation.
  * Implement more info to see all the info of an exercise(By expanding the card, probably only expand one at a time, like when one expands the one that was expanded before goes back to normal size).
  * Implement switching between gif and instructions? Or maybe just add instructions below the gif? ASK EMA
- * Internationalisation
  * Tests
  * DOCUMENT EVERYTHING!
  * Make a const of the default exerciseDataCard and use it/parts of it instead of having that { exercise: null, selectedBodyPart: '', isPinned: false } shit everywhere.
+ * Implement saving data to db! (Maybe wait on user/login to be done?)
  */
 
 /**
@@ -51,6 +52,10 @@ function ExercisePlan() {
 	});
 	const [checkedEquipmentList, setCheckedEquipmentList] = useState<string[]>(['body weight']);
 
+	/**
+	 * Gets the most recent exercise card data we stored in localstorage.
+	 * @returns ExerciseCardData[] from localstorage
+	 */
 	function getLocalCardData(): ExerciseCardData[] {
 		const localCardData = localStorage.getItem(LOCAL_STORAGE_CARD_DATA_NAME);
 		let localCardDataParsed;
@@ -70,6 +75,10 @@ function ExercisePlan() {
 		return arr;
 	}
 
+	/**
+	 *
+	 * @returns
+	 */
 	function setLocalCardData(): ExerciseCardData[] {
 		if (exerciseCardData[0] != null) {
 			localStorage.setItem(LOCAL_STORAGE_CARD_DATA_NAME, JSON.stringify(exerciseCardData));
@@ -261,10 +270,23 @@ function ExercisePlan() {
 		setExerciseCardData(newExercises);
 	};
 
-	let onImageError = (_e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
+	/**
+	 * Scary function that asks the db for an updated gifurl in case of an image error(Failure to load the image).
+	 * @param e onError event of the image
+	 * @param cardID ID/Index of the card who's image triggered the event.
+	 */
+	let onImageError = (e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
+		//Not sure if this line does anything
+		e.currentTarget.onerror = null;
 		fetchCardData(cardID);
+		console.log('onErrorCall');
 	};
 
+	/**
+	 * Fetches the data of the exercise of a specified card using the id of said exercise.
+	 * Used to refresh the info in the case of a broken gifurl.
+	 * @param cardID ID/Index of the card who's exercise info we want to fetch
+	 */
 	async function fetchCardData(cardID: number) {
 		try {
 			const FETCH_URL = FULL_API_URL + 'GetByID/' + exerciseCardData[cardID].exercise?.id;
