@@ -4,7 +4,7 @@ import ExercisePlan from "./pages/ExercisePlan/ExercisePlan";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./pages/Login/Login";
+import LoginButton from "./pages/Login/components/LoginButton";
 import Menu from "./components/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import Inscription from "./pages/Inscription/Inscription";
@@ -24,10 +24,6 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
   },
   {
     path: "/inscription",
