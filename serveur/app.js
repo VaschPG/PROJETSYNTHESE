@@ -15,14 +15,14 @@ const dbString = !useTestDB ? process.env.DATABASE_URI : process.env.TEST_DATABA
 const port = process.env.PORT || 5000;
 
 const exercisesRouter = require('./routes/exercise_router');
-const profileRouter = require('./routes/profile_router');
+//const profileRouter = require('./routes/profile_router');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 
 app.use('/api/exercise/', exercisesRouter);
-app.use('/api/profile/', profileRouter);
+//app.use('/api/profile/', profileRouter);
 
 mongoose.connect(dbString);
 const db = mongoose.connection;
