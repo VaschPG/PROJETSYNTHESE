@@ -5,11 +5,6 @@ import ProgressChart from './components/ProgressChart';
 import Goals from './components/Goals';
 
 function ProfilePage() {
-	const handleSubmit = (formData: any) => {
-		console.log('FormData:', formData);
-		alert('Les données ont été soumises avec succès !');
-	};
-
 	return (
 		<div className='profile-page'>
 			<div className='profile-navbar'>
