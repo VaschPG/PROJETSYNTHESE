@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import Menu from './components/Menu';
 import ProfilePage from './pages/Profile/ProfilePage';
 import Inscription from './pages/Inscription/Inscription';
+import ProgressChart from './pages/Profile/components/ProgressChart';
 
 const router = createBrowserRouter([
 	{
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
 			{
 				path: 'profile',
 				element: <ProfilePage />,
+			},
+			{
+				path: 'progresschart',
+				element: <ProgressChart />,
 			},
 		],
 	},

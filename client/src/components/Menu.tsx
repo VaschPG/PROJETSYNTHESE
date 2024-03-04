@@ -25,6 +25,9 @@ function Menu() {
 							<Link className='nav-link' to='/inscription'>
 								Inscription
 							</Link>
+							<Link className='nav-link' to='/progresschart'>
+								Progress Chart
+							</Link>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

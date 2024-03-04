@@ -9,7 +9,7 @@ const app = express();
 //Test thing, decides which database uri to use from our .env
 //false=process.env.DATABASE_URI
 //true=process.env.TEST_DATABASE_URI
-const useTestDB = false;
+const useTestDB = true;
 
 const dbString = !useTestDB ? process.env.DATABASE_URI : process.env.TEST_DATABASE_URI;
 const port = process.env.PORT || 5000;
