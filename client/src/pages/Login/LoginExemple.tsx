@@ -12,6 +12,9 @@ const LoginExemple = () => {
   if (isLoading) {
     return <div>Loading ...</div>;
   }
+  //EXEMPLE de fetch : insere un id dans la collections Profiles 
+  //DOIT AJOUTER UN CHECK SI UN PROFILE AVEC CET ID EXISTE DEJA -> NE AJOUTE PAS
+  //DOIT creer plusieurs autres routes et methodes pour updater le profile ou checker si un profile existe 
   fetch(
     VITE_BASE_API_URL +
       VITE_API_PROFILE_URL +
