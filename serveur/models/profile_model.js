@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ProfileModel = new mongoose.Schema(
   {
-    id: {
+    auth_id: {
       type: String,
       required: true,
     },
