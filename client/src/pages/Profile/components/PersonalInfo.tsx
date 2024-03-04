@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 // Pour eviter detections erreurs
@@ -22,6 +22,14 @@ const PersonalInfo: React.FC = () => {
     height: 0,
   });
 
+
+  useEffect(() => {
+    const savedUserData = localStorage.getItem('userData');
+    if (savedUserData) {
+        setFormData(JSON.parse(savedUserData));
+    }
+}, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numericValue = ["age", "weight", "height"].includes(name)
@@ -42,13 +50,18 @@ const PersonalInfo: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submitted');
     try {
-      console.log("User:", user);
-      console.log("Données soumises:", formData);
+        localStorage.setItem('userData', JSON.stringify(formData));
+
+        console.log('User:', user);
+        console.log('Données soumises:', formData);
+
+        alert('Données sauvegardées')
     } catch (error) {
-      console.error("Une erreur s'est produite:", error);
+        console.error('Une erreur s\'est produite:', error);
     }
-  };
+};
 
   return (
     <div className="form-container">
