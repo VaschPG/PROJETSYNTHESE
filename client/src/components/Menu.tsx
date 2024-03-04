@@ -3,8 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import LoginButton from "../pages/Login/LoginButton";
-import LogoutButton from "../pages/Login/LogoutButton";
+import AuthenticationButton from "../pages/Login/AuthenticationButton";
 
 function Menu() {
   return (
@@ -24,9 +23,8 @@ function Menu() {
               <Link className="nav-link" to="/login">
                 Login Exemple
               </Link>
-              <LoginButton />
-              <LogoutButton />
             </Nav>
+            <AuthenticationButton />
           </Navbar.Collapse>
         </Container>
       </Navbar>
