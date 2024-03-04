@@ -62,6 +62,7 @@ const PersonalInfo: React.FC = () => {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
+                className="input-field"
                 required
               />
             </div>
@@ -74,6 +75,7 @@ const PersonalInfo: React.FC = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
+                className="input-field"
                 required
               />
             </div>
@@ -86,6 +88,7 @@ const PersonalInfo: React.FC = () => {
                 name="age"
                 value={formData.age}
                 onChange={handleInputChange}
+                className="input-field"
                 required
               />
             </div>
@@ -97,10 +100,9 @@ const PersonalInfo: React.FC = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleSelectChange}
+                className="input-field"
                 required
               >
-                {" "}
-                {/* Utiliser le bon gestionnaire d'événements */}
                 <option value="">Select...</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -120,6 +122,7 @@ const PersonalInfo: React.FC = () => {
                 name="weight"
                 value={formData.weight}
                 onChange={handleInputChange}
+                className="input-field"
                 required
               />
             </div>
@@ -132,11 +135,14 @@ const PersonalInfo: React.FC = () => {
                 name="height"
                 value={formData.height}
                 onChange={handleInputChange}
+                className="input-field"
                 required
               />
             </div>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="button">
+            Submit
+          </button>
         </form>
       )}
       {!isAuthenticated && (

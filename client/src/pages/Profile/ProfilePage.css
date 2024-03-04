@@ -59,28 +59,26 @@
   margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="number"],
-select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #bae2f9;
-  color: #000;
+.input-field {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #bae2f9;
+    color: #000;
 }
 
-button {
-  padding: 10px;
-  background-color: #004d95;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.button {
+    padding: 10px;
+    background-color: #004d95;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-button:hover {
-  background-color: #003366;
+.button:hover {
+    background-color: #003366;
 }
 
 .sidebar {
