@@ -27,7 +27,13 @@ function ProgressChart() {
 					style={{ border: '0.1em solid darkslateblue' }}
 					margin={{ top: 40, right: 40, bottom: 25, left: 0 }}
 				>
-					<CartesianGrid strokeDasharray='3 3' />
+					<CartesianGrid
+					/*strokeDasharray='5 5'
+						horizontalCoordinatesGenerator={(props) => {
+							console.log(props.yAxis);
+							return [25, 50, 75, 100];
+						}}*/
+					/>
 					<XAxis dataKey={'date'} />
 					<YAxis
 						dataKey={'weight'}
