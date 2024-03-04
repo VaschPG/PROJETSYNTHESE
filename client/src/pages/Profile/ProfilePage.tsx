@@ -21,12 +21,12 @@ function ProfilePage() {
                         <PersonalInfo />
                     </div>
                     <div className='left-section-bottom'>
-						<h1>Progression</h1>
+						<h1 className='h1'>Progression</h1>
                         <ProgressChart />
                     </div>
                 </div>
                 <div className='right-section'>
-					<h1>Vos objectifs</h1>
+					<h1 className='h1'>Vos objectifs</h1>
                     <Goals />
                 </div>
             </div>
