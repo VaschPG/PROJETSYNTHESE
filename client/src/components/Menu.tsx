@@ -21,6 +21,9 @@ function Menu() {
               <Link className="nav-link" to="/profile">
                 Profile
               </Link>
+              <Link className="nav-link" to="/login">
+                Login Exemple
+              </Link>
               <LoginButton />
               <LogoutButton />
             </Nav>

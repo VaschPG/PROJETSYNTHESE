@@ -4,11 +4,10 @@ import ExercisePlan from "./pages/ExercisePlan/ExercisePlan";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LoginButton from "./pages/Login/LoginButton";
 import Menu from "./components/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
-import Inscription from "./pages/Inscription/Inscription";
 import { Auth0Provider } from "@auth0/auth0-react";
+import LoginExemple from "./pages/Login/LoginExemple";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "login",
+        element: <LoginExemple />,
       },
     ],
   },
