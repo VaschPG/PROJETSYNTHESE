@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
 
 const VITE_API_PROFILE_URL = import.meta.env.VITE_API_PROFILE_URL;
 const VITE_BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
@@ -12,34 +11,27 @@ const LoginExemple = () => {
   if (isLoading) {
     return <div>Loading ...</div>;
   }
-  //EXEMPLE de fetch : insere un id dans la collections Profiles 
-  //DOIT AJOUTER UN CHECK SI UN PROFILE AVEC CET ID EXISTE DEJA -> NE AJOUTE PAS
-  //DOIT creer plusieurs autres routes et methodes pour updater le profile ou checker si un profile existe 
-  fetch(
-    VITE_BASE_API_URL +
-      VITE_API_PROFILE_URL +
-      "insertId/" +
-      user?.sub?.substring(user?.sub.indexOf("|") + 1),
-    {
-      method: "POST",
-    }
-  )
+  //EXEMPLE de fetch : insere un id dans la collections Profiles
+  //DOIT AJOUTER UN CHECK SI UN PROFILE AVEC CET ID EXISTE DEJA -> NE AJOUTE PAS-> Do that in back end not front end
+  //DOIT creer plusieurs autres routes et methodes pour updater le profile ou checker si un profile existe
+  fetch(VITE_BASE_API_URL + VITE_API_PROFILE_URL + "insertId/" + user?.sub?.substring(user?.sub.indexOf("|") + 1), {
+    method: "POST",
+  })
     .then((response) => response.text()) // Read response as text
     .then((data) => console.log(data)); // Alert the response
 
   return (
     <>
-      {isAuthenticated && (
+      {isAuthenticated ? (
         <div>
           <img src={user?.picture} alt={user?.name} />
           <h2>{user?.name}</h2>
           <p>{user?.email}</p>
-          <div color="black">
-            {user?.sub?.substring(user?.sub.indexOf("|") + 1)}
-          </div>
+          <div color='black'>{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>
         </div>
+      ) : (
+        <div>N'est pas logged in</div>
       )}
-      {!isAuthenticated && <div>n'est pas logged in</div>}
     </>
   );
 };
