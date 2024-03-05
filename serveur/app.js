@@ -11,13 +11,13 @@ const app = express();
 //true=process.env.TEST_DATABASE_URI
 const useTestDB = false;
 
-const dbString = !useTestDB
-  ? process.env.DATABASE_URI
-  : process.env.TEST_DATABASE_URI;
+const dbString = !useTestDB ? process.env.DATABASE_URI : process.env.TEST_DATABASE_URI;
 const port = process.env.PORT || 5000;
 
+//--Routers--//
 const exercisesRouter = require("./routes/exercise_router");
 const profileRouter = require("./routes/profile_router");
+const progressionRouter = require("./routes/progression_router");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -25,6 +25,7 @@ app.use(cors());
 
 app.use("/api/exercise/", exercisesRouter);
 app.use("/api/profile/", profileRouter);
+app.use("/api/progression/", progressionRouter);
 
 mongoose.connect(dbString);
 const db = mongoose.connection;

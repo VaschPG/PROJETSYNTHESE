@@ -1,5 +1,4 @@
 const express = require('express');
-const exerciseModel = require('../models/exercise_model');
 const router = express.Router();
 const exerciseDBO = require('../db/exercise_dbo');
 

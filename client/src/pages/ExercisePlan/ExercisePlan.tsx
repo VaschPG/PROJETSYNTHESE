@@ -275,11 +275,10 @@ function ExercisePlan() {
 	 * @param e onError event of the image
 	 * @param cardID ID/Index of the card who's image triggered the event.
 	 */
-	let onImageError = (e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
-		//Not sure if this line does anything
-		e.currentTarget.onerror = null;
+	let onImageError = (_e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
 		fetchCardData(cardID);
 		console.log('onErrorCall');
+		//e.currentTarget.src = 'https://v2.exercisedb.io/image/aQNsZ6BgDrucvz';
 	};
 
 	/**
@@ -319,6 +318,7 @@ function ExercisePlan() {
 	 *
 	 */
 	function handleTestClick() {
+		/*
 		const bungus = {
 			exercise: {
 				_id: '65e3880bdd0996da4963923d',
@@ -340,7 +340,11 @@ function ExercisePlan() {
 			isPinned: false,
 		};
 
-		setExerciseCardData([...exerciseCardData, bungus]);
+		setExerciseCardData([...exerciseCardData, bungus]);*/
+		//console.log('Old link');
+		//('https://v2.exercisedb.io/image/bo0nCeGrclG0Y4');
+		//console.log('Working link');
+		//('https://v2.exercisedb.io/image/aQNsZ6BgDrucvz');
 	}
 
 	///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id

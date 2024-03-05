@@ -1,4 +1,3 @@
-const express = require('express');
 const exerciseModel = require('../models/exercise_model');
 
 module.exports = {
