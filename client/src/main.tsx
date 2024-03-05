@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import ExercisePlan from "./pages/ExercisePlan/ExercisePlan";
 import "./index.css";
@@ -36,8 +35,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Auth0Provider
-    domain="dev-rekba4e7mrcfdxqe.us.auth0.com"
-    clientId="c8ZkUTknic6Z9KLRansymHxFV3L0CfaF"
+    domain='dev-rekba4e7mrcfdxqe.us.auth0.com'
+    clientId='c8ZkUTknic6Z9KLRansymHxFV3L0CfaF'
     authorizationParams={{
       redirect_uri: window.location.origin,
     }}
