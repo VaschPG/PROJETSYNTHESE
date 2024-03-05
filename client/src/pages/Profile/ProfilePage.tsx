@@ -30,7 +30,10 @@ function ProfilePage() {
           </div>
         </div>
       ) : (
-        <p>Veuillez vous connecter pour voir ce contenu.</p>
+        /*Temporary, eventually probably redirect to login if not authenticated? */
+        <div className='profile-page-not-auth'>
+          <h1 className='h1-center'>Veuillez vous connecter pour voir ce contenu.</h1>
+        </div>
       )}
     </>
   );
