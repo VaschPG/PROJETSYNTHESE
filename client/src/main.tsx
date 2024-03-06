@@ -7,7 +7,7 @@ import Menu from "./components/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import LoginExemple from "./pages/Login/LoginExemple";
-import ProgressChart from "./pages/Profile/components/ProgressChart";
+import ProgressChart from "./pages/Profile/components/Progression/ProgressChart";
 
 const router = createBrowserRouter([
   {
