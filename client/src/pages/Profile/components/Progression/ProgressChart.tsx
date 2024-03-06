@@ -27,7 +27,7 @@ function ProgressChart() {
   }, [chartData]);*/
 
   useEffect(() => {
-    fetchProgressionData(2);
+    fetchProgressionData(1);
   }, []);
 
   useEffect(() => {
@@ -84,7 +84,8 @@ function ProgressChart() {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
+        <ProgressForm />
         <div style={{ display: "flex", justifyContent: "center" }}>
           {chartData != null && chartData?.progression?.length > 0 && (
             <LineChart
@@ -102,9 +103,6 @@ function ProgressChart() {
               <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
             </LineChart>
           )}
-        </div>
-        <div style={{ width: "500px", margin: "auto", justifyContent: "center" }}>
-          <ProgressForm />
         </div>
       </div>
     </>

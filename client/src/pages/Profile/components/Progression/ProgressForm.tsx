@@ -27,7 +27,7 @@ function ProgressForm() {
 
   return (
     <>
-      <Form onSubmit={test} style={{ background: "black", color: "white", border: "solid 3px red", padding: "10px" }}>
+      <Form onSubmit={test} style={{ background: "black", color: "white", border: "solid 3px red", padding: "10px", margin: "auto" }}>
         <Form.Group as={Row} controlId="formWeight">
           <Form.Label column sm="4">
             Weight
