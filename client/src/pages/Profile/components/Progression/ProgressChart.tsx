@@ -93,11 +93,12 @@ function ProgressChart() {
               height={500}
               data={chartData.progression}
               style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
-              margin={{ top: 40, right: 40, bottom: 25, left: 0 }}
             >
-              <CartesianGrid />
               <XAxis dataKey={"date"} />
-              <YAxis dataKey={"weight"} domain={[(dataMin: number) => Math.round(dataMin * 0.95), (dataMax: number) => Math.round(dataMax * 1.03)]} />
+              <YAxis
+                dataKey={"weight"}
+                domain={[(dataMin: number) => Math.round((dataMin * 0.95) / 5) * 5, (dataMax: number) => Math.round((dataMax * 1.03) / 5) * 5]}
+              />
               <Tooltip />
               <Legend />
               <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
