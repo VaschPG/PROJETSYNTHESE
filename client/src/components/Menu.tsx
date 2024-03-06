@@ -8,22 +8,24 @@ import AuthenticationButton from "../pages/Login/AuthenticationButton";
 function Menu() {
   return (
     <>
-      <Navbar expand='lg' className='bg-body-tertiary' data-bs-theme='dark'>
+      <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href='/'>Traqueur</Navbar.Brand>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ms-auto'>
-              <Link className='nav-link' to='/exercise'>
+          <Navbar.Brand href="/">Traqueur</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto">
+              <Link className="nav-link" to="/exercise">
                 Entrainement
               </Link>
-              <Link className='nav-link' to='/profile'>
+              <Link className="nav-link" to="/profile">
                 Profile
               </Link>
-              <Link className='nav-link' to='/login'>
+              <Link className="nav-link" to="/login">
                 Login Exemple
               </Link>
-              <Link className='nav-link' to='/testchart'></Link>
+              <Link className="nav-link" to="/tempProgression">
+                TEMP_Progression
+              </Link>
             </Nav>
             <AuthenticationButton />
           </Navbar.Collapse>

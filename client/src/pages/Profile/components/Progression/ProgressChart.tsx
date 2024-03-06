@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import ProgressForm from "./components/ProgressForm";
+import ProgressForm from "./ProgressForm";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
@@ -27,7 +27,7 @@ function ProgressChart() {
   }, [chartData]);*/
 
   useEffect(() => {
-    fetchProgressionData(3);
+    fetchProgressionData(2);
   }, []);
 
   useEffect(() => {
@@ -84,24 +84,28 @@ function ProgressChart() {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <ProgressForm />
-        {chartData != null && chartData?.progression?.length > 0 && (
-          <LineChart
-            width={500}
-            height={500}
-            data={chartData.progression}
-            style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
-            margin={{ top: 40, right: 40, bottom: 25, left: 0 }}
-          >
-            <CartesianGrid />
-            <XAxis dataKey={"date"} />
-            <YAxis dataKey={"weight"} domain={[(dataMin: number) => Math.round(dataMin * 0.95), (dataMax: number) => Math.round(dataMax * 1.03)]} />
-            <Tooltip />
-            <Legend />
-            <Line type='monotone' dataKey={"weight"} stroke='#8884d8' />
-          </LineChart>
-        )}
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {chartData != null && chartData?.progression?.length > 0 && (
+            <LineChart
+              width={500}
+              height={500}
+              data={chartData.progression}
+              style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
+              margin={{ top: 40, right: 40, bottom: 25, left: 0 }}
+            >
+              <CartesianGrid />
+              <XAxis dataKey={"date"} />
+              <YAxis dataKey={"weight"} domain={[(dataMin: number) => Math.round(dataMin * 0.95), (dataMax: number) => Math.round(dataMax * 1.03)]} />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
+            </LineChart>
+          )}
+        </div>
+        <div style={{ width: "500px", margin: "auto", justifyContent: "center" }}>
+          <ProgressForm />
+        </div>
       </div>
     </>
   );
