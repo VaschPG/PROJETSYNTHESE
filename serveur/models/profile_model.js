@@ -5,6 +5,8 @@ const ProgressionModel = new mongoose.Schema({
   weight: Number,
 });
 
+const GoalsModel = new mongoose.Schema({});
+
 const ProfileModel = new mongoose.Schema(
   {
     auth_id: {
@@ -28,6 +30,7 @@ const ProfileModel = new mongoose.Schema(
       required: false,
     },
     progression: [ProgressionModel],
+    objectifs: [GoalsModel],
   },
   { collection: "profiles" }
 );
