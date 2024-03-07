@@ -18,6 +18,7 @@ router.post("/insert", async function (req, res) {
   try {
     const body = req.body;
     const response = await profileDBO.insertProfile(body);
+    res.status(200).json(response);
   } catch (error) {
     // message d'erreur
     res.status(500).json({ message: error.message });

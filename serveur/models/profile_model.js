@@ -9,16 +9,16 @@ const GoalsModel = new mongoose.Schema({});
 
 const ProfileModel = new mongoose.Schema(
   {
-    auth_id: {
+    _id: {
       type: String,
       required: true,
     },
     poids: {
-      type: String,
+      type: Number,
       required: false,
     },
     taille: {
-      type: String,
+      type: Number,
       required: false,
     },
     sexe: {
