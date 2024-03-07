@@ -72,6 +72,7 @@ function ProgressForm({ auth_id }: IProps) {
     }
   }
 
+  //Transform into SSOT? How do you make it refresh when u add weight.
   return (
     <>
       <Form onSubmit={submitForm} style={{ background: "black", color: "white", border: "solid 3px red", padding: "10px", margin: "auto" }}>
@@ -91,7 +92,7 @@ function ProgressForm({ auth_id }: IProps) {
             <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} />
           </Col>
         </Form.Group>
-        <Button type="submit">Submit form</Button>
+        <Button type="submit">Ajouter un mesurement de poids</Button>
       </Form>
     </>
   );

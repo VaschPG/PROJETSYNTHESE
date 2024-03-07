@@ -45,4 +45,15 @@ router.post("/InsertOne/", async (req, res) => {
   }
 });
 
+router.get("/InitialAndLatestWeight/:userID", async (req, res) => {
+  try {
+    const userID = req.params.userID;
+    const initialWeight = await progressionDBO.getInitialWeight(userID);
+    const latestWeight = await progressionDBO.getLatestWeight(userID);
+    const data = { initialWeight: initialWeight[0], latestWeight: latestWeight[0] };
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import ProgressInfo from "./ProgressInfo";
 import ProgressForm from "./ProgressForm";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
@@ -94,7 +95,10 @@ function ProgressChart({ auth_id }: IProps) {
     <>
       {auth_id != null && (
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <ProgressForm auth_id={auth_id} />
+          <div>
+            <ProgressForm auth_id={auth_id} />
+            <ProgressInfo auth_id={auth_id} />
+          </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {chartData != null && chartData?.progression?.length > 0 && (
               <LineChart
