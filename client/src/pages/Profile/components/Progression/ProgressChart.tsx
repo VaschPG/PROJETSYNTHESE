@@ -17,7 +17,11 @@ interface Progression {
   progression: ProgressionData[];
 }
 
-function ProgressChart() {
+interface IProps {
+  auth_id: string | undefined;
+}
+
+function ProgressChart({ auth_id }: IProps) {
   const [chartData, setChartData] = useState<Progression>();
   /*const dateRange = useMemo(() => {
     if(chartData?.progression != null && chartData.progression.length > 0){
@@ -27,7 +31,7 @@ function ProgressChart() {
   }, [chartData]);*/
 
   useEffect(() => {
-    fetchProgressionData(1);
+    fetchProgressionData();
   }, []);
 
   useEffect(() => {
@@ -46,15 +50,19 @@ function ProgressChart() {
       locale = DEFAULT_DATE_LOCALE;
     }
     if (typeof date.getMonth != "function") {
-      date = new Date(date);
-      console.log("Not a date");
+      try {
+        date = new Date(date);
+        console.log("Not a date");
+      } catch (error) {
+        console.log(error);
+      }
     }
     return date.toLocaleDateString(locale, formattingOptions);
   }
 
-  async function fetchProgressionData(userID: number) {
+  async function fetchProgressionData() {
     try {
-      const FETCH_URL = FULL_API_URL + "GetAllOfUser/" + userID;
+      const FETCH_URL = FULL_API_URL + "GetAllOfUser/" + auth_id;
       const FETCH_TIMER_NAME = "chart-data-fetch-timer";
       console.log("fetching from " + FETCH_URL);
       console.time(FETCH_TIMER_NAME);
@@ -84,28 +92,30 @@ function ProgressChart() {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-        <ProgressForm />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {chartData != null && chartData?.progression?.length > 0 && (
-            <LineChart
-              width={500}
-              height={500}
-              data={chartData.progression}
-              style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
-            >
-              <XAxis dataKey={"date"} />
-              <YAxis
-                dataKey={"weight"}
-                domain={[(dataMin: number) => Math.round((dataMin * 0.95) / 5) * 5, (dataMax: number) => Math.round((dataMax * 1.03) / 5) * 5]}
-              />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
-            </LineChart>
-          )}
+      {auth_id != null && (
+        <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
+          <ProgressForm />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {chartData != null && chartData?.progression?.length > 0 && (
+              <LineChart
+                width={500}
+                height={500}
+                data={chartData.progression}
+                style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
+              >
+                <XAxis dataKey={"date"} />
+                <YAxis
+                  dataKey={"weight"}
+                  domain={[(dataMin: number) => Math.round((dataMin * 0.95) / 5) * 5, (dataMax: number) => Math.round((dataMax * 1.03) / 5) * 5]}
+                />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
+              </LineChart>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

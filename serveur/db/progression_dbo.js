@@ -7,7 +7,7 @@ module.exports = {
       .aggregate([
         {
           $match: {
-            auth_id: userID,
+            _id: userID,
           },
         },
         {
@@ -23,7 +23,7 @@ module.exports = {
     return await profileModel.aggregate([
       {
         $match: {
-          auth_id: userID,
+          _id: userID,
         },
       },
       {
@@ -50,7 +50,7 @@ module.exports = {
     return await profileModel.aggregate([
       {
         $match: {
-          auth_id: userID,
+          _id: userID,
         },
       },
       {
@@ -74,6 +74,6 @@ module.exports = {
     ]);
   },
   insertOne: async function (userID, progression) {
-    return await profileModel.findOneAndUpdate({ auth_id: userID }, { $push: { progression: progression } });
+    return await profileModel.findOneAndUpdate({ _id: userID }, { $push: { progression: progression } });
   },
 };
