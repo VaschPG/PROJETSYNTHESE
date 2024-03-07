@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const ProgressionModel = new mongoose.Schema({
+  date: Date,
+  weight: Number,
+});
+
 const ProfileModel = new mongoose.Schema(
   {
     auth_id: {
@@ -22,6 +27,7 @@ const ProfileModel = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    progression: [ProgressionModel],
   },
   { collection: "profiles" }
 );

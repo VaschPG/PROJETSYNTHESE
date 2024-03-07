@@ -1,7 +1,8 @@
-const progressionModel = require("../models/progression_model");
+const profileModel = require("../models/profile_model");
 
 module.exports = {
-  getAllProgression: async function (userID) {
+  //Test these first
+  /*getAllProgression: async function (userID) {
     return await progressionModel
       .aggregate([
         {
@@ -71,5 +72,8 @@ module.exports = {
         },
       },
     ]);
+  },*/
+  insertOne: async function (userID, progression) {
+    return await profileModel.findOneAndUpdate({ auth_id: userID }, { $push: { progression: progression } });
   },
 };

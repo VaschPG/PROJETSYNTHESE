@@ -1,16 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const ProgressionModel = new mongoose.Schema(
-	{
-		userIndentifier: Number,
-		progression: [
-			{
-				date: Date,
-				weight: Number,
-			},
-		],
-	},
-	{ collection: 'temp_progression' }
-);
+const ProgressionModel = new mongoose.Schema({
+  progression: [
+    {
+      date: Date,
+      weight: Number,
+    },
+  ],
+});
 
-module.exports = mongoose.model('Progression', ProgressionModel);
+module.exports = mongoose.model("Progression", ProgressionModel);

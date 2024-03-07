@@ -1,0 +1,27 @@
+[{
+	"auth_id": 1,
+	"progression": [
+		{ "date": { "$date": "2024-03-03" }, "weight": 90 },
+		{ "date": { "$date": "2024-03-04" }, "weight": 95 },
+		{ "date": { "$date": "2024-03-07" }, "weight": 92 },
+		{ "date": { "$date": "2024-03-12" }, "weight": 89 },
+		{ "date": { "$date": "2024-03-19" }, "weight": 86 },
+		{ "date": { "$date": "2024-03-22" }, "weight": 87 },
+		{ "date": { "$date": "2024-03-30" }, "weight": 87 },
+		{ "date": { "$date": "2024-04-03" }, "weight": 83 },
+		{ "date": { "$date": "2024-04-06" }, "weight": 81 },
+		{ "date": { "$date": "2024-04-11" }, "weight": 78 },
+		{ "date": { "$date": "2024-04-13" }, "weight": 72 },
+		{ "date": { "$date": "2024-04-23" }, "weight": 70 },
+		{ "date": { "$date": "2024-04-26" }, "weight": 75 },
+		{ "date": { "$date": "2024-04-30" }, "weight": 73 }
+	]
+},
+{
+	"auth_id": 2,
+	"progression": [
+		{ "date": { "$date": "2023-07-07" }, "weight": 200 },
+		{ "date": { "$date": "2023-11-12" }, "weight": 149 },
+		{ "date": { "$date": "2024-01-29" }, "weight": 130 }
+	]
+}]
