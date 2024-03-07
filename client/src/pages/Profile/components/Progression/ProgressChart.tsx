@@ -94,7 +94,7 @@ function ProgressChart({ auth_id }: IProps) {
     <>
       {auth_id != null && (
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <ProgressForm />
+          <ProgressForm auth_id={auth_id} />
           <div style={{ display: "flex", justifyContent: "center" }}>
             {chartData != null && chartData?.progression?.length > 0 && (
               <LineChart

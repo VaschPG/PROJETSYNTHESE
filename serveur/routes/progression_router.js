@@ -33,12 +33,13 @@ router.get("/LatestWeight/:userID", async (req, res) => {
   }
 });
 
-router.post("/InsertOne/:userID", async (req, res) => {
+router.post("/InsertOne/", async (req, res) => {
   try {
-    const userID = req.params.userID;
+    const userID = req.body.userID;
     const progression = req.body.progression;
+    console.log(req.body);
     const data = await progressionDBO.insertOne(userID, progression);
-    res.status(200).json(data[0]);
+    res.status(200).json({ message: "Success" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

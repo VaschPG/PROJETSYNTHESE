@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
-const ProgressionModel = new mongoose.Schema({
-  date: Date,
-  weight: Number,
-});
+const ProgressionModel = new mongoose.Schema(
+  {
+    date: Date,
+    weight: Number,
+  },
+  { _id: false }
+);
 
 const GoalsModel = new mongoose.Schema({});
 
