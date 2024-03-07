@@ -2,12 +2,12 @@ const profileModel = require("../models/profile_model");
 
 module.exports = {
   //Test these first
-  /*getAllProgression: async function (userID) {
-    return await progressionModel
+  getAllProgression: async function (userID) {
+    return await profileModel
       .aggregate([
         {
           $match: {
-            userIdentifier: userID,
+            auth_id: userID,
           },
         },
         {
@@ -20,10 +20,10 @@ module.exports = {
       .exec();
   },
   getInitialWeight: async function (userID) {
-    return await progressionModel.aggregate([
+    return await profileModel.aggregate([
       {
         $match: {
-          userIdentifier: 1,
+          auth_id: userID,
         },
       },
       {
@@ -47,10 +47,10 @@ module.exports = {
     ]);
   },
   getLatestWeight: async function (userID) {
-    return await progressionModel.aggregate([
+    return await profileModel.aggregate([
       {
         $match: {
-          userIdentifier: 1,
+          auth_id: userID,
         },
       },
       {
@@ -72,7 +72,7 @@ module.exports = {
         },
       },
     ]);
-  },*/
+  },
   insertOne: async function (userID, progression) {
     return await profileModel.findOneAndUpdate({ auth_id: userID }, { $push: { progression: progression } });
   },
