@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 
 function Goals() {
   const [goals, setGoals] = useState<string[]>([]);
   const [newGoal, setNewGoal] = useState('');
   const { isAuthenticated, user } = useAuth0();
+
+  useEffect(() => {
+    
+    fetch(`/api/goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`)
+      .then(response => response.json())
+      .then(data => setGoals(data.map((goal: any) => goal.text)))
+      .catch(error => console.error('Erreur lors du chargement des objectifs:', error));
+  }, [user]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewGoal(event.target.value);
@@ -16,39 +24,35 @@ function Goals() {
       setNewGoal('');
 
       try {
-        await fetch(`/api/save-goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`, { 
+        await fetch(`/api/goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ goals: [...goals, newGoal.trim()] })
+          body: JSON.stringify({ text: newGoal.trim() })
         });
       } catch (error) {
-        console.error('Erreur de la sauvegarde des objectifs:', error);
+        console.error('Erreur de l\'ajout de l\'objectif:', error);
       }
     }
   };
 
   const handleRemoveGoal = async (index: number) => {
-    const updatedGoals = goals.filter((_, i) => i !== index);
+    const goalID = goals[index]; 
+    const updatedGoals = [...goals.slice(0, index), ...goals.slice(index + 1)];
     setGoals(updatedGoals);
 
     try {
-      await fetch(`/api/save-goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`, { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ goals: updatedGoals })
+      await fetch(`/api/goals/${goalID}`, {
+        method: 'DELETE'
       });
     } catch (error) {
-      console.error('Erreur de la sauvegarde des objectifs:', error);
+      console.error('Erreur de suppression de l\'objectif:', error);
     }
   };
 
   return (
     <div className="goals-container">
-      
       <div className="goals-list">
         {goals.map((goal, index) => (
           <div key={index} className="goal-item">
