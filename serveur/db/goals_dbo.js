@@ -1,4 +1,4 @@
-const goalModel = require("../models/goal_model");
+const goalModel = require("../models/goals_model");
 
 module.exports = {
   getAllGoals: async function (userID) {
