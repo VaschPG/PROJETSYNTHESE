@@ -25,4 +25,24 @@ router.post("/insert", async function (req, res) {
   }
 });
 
+router.get("/getProfile/:id", async function (req, res) {
+  try {
+    const id = req.params["id"];
+    const profileData = await profileDBO.getProfile(id);
+    res.status(200).json(profileData[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post("/updateProfile", async function (req, res) {
+  try {
+    const body = req.body;
+    console.log(body);
+    const profileData = await profileDBO.updateProfile(body);
+    res.status(200).json(profileData[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;
