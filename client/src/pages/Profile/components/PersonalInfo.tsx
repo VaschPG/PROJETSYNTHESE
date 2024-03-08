@@ -149,7 +149,7 @@ const PersonalInfo: React.FC = () => {
       <form onSubmit={handleSubmit} method="post">
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">First Name:</label>
+            <label className="label">Prénom :</label>
             <input
               type="text"
               name="firstName"
@@ -162,7 +162,7 @@ const PersonalInfo: React.FC = () => {
         </div>
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">Last Name:</label>
+            <label className="label">Nom :</label>
             <input
               type="text"
               name="lastName"
@@ -175,7 +175,7 @@ const PersonalInfo: React.FC = () => {
         </div>
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">Age:</label>
+            <label className="label">Âge :</label>
             <input
               type="number"
               name="age"
@@ -188,7 +188,7 @@ const PersonalInfo: React.FC = () => {
         </div>
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">Gender:</label>
+            <label className="label">Genre :</label>
             <select
               name="gender"
               value={formData.gender}
@@ -196,18 +196,18 @@ const PersonalInfo: React.FC = () => {
               className="input-field"
               required
             >
-              <option value="">Select...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="non-binary">Non-Binary</option>
-              <option value="other">Other</option>
-              <option value="prefer not to answer">Prefer not to answer</option>
+              <option value="">Selectionner...</option>
+              <option value="male">Homme</option>
+              <option value="female">Femme</option>
+              <option value="non-binary">Non-Binaire</option>
+              <option value="other">Autre</option>
+              <option value="prefer not to answer">Préfère ne pas répondre</option>
             </select>
           </div>
         </div>
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">Weight (kg):</label>
+            <label className="label">Poids (kg):</label>
             <input
               type="number"
               name="weight"
@@ -220,7 +220,7 @@ const PersonalInfo: React.FC = () => {
         </div>
         <div className="form-group">
           <div className="input-wrap">
-            <label className="label">Height (cm):</label>
+            <label className="label">Taille (cm):</label>
             <input
               type="number"
               name="height"
@@ -231,7 +231,7 @@ const PersonalInfo: React.FC = () => {
             />
           </div>
         </div>
-        <button type="submit">Save</button>
+        <button type="submit">Sauvegarder</button>
       </form>
       <div className="text-white">
         {user?.sub?.substring(user?.sub.indexOf("|") + 1)}

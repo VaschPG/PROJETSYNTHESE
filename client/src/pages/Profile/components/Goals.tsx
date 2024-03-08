@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Goals() {
   const [goals, setGoals] = useState<string[]>([]);
   const [newGoal, setNewGoal] = useState('');
+  const { isAuthenticated, user } = useAuth0();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewGoal(event.target.value);
@@ -13,9 +15,8 @@ function Goals() {
       setGoals([...goals, newGoal.trim()]);
       setNewGoal('');
 
-      
       try {
-        await fetch(`/api/save-goals/${profileId}`, {
+        await fetch(`/api/save-goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`, { 
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -32,9 +33,8 @@ function Goals() {
     const updatedGoals = goals.filter((_, i) => i !== index);
     setGoals(updatedGoals);
 
-
     try {
-      await fetch(`/api/save-goals/${profileId}`, {
+      await fetch(`/api/save-goals/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`, { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
