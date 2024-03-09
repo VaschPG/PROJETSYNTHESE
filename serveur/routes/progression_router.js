@@ -39,7 +39,7 @@ router.post("/InsertOne/", async (req, res) => {
     const progression = req.body.progression;
     console.log(req.body);
     const data = await progressionDBO.insertOne(userID, progression);
-    res.status(200).json({ message: "Success" });
+    res.status(200).json(data != null ? { message: "Success" } : { message: "Error" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

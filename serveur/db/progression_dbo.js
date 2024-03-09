@@ -73,7 +73,10 @@ module.exports = {
       },
     ]);
   },
-  insertOne: async function (userID, progression) {
-    return await profileModel.findOneAndUpdate({ _id: userID }, { $push: { progression: progression } });
+  insertOne: async function (userID, insertProgression) {
+    return await profileModel.findOneAndUpdate(
+      { _id: userID, "progression.date": { $ne: insertProgression.date } },
+      { $push: { progression: insertProgression } }
+    );
   },
 };

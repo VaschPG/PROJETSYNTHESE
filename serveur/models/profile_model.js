@@ -16,15 +16,23 @@ const ProfileModel = new mongoose.Schema(
       type: String,
       required: true,
     },
-    poids: {
+    firstName: {
+      type: String,
+      required: false,
+    },
+    lastName: {
+      type: String,
+      required: false,
+    },
+    weight: {
       type: Number,
       required: false,
     },
-    taille: {
+    height: {
       type: Number,
       required: false,
     },
-    sexe: {
+    gender: {
       type: String,
       required: false,
     },
