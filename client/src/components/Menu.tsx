@@ -23,9 +23,6 @@ function Menu() {
               <Link className="nav-link" to="/login">
                 Login Exemple
               </Link>
-              <Link className="nav-link" to="/tempProgression">
-                TEMP_Progression
-              </Link>
             </Nav>
             <AuthenticationButton />
           </Navbar.Collapse>

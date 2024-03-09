@@ -4,19 +4,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 const DEFAULT_DATE = new Date(Date.now());
-//Could use context for these too
+//Eventually maybe move fetch stuff in it's own file and just import the functions inside it where we need them?
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
 const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
 
 /**
  * TODO
- * Convert form date output to Date
- * Fetch post to db
  * Validation
  */
 
-//Consider using context?
 interface IProps {
   auth_id: string | undefined;
   updateDataHandler: () => void;
@@ -62,7 +59,6 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        console.log(data);
         updateDataHandler();
       } else {
         console.log("Response not ok" + data.message);
@@ -73,7 +69,6 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
     }
   }
 
-  //Transform into SSOT? How do you make it refresh when u add weight.
   return (
     <>
       <Form onSubmit={submitForm} style={{ background: "black", color: "white", border: "solid 3px red", padding: "10px", margin: "auto" }}>

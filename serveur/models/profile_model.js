@@ -19,26 +19,32 @@ const ProfileModel = new mongoose.Schema(
     firstName: {
       type: String,
       required: false,
+      default: "",
     },
     lastName: {
       type: String,
       required: false,
+      default: "",
     },
     weight: {
       type: Number,
       required: false,
+      default: 0,
     },
     height: {
       type: Number,
       required: false,
+      default: "",
     },
     gender: {
       type: String,
       required: false,
+      default: "",
     },
     age: {
       type: Number,
       required: false,
+      default: "",
     },
     progression: [ProgressionModel],
     objectifs: [GoalsModel],

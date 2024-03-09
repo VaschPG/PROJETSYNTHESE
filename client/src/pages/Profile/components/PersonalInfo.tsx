@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FormData } from "node-fetch";
-import { json } from "react-router-dom";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_PROFILE_URL;
 const FULL_API_URL = BASE_API_URL + API_EXERCISES_URL;
+
+const DEFAULT_FORM_DATA = {
+  firstName: " ",
+  lastName: " ",
+  age: 0,
+  gender: "",
+  weight: 0,
+  height: 0,
+};
 
 // Pour eviter detections erreurs
 interface FormData {
@@ -19,28 +26,19 @@ interface FormData {
 
 const PersonalInfo: React.FC = () => {
   const { user } = useAuth0();
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    age: 0,
-    gender: "",
-    weight: 0,
-    height: 0,
-  });
+  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
 
   useEffect(() => {
     fetchProfile();
-    const savedUserData = localStorage.getItem("userData");
+    /*const savedUserData = localStorage.getItem("userData");
     if (savedUserData) {
       setFormData(JSON.parse(savedUserData));
-    }
+    }*/
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numericValue = ["age", "weight", "height"].includes(name)
-      ? parseInt(value, 10)
-      : value;
+    const numericValue = ["age", "weight", "height"].includes(name) ? parseInt(value, 10) : value;
     setFormData({
       ...formData,
       [name]: numericValue,
@@ -76,7 +74,7 @@ const PersonalInfo: React.FC = () => {
     };
 
     fetchUpdateProfile(data);
-    console.log("Form submitted");
+    /*console.log("Form submitted");
     try {
       localStorage.setItem("userData", JSON.stringify(formData));
 
@@ -86,15 +84,12 @@ const PersonalInfo: React.FC = () => {
       alert("Données sauvegardées");
     } catch (error) {
       console.error("Une erreur s'est produite:", error);
-    }
+    }*/
   };
 
   async function fetchProfile() {
     try {
-      const FETCH_URL =
-        FULL_API_URL +
-        "getProfile/" +
-        user?.sub?.substring(user?.sub.indexOf("|") + 1);
+      const FETCH_URL = FULL_API_URL + "getProfile/" + user?.sub?.substring(user?.sub.indexOf("|") + 1);
 
       console.log("fetching from " + FETCH_URL);
       const response = await fetch(FETCH_URL, {
@@ -150,52 +145,25 @@ const PersonalInfo: React.FC = () => {
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Prénom :</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-              className="input-field"
-              required
-            />
+            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Nom :</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-              className="input-field"
-              required
-            />
+            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Âge :</label>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleInputChange}
-              className="input-field"
-              required
-            />
+            <input type="number" name="age" value={formData.age} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Genre :</label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleSelectChange}
-              className="input-field"
-              required
-            >
+            <select name="gender" value={formData.gender} onChange={handleSelectChange} className="input-field" required>
               <option value="">Selectionner...</option>
               <option value="male">Homme</option>
               <option value="female">Femme</option>
@@ -208,34 +176,18 @@ const PersonalInfo: React.FC = () => {
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Poids (kg):</label>
-            <input
-              type="number"
-              name="weight"
-              value={formData.weight}
-              onChange={handleInputChange}
-              className="input-field"
-              required
-            />
+            <input type="number" name="weight" value={formData.weight} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
         <div className="form-group">
           <div className="input-wrap">
             <label className="label">Taille (cm):</label>
-            <input
-              type="number"
-              name="height"
-              value={formData.height}
-              onChange={handleInputChange}
-              className="input-field"
-              required
-            />
+            <input type="number" name="height" value={formData.height} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
         <button type="submit">Sauvegarder</button>
       </form>
-      <div className="text-white">
-        {user?.sub?.substring(user?.sub.indexOf("|") + 1)}
-      </div>
+      <div className="text-white">{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>
     </div>
   );
 };

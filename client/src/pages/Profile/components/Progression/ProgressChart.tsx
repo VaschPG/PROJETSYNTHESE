@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import ProgressInfo from "./ProgressInfo";
 import ProgressForm from "./ProgressForm";
 import { dateFormatter } from "../../../../utils/Utils";
@@ -8,14 +8,13 @@ const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
 const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
 
-//Replace this with a class that formats the date better
-interface ProgressionData {
+interface Progression {
   date: string;
   weight: number;
 }
 
-interface Progression {
-  progression: ProgressionData[];
+interface ProgressionData {
+  progressionData: Progression[];
 }
 
 interface IProps {
@@ -23,7 +22,7 @@ interface IProps {
 }
 
 function ProgressChart({ auth_id }: IProps) {
-  const [chartData, setChartData] = useState<Progression>({ progression: new Array<ProgressionData>() });
+  const [chartData, setChartData] = useState<ProgressionData>({ progressionData: new Array<Progression>() });
 
   useEffect(() => {
     fetchProgressionData();
@@ -40,11 +39,12 @@ function ProgressChart({ auth_id }: IProps) {
       });
       const data = await response.json();
       if (response.ok) {
+        console.log(data);
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
         const newchartData = {
           ...chartData,
-          progression: data.progression.map((item: { date: Date; weight: number }) => {
+          progressionData: data.progression.map((item: { date: Date; weight: number }) => {
             return { date: dateFormatter(item.date), weight: item.weight };
           }),
         };
@@ -62,21 +62,20 @@ function ProgressChart({ auth_id }: IProps) {
     fetchProgressionData();
   };
 
-  //initialWeight={chartData?.progression[0]} latestWeight={chartData?.progression[chartData?.progression?.length]}
   return (
     <>
       {auth_id != null && (
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
           <div>
             <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
-            <ProgressInfo propData={chartData?.progression} />
+            <ProgressInfo propData={chartData?.progressionData} />
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            {chartData != null && chartData?.progression?.length > 0 && (
+            {chartData != null && chartData?.progressionData?.length > 0 && (
               <LineChart
                 width={500}
                 height={500}
-                data={chartData.progression}
+                data={chartData.progressionData}
                 style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
               >
                 <XAxis dataKey={"date"} />
