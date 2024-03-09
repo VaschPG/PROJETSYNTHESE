@@ -35,32 +35,6 @@ function ProgressChart({ auth_id }: IProps) {
     fetchProgressionData();
   }, []);
 
-  useEffect(() => {
-    chartData?.progression?.map((item) => {
-      console.log(dateFormatter(item.date));
-    });
-  }, [chartData]);
-
-  function dateFormatter(date: Date, locale?: string) {
-    const formattingOptions: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    };
-    if (locale == null) {
-      locale = DEFAULT_DATE_LOCALE;
-    }
-    if (typeof date.getMonth != "function") {
-      try {
-        date = new Date(date);
-        console.log("Not a date");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return date.toLocaleDateString(locale, formattingOptions);
-  }
-
   async function fetchProgressionData() {
     try {
       const FETCH_URL = FULL_API_URL + "GetAllOfUser/" + auth_id;
@@ -97,7 +71,7 @@ function ProgressChart({ auth_id }: IProps) {
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
           <div>
             <ProgressForm auth_id={auth_id} />
-            <ProgressInfo auth_id={auth_id} />
+            <ProgressInfo />
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {chartData != null && chartData?.progression?.length > 0 && (
@@ -124,3 +98,53 @@ function ProgressChart({ auth_id }: IProps) {
   );
 }
 export default ProgressChart;
+
+function dateFormatter(date: Date | undefined, locale?: string) {
+  if (date != null) {
+    const formattingOptions: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    if (locale == null) {
+      locale = DEFAULT_DATE_LOCALE;
+    }
+    if (typeof date.getMonth != "function") {
+      try {
+        date = new Date(date);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return date.toLocaleDateString(locale, formattingOptions);
+  } else {
+    return "Error, date undefined";
+  }
+}
+
+//Setup return instead of set
+/*
+async function fetchData() {
+  try {
+    const FETCH_URL = FULL_API_URL + "InitialAndLatestWeight/" + auth_id;
+    const FETCH_TIMER_NAME = "progression-info-data-fetch-timer";
+    console.log("fetching from " + FETCH_URL);
+    console.time(FETCH_TIMER_NAME);
+    const response = await fetch(FETCH_URL, {
+      method: "GET",
+    });
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+      console.log("Successfully fetched in: ");
+      console.timeEnd(FETCH_TIMER_NAME);
+      setProgressionInfo(data);
+    } else {
+      console.log("Response not ok" + data.message);
+      console.timeEnd(FETCH_TIMER_NAME);
+    }
+  } catch (error) {
+    console.log("Error on fetchBodyPartArray:" + error);
+  }
+  console.log(progressionInfo);
+}*/
