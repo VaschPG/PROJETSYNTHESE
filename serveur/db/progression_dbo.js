@@ -11,9 +11,18 @@ module.exports = {
           },
         },
         {
+          $unwind: "$progression",
+        },
+        {
+          $sort: {
+            "progression.date": 1,
+          },
+        },
+        {
           $project: {
             _id: 0,
-            progression: 1,
+            date: "$progression.date",
+            weight: "$progression.weight",
           },
         },
       ])

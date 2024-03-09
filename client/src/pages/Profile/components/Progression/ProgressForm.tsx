@@ -19,6 +19,7 @@ const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
 //Consider using context?
 interface IProps {
   auth_id: string | undefined;
+  updateDataHandler: () => void;
 }
 
 interface IProgData {
@@ -35,7 +36,7 @@ interface IProgData {
  *
  * @returns
  */
-function ProgressForm({ auth_id }: IProps) {
+function ProgressForm({ auth_id, updateDataHandler }: IProps) {
   function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -47,7 +48,6 @@ function ProgressForm({ auth_id }: IProps) {
   }
 
   async function postFormData(formData: IProgData) {
-    console.log(formData);
     try {
       const FETCH_URL = FULL_API_URL + "InsertOne";
       const FETCH_TIMER_NAME = "progress-data-post-timer";
@@ -63,6 +63,7 @@ function ProgressForm({ auth_id }: IProps) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
         console.log(data);
+        updateDataHandler();
       } else {
         console.log("Response not ok" + data.message);
         console.timeEnd(FETCH_TIMER_NAME);

@@ -1,40 +1,40 @@
 import { useEffect, useState } from "react";
 
-const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
-const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
-const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
-const DEFAULT_DATE_LOCALE = "fr-CA";
-
-interface IProps {
-  progressionInfo?: IProgressionInfo;
-}
-
 interface Progression {
-  date: Date;
+  date: string;
   weight: number;
 }
 
-interface IProgressionInfo {
+interface IProps {
+  propData: Progression[];
+}
+
+interface InfoData {
   initialWeight: Progression;
   latestWeight: Progression;
 }
 
-function ProgressInfo({ progressionInfo }: IProps) {
-  //Fetch initial weight and latest weight
-  //Show initial weight, latest weight with the dates and the difference between the 2
+function ProgressInfo({ propData }: IProps) {
+  const [infoData, setInfoData] = useState<InfoData>();
+
+  useEffect(() => {
+    if (propData != null && propData.length > 0) {
+      setInfoData({ initialWeight: propData[0], latestWeight: propData[propData.length - 1] });
+    }
+  }, [propData]);
 
   //Refactor this when we do the bootstrap
   return (
     <>
-      {progressionInfo?.initialWeight != null && progressionInfo.latestWeight != null && (
+      {infoData != null && (
         <div>
           <p>
-            Poids au debut: {progressionInfo?.initialWeight.weight} kg, le {}
+            Poids au debut: {infoData?.initialWeight.weight} kg, le {infoData?.initialWeight.date}
           </p>
           <p>
-            Poids actuel: {progressionInfo?.latestWeight.weight} kg, le {}
+            Poids actuel: {infoData?.latestWeight.weight} kg, le {infoData?.latestWeight.date}
           </p>
-          <p>Difference de poids: {progressionInfo?.latestWeight.weight - progressionInfo?.initialWeight.weight} kg</p>
+          <p>Difference de poids: {infoData?.initialWeight.weight - infoData?.latestWeight.weight} kg</p>
         </div>
       )}
     </>
