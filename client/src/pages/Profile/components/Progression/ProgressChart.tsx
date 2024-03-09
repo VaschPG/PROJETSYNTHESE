@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import ProgressInfo from "./ProgressInfo";
 import ProgressForm from "./ProgressForm";
-import { dateFormatter } from "../../../../utils/Utils";
+import { dateFormatter } from "../../../../helpers/FormattingUtils";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
