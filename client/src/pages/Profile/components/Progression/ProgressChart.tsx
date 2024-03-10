@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import ProgressInfo from "./ProgressInfo";
 import ProgressForm from "./ProgressForm";
+import { dateFormatter } from "../../../../helpers/FormattingUtils";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
 const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
-const DEFAULT_DATE_LOCALE = "fr-CA";
 
-//Replace this with a class that formats the date better
-interface ProgressionData {
-  date: Date;
+interface Progression {
+  date: string;
   weight: number;
 }
 
-interface Progression {
-  progression: ProgressionData[];
+interface ProgressionData {
+  progressionData: Progression[];
 }
 
 interface IProps {
@@ -22,43 +22,11 @@ interface IProps {
 }
 
 function ProgressChart({ auth_id }: IProps) {
-  const [chartData, setChartData] = useState<Progression>();
-  /*const dateRange = useMemo(() => {
-    if(chartData?.progression != null && chartData.progression.length > 0){
-        const dayInMs = 24*60*60*1000//One day in miliseconds 
-        return (Math.floor((chartData.progression[0].date.getTime() - chartData.progression[chartData.progression.length-1].date.getTime())/dayInMs))
-    }
-  }, [chartData]);*/
+  const [chartData, setChartData] = useState<ProgressionData>({ progressionData: new Array<Progression>() });
 
   useEffect(() => {
     fetchProgressionData();
   }, []);
-
-  useEffect(() => {
-    chartData?.progression?.map((item) => {
-      console.log(dateFormatter(item.date));
-    });
-  }, [chartData]);
-
-  function dateFormatter(date: Date, locale?: string) {
-    const formattingOptions: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    };
-    if (locale == null) {
-      locale = DEFAULT_DATE_LOCALE;
-    }
-    if (typeof date.getMonth != "function") {
-      try {
-        date = new Date(date);
-        console.log("Not a date");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    return date.toLocaleDateString(locale, formattingOptions);
-  }
 
   async function fetchProgressionData() {
     try {
@@ -71,9 +39,16 @@ function ProgressChart({ auth_id }: IProps) {
       });
       const data = await response.json();
       if (response.ok) {
+        console.log(data);
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        setChartData({ ...data, progression: formatChartDate(data) });
+        const newchartData = {
+          ...chartData,
+          progressionData: data.progression.map((item: { date: Date; weight: number }) => {
+            return { date: dateFormatter(item.date), weight: item.weight };
+          }),
+        };
+        setChartData(newchartData);
       } else {
         console.log("Response not ok" + data.message);
         console.timeEnd(FETCH_TIMER_NAME);
@@ -83,24 +58,24 @@ function ProgressChart({ auth_id }: IProps) {
     }
   }
 
-  function formatChartDate(data: Progression) {
-    const newProgression = data.progression.map((item) => {
-      return { ...item, date: dateFormatter(item.date) };
-    });
-    return newProgression;
-  }
+  const handleUpdateData = () => {
+    fetchProgressionData();
+  };
 
   return (
     <>
       {auth_id != null && (
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <ProgressForm />
+          <div>
+            <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
+            <ProgressInfo propData={chartData?.progressionData} />
+          </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            {chartData != null && chartData?.progression?.length > 0 && (
+            {chartData != null && chartData?.progressionData?.length > 0 && (
               <LineChart
                 width={500}
                 height={500}
-                data={chartData.progression}
+                data={chartData.progressionData}
                 style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
               >
                 <XAxis dataKey={"date"} />

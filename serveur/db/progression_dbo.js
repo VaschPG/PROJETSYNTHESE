@@ -11,9 +11,18 @@ module.exports = {
           },
         },
         {
+          $unwind: "$progression",
+        },
+        {
+          $sort: {
+            "progression.date": 1,
+          },
+        },
+        {
           $project: {
             _id: 0,
-            progression: 1,
+            date: "$progression.date",
+            weight: "$progression.weight",
           },
         },
       ])
@@ -73,7 +82,10 @@ module.exports = {
       },
     ]);
   },
-  insertOne: async function (userID, progression) {
-    return await profileModel.findOneAndUpdate({ _id: userID }, { $push: { progression: progression } });
+  insertOne: async function (userID, insertProgression) {
+    return await profileModel.findOneAndUpdate(
+      { _id: userID, "progression.date": { $ne: insertProgression.date } },
+      { $push: { progression: insertProgression } }
+    );
   },
 };
