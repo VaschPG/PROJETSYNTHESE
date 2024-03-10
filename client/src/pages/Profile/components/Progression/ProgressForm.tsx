@@ -33,7 +33,7 @@ interface IProgData {
         weight: number | string;
         date: string;
       }
-    | { [k: string]: any };
+    | { [k: string]: FormDataEntryValue };
 }
 
 /**

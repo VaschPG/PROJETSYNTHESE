@@ -1,4 +1,4 @@
-import Exercise from "../../../models/Exercise";
+//import Exercise from "../../../models/Exercise";
 
 //Instructions should be of type Exercise.instructions but idk how tf to do that so...
 interface IProps {

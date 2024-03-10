@@ -104,7 +104,7 @@ function toUpperFirstLetter(input: string | string[]): string | string[] {
   if (typeof input === "string") {
     return input.charAt(0).toUpperCase() + input.slice(1);
   } else {
-    let array = new Array();
+    const array = [];
     for (let i = 0; i < input.length; i++) {
       array[i] = input[i].charAt(0).toUpperCase() + input[i].slice(1);
     }
