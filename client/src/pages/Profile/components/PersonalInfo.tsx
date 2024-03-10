@@ -187,7 +187,7 @@ const PersonalInfo: React.FC = () => {
         </div>
         <button type="submit">Sauvegarder</button>
       </form>
-      <div className="text-white">{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>
+      {/*<div className="text-white">{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>*/}
     </div>
   );
 };

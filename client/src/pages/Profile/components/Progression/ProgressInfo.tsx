@@ -34,7 +34,7 @@ function ProgressInfo({ propData }: IProps) {
           <p>
             Poids actuel: {infoData?.latestWeight.weight} kg, le {infoData?.latestWeight.date}
           </p>
-          <p>Difference de poids: {infoData?.initialWeight.weight - infoData?.latestWeight.weight} kg</p>
+          <p>Difference de poids: {infoData?.latestWeight.weight - infoData?.initialWeight.weight} kg</p>
         </div>
       )}
     </>
