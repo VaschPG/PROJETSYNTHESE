@@ -11,7 +11,13 @@ const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
 
 /**
  * TODO
- * Validation
+ * Mongoose validation! DO FORM VALIDATION DURING THE MIGRATION TO BOOTSTRAP.
+ * Add 'loading' for auth0 and other stuff.
+ * Add localstorage to keep weight input and date input!
+ * Better graph tooltips(with date showing)!
+ * Try lazy loading to make mobile experience faster?
+ * Implement better Tab navigation for inputs and stuff.(Like press tab to go from btn to btn).
+ * Implement a "Are you sure you wanna yeet this exercise" when you press [-] in exercise plan.
  */
 
 interface IProps {

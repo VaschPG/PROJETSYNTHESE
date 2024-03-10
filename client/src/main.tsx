@@ -6,8 +6,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu from "./components/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import { Auth0Provider } from "@auth0/auth0-react";
-import LoginExemple from "./pages/Login/LoginExemple";
-import ProgressChart from "./pages/Profile/components/Progression/ProgressChart";
 import { StrictMode } from "react";
 
 const router = createBrowserRouter([
@@ -23,19 +21,7 @@ const router = createBrowserRouter([
         path: "profile",
         element: <ProfilePage />,
       },
-      {
-        path: "login",
-        element: <LoginExemple />,
-      },
-      {
-        path: "tempProgression",
-        element: <ProgressChart />,
-      },
     ],
-  },
-  {
-    path: "login",
-    element: <LoginExemple />,
   },
 ]);
 
