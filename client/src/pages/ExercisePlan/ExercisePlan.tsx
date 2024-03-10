@@ -208,8 +208,8 @@ function ExercisePlan() {
    * @param cardID
    */
   let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
-    const newExercises = exerciseCardData.map((item, i) => {
-      if (cardID == i) {
+    const newExercises = exerciseCardData.map((item, index) => {
+      if (cardID == index) {
         return { ...item, selectedBodyPart: e.target.value };
       } else {
         return item;
@@ -238,7 +238,7 @@ function ExercisePlan() {
    * @param cardID
    */
   let handleRemoveExerciseOnClick = (cardID: number): void => {
-    setExerciseCardData(exerciseCardData.filter((_item, i) => i !== cardID));
+    setExerciseCardData(exerciseCardData.filter((_item, index) => index !== cardID));
   };
 
   /**
@@ -261,8 +261,8 @@ function ExercisePlan() {
   };
 
   let handleOnClickPin = (cardID: number): void => {
-    const newExercises = exerciseCardData.map((item, i) => {
-      if (cardID == i) {
+    const newExercises = exerciseCardData.map((item, index) => {
+      if (cardID == index) {
         return { ...item, isPinned: !item.isPinned };
       } else {
         return item;
@@ -299,8 +299,8 @@ function ExercisePlan() {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        const arr = exerciseCardData.map((item, i) => {
-          if (i === cardID) {
+        const arr = exerciseCardData.map((item, index) => {
+          if (index === cardID) {
             return { ...item, exercise: data };
           }
           return item;
@@ -362,12 +362,12 @@ function ExercisePlan() {
         <section className="section-card-and-equipment-list">
           <div className="div-div-card">
             <div className="div-card">
-              {exerciseCardData.map((item, i) => (
+              {exerciseCardData.map((item, index) => (
                 <ExerciseCard
-                  key={i}
+                  key={index}
                   exercise={item.exercise}
                   bodyPartArray={initData.bodyPartArray}
-                  cardID={i}
+                  cardID={index}
                   handleSelectChangeCallback={handleCardSelectChange}
                   handleRemoveExerciseOnClickCallback={handleRemoveExerciseOnClick}
                   selectBodyPart={item.selectedBodyPart}

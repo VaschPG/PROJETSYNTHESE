@@ -12,6 +12,7 @@ const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
 /**
  * TODO
  * Mongoose validation! DO FORM VALIDATION DURING THE MIGRATION TO BOOTSTRAP.
+ * Image fallback pour exerciseCard
  * Add 'loading' for auth0 and other stuff.
  * Add localstorage to keep weight input and date input!
  * Better graph tooltips(with date showing)!
