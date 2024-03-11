@@ -33,7 +33,7 @@ router.get("/LatestWeight/:userID", async (req, res) => {
   }
 });
 
-router.post("/InsertOne/", async (req, res) => {
+router.put("/InsertOne/", async (req, res) => {
   try {
     const userID = req.body.userID;
     const progression = req.body.progression;

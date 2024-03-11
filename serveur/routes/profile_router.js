@@ -1,20 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const profileDBO = require("../db/profile_dbo");
+const progression_dbo = require("../db/progression_dbo");
 
 // Route pour données de profil
-router.post("/insertId/:id", async function (req, res) {
+router.get("/GetProfile/:id", async function (req, res) {
   try {
     const id = req.params["id"];
-    const profileData = await profileDBO.insertProfile(id);
-    res.status(201).json(profileData[0]);
+    let profileData = await profileDBO.getProfile(id);
+    const weight = await progression_dbo.getLatestWeight(id);
+    profileData = profileData[0];
+    console.log(profileData);
+    console.log(weight);
+    profileData.weight = weight[0].weight;
+    console.log(profileData);
+    //const sentProfileData =
+    res.status(200).json(profileData);
   } catch (error) {
-    // message d'erreur
     res.status(500).json({ message: error.message });
   }
 });
 
-router.post("/insert", async function (req, res) {
+router.put("/Insert", async function (req, res) {
   try {
     const body = req.body;
     const response = await profileDBO.insertProfile(body);
@@ -25,22 +32,12 @@ router.post("/insert", async function (req, res) {
   }
 });
 
-router.get("/getProfile/:id", async function (req, res) {
-  try {
-    const id = req.params["id"];
-    const profileData = await profileDBO.getProfile(id);
-    res.status(200).json(profileData[0]);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.post("/updateProfile", async function (req, res) {
+router.post("/UpdateProfile", async function (req, res) {
   try {
     const body = req.body;
     console.log(body);
     const profileData = await profileDBO.updateProfile(body);
-    res.status(201).json(profileData[0]);
+    res.status(200).json(profileData[0]);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

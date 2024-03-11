@@ -89,7 +89,7 @@ const PersonalInfo: React.FC = () => {
 
   async function fetchProfile() {
     try {
-      const FETCH_URL = FULL_API_URL + "getProfile/" + user?.sub?.substring(user?.sub.indexOf("|") + 1);
+      const FETCH_URL = FULL_API_URL + "GetProfile/" + user?.sub?.substring(user?.sub.indexOf("|") + 1);
 
       console.log("fetching from " + FETCH_URL);
       const response = await fetch(FETCH_URL, {
@@ -117,11 +117,11 @@ const PersonalInfo: React.FC = () => {
     height: number;
   }) {
     try {
-      const FETCH_URL = FULL_API_URL + "updateProfile";
+      const FETCH_URL = FULL_API_URL + "UpdateProfile";
 
       console.log("fetching from " + FETCH_URL);
       const response = await fetch(FETCH_URL, {
-        method: "post",
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

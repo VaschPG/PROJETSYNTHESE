@@ -58,7 +58,7 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
       console.log("fetching from " + FETCH_URL);
       console.time(FETCH_TIMER_NAME);
       const response = await fetch(FETCH_URL, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
