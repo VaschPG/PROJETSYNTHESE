@@ -3,9 +3,14 @@ import PersonalInfo from "./components/PersonalInfoForm/PersonalInfo";
 import ProgressChart from "./components/Progression/ProgressChart";
 import Goals from "./components/Goals/Goals";
 import { useAuth0 } from "@auth0/auth0-react";
+import LoadingPage from "../Login/LoadingPage";
 
 function ProfilePage() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <LoadingPage/>;
+  }
   return (
     <>
       {isAuthenticated ? (
