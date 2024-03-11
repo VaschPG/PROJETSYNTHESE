@@ -78,6 +78,7 @@ function ProgressChart({ auth_id }: IProps) {
                 height={500}
                 data={chartData.progressionData}
                 style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
+                margin={{ top: 20, bottom: 5, left: 5, right: 20 }}
               >
                 <XAxis dataKey={"date"} />
                 <YAxis
