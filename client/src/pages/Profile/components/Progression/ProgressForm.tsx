@@ -80,7 +80,15 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
     <>
       <Form
         onSubmit={submitForm}
-        style={{ background: "#004d95", color: "white", border: "solid 1px black", borderRadius: "5px", padding: "10px", margin: "auto" }}
+        style={{
+          background: "#004d95",
+          color: "white",
+          border: "solid 1px black",
+          borderRadius: "5px",
+          padding: "10px",
+          margin: "auto",
+          marginRight: "5px",
+        }}
       >
         <Form.Group as={Row} controlId="formWeight">
           <Form.Label column sm="4">

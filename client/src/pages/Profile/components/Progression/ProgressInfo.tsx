@@ -27,7 +27,18 @@ function ProgressInfo({ propData }: IProps) {
   return (
     <>
       {infoData != null && (
-        <div>
+        <div
+          style={{
+            background: "#004d95",
+            color: "white",
+            border: "solid 1px black",
+            borderRadius: "5px",
+            padding: "5px",
+            margin: "auto",
+            marginTop: "5px",
+            marginRight: "5px",
+          }}
+        >
           <p>
             Poids au debut: {infoData?.initialWeight.weight} kg, le {infoData?.initialWeight.date}
           </p>
