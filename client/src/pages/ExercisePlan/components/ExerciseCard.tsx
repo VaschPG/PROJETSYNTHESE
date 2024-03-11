@@ -3,7 +3,8 @@ import Exercise from "../../../models/Exercise";
 import ExerciseInstructions from "./ExerciseInstructions";
 
 /**
- * Interface to ensure type security for our props.
+ * Interface to ensure at compiler type security for our props.
+ * It's javascript so you never get type security at run time C:.
  */
 interface IProps {
   exercise: Exercise | null;
