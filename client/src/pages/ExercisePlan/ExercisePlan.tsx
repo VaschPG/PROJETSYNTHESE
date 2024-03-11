@@ -140,7 +140,6 @@ function ExercisePlan() {
     } catch (error) {
       console.log("Error on fetchBodyPartArray:" + error);
     }
-    console.log(initData);
   }
 
   /**

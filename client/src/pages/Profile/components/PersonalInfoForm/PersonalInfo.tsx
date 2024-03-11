@@ -185,7 +185,9 @@ const PersonalInfo: React.FC = () => {
             <input type="number" name="height" value={formData.height} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
-        <Button className="btn-info" type="submit">Sauvegarder</Button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button type="submit">Sauvegarder</Button>
+        </div>
       </form>
       {/*<div className="text-white">{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>*/}
     </div>

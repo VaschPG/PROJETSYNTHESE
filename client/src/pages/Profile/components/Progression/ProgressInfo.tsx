@@ -34,24 +34,17 @@ function ProgressInfo({ propData }: IProps) {
             border: "solid 1px black",
             borderRadius: "5px",
             padding: "5px",
-            margin: "auto"
+            margin: "auto",
+            textAlign: "center",
           }}
         >
-          <p>
-            <h5>
+          <h5>
             Poids au debut: {infoData?.initialWeight.weight} kg, le {infoData?.initialWeight.date}
-            </h5>
-          </p>
-          <p>
-            <h5>
+          </h5>
+          <h5>
             Poids actuel: {infoData?.latestWeight.weight} kg, le {infoData?.latestWeight.date}
-            </h5>
-          </p>
-          <p>
-            <h5>
-            Difference de poids: {infoData?.latestWeight.weight - infoData?.initialWeight.weight} kg
-            </h5>
-          </p>
+          </h5>
+          <h5>Difference de poids: {infoData?.latestWeight.weight - infoData?.initialWeight.weight} kg</h5>
         </div>
       )}
     </>
