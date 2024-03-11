@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "react-bootstrap";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_PROFILE_URL;
@@ -184,7 +185,7 @@ const PersonalInfo: React.FC = () => {
             <input type="number" name="height" value={formData.height} onChange={handleInputChange} className="input-field" required />
           </div>
         </div>
-        <button type="submit">Sauvegarder</button>
+        <Button className="btn-info" type="submit">Sauvegarder</Button>
       </form>
       {/*<div className="text-white">{user?.sub?.substring(user?.sub.indexOf("|") + 1)}</div>*/}
     </div>

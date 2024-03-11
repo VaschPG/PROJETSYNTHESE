@@ -64,20 +64,18 @@ function ProgressChart({ auth_id }: IProps) {
   return (
     <>
       {auth_id != null && (
-        <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }}>
-            <div>
+        <div style={{ display: "flex"}}>
+            <div style={{margin:"30px 50px 0px 30px"}}>
               <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
               <ProgressInfo propData={chartData?.progressionData} />
             </div>
-          </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {chartData != null && chartData?.progressionData?.length > 0 && (
               <LineChart
-                width={500}
+                width={700}
                 height={500}
                 data={chartData.progressionData}
-                style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
+                style={{ border: "0.1em solid darkslateblue", backgroundColor: "#E6E5F1"}}
               >
                 <XAxis dataKey={"date"} />
                 <YAxis
