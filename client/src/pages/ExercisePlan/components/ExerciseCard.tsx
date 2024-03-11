@@ -55,7 +55,7 @@ function ExerciseCard({
           </select>
         </div>
         {exercise != null && (
-          <div style={{ height: "80%" }}>
+          <div>
             <div className="card-text-div">
               <div className="exercise-name-div">
                 <div className="exercise-name-div-div">
