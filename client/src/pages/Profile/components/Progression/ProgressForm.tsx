@@ -85,28 +85,31 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
           color: "white",
           border: "solid 1px black",
           borderRadius: "5px",
-          padding: "10px",
-          margin: "auto",
-          marginRight: "5px",
+          padding: "15px 30px 15px 30px",
+          marginBottom: "15px"
         }}
       >
-        <Form.Group as={Row} controlId="formWeight">
+        <Form.Group as={Row} controlId="formWeight" className="m-2">
           <Form.Label column sm="4">
+            <h5>
             Poids:
+            </h5>
           </Form.Label>
           <Col sm="6">
-            <Form.Control name="weight" type="number" />
+            <Form.Control name="weight" type="number" style={{width:"100%"}}/>
           </Col>
         </Form.Group>
-        <Form.Group as={Row} controlId="formDate">
+        <Form.Group as={Row} controlId="formDate" className="m-2">
           <Form.Label column sm="4">
+          <h5>
             Date:
+          </h5>
           </Form.Label>
           <Col sm="6">
-            <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} />
+            <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} style={{width:"100%"}}/>
           </Col>
+        <Button className="mt-3" type="submit">Ajouter un mesurement de poids</Button>
         </Form.Group>
-        <Button type="submit">Ajouter un mesurement de poids</Button>
       </Form>
     </>
   );

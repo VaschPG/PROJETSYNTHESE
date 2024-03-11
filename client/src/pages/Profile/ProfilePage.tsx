@@ -1,7 +1,7 @@
 import "./ProfilePage.css";
-import PersonalInfo from "./components/PersonalInfo";
+import PersonalInfo from "./components/PersonalInfoForm/PersonalInfo";
 import ProgressChart from "./components/Progression/ProgressChart";
-import Goals from "./components/Goals";
+import Goals from "./components/Goals/Goals";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function ProfilePage() {

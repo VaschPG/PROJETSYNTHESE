@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import "./Goals.css"
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_GOALS_URL = import.meta.env.VITE_API_GOALS_URL;
