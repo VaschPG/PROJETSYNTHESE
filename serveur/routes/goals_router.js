@@ -2,31 +2,36 @@ const express = require("express");
 const router = express.Router();
 const goalsDBO = require("../db/goals_dbo");
 
-router.get('/:userID', async (req, res) => {
+router.get("/GetAllOfUser/:userID", async (req, res) => {
   try {
     const userID = req.params.userID;
-    const userGoals = await goalsDBO.getAllGoals(userID);
+    const userGoals = await goalsDBO.getAll(userID);
     res.status(200).json(userGoals);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-router.post('/:userID', async (req, res) => {
+router.put("/InsertOne", async (req, res) => {
   try {
-    const userID = req.params.userID;
-    const goalText = req.body.text;
-    const newGoal = await goalsDBO.addGoal(userID, goalText);
-    res.status(201).json(newGoal);
+    const userID = req.body.userID;
+    const insertedGoal = req.body.goal;
+    const newGoal = await goalsDBO.insertOne(userID, insertedGoal);
+    if (newGoal._id != null) {
+      res.status(201).json(newGoal);
+    } else {
+      res.status(500).json({ message: newGoal.message });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-router.delete('/:goalID', async (req, res) => {
+router.delete("/DeleteOne", async (req, res) => {
   try {
-    const goalID = req.params.goalID;
-    await goalsDBO.removeGoal(goalID);
+    const userID = req.body.userID;
+    const goalID = req.body.goalID;
+    await goalsDBO.removeOne(userID, goalID);
     res.status(200).json({ message: "Objectif supprimé" });
   } catch (error) {
     res.status(500).json({ message: error.message });

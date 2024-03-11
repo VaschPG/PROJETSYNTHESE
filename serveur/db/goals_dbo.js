@@ -1,16 +1,43 @@
-const goalModel = require("../models/goals_model");
+const profileModel = require("../models/profile_model");
+const mongoose = require("mongoose");
 
 module.exports = {
-  getAllGoals: async function (userID) {
-    return await goalModel.find({ userID });
+  getAll: async function (userID) {
+    return await profileModel
+      .aggregate([
+        {
+          $match: {
+            _id: userID,
+          },
+        },
+        {
+          $unwind: "$goals",
+        },
+        {
+          $project: {
+            _id: "$goals._id",
+            text: "$goals.text",
+            status: "$goals.status",
+          },
+        },
+      ])
+      .exec();
   },
 
-  addGoal: async function (userID, goalText) {
-    const newGoal = new goalModel({ userID, text: goalText });
-    return await newGoal.save();
+  insertOne: async function (userID, insertedGoal) {
+    const goalID = new mongoose.Types.ObjectId();
+    const goal = { ...insertedGoal, _id: goalID };
+    const profile = await profileModel.findById(userID);
+    profile.goals.push(goal);
+    const saved = await profile.save();
+    if (saved._id != null) {
+      return goal;
+    } else {
+      return { message: "Error while inserting goal" };
+    }
   },
 
-  removeGoal: async function (goalID) {
-    return await goalModel.findByIdAndRemove(goalID);
+  removeOne: async function (userID, goalID) {
+    return await profileModel.findOneAndUpdate({ _id: userID }, { $pull: { goals: { _id: goalID } } });
   },
 };

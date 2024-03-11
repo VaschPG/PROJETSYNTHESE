@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const ProgressionModel = new mongoose.Schema(
@@ -16,7 +17,11 @@ const ProgressionModel = new mongoose.Schema(
   { _id: false }
 );
 
-const GoalsModel = new mongoose.Schema({});
+const GoalModel = new mongoose.Schema({
+  _id: ObjectId,
+  text: String,
+  status: Boolean,
+});
 
 const ProfileModel = new mongoose.Schema(
   {
@@ -55,7 +60,7 @@ const ProfileModel = new mongoose.Schema(
       default: 0,
     },
     progression: [ProgressionModel],
-    objectifs: [GoalsModel],
+    goals: [GoalModel],
   },
   { collection: "profiles" }
 );

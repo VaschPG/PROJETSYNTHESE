@@ -1,8 +1,7 @@
 const profileModel = require("../models/profile_model");
 
 module.exports = {
-  //Test these first
-  getAllProgression: async function (userID) {
+  getAll: async function (userID) {
     return await profileModel
       .aggregate([
         {
@@ -82,10 +81,13 @@ module.exports = {
       },
     ]);
   },
-  insertOne: async function (userID, insertProgression) {
+  insertOne: async function (userID, insertedProgression) {
     return await profileModel.findOneAndUpdate(
-      { _id: userID, "progression.date": { $ne: insertProgression.date } },
-      { $push: { progression: insertProgression } }
+      { _id: userID, "progression.date": { $ne: insertedProgression.date } },
+      { $push: { progression: insertedProgression } }
     );
+  },
+  removeOne: async function (userID, progressionDate) {
+    return await profileModel.findOneAndUpdate({ _id: userID }, { $pull: { progression: { date: progressionDate } } });
   },
 };

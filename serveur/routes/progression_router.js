@@ -6,7 +6,7 @@ const progressionDBO = require("../db/progression_dbo");
 router.get("/GetAllOfUser/:userID", async (req, res) => {
   try {
     const userID = req.params.userID;
-    const data = await progressionDBO.getAllProgression(userID);
+    const data = await progressionDBO.getAll(userID);
     res.status(200).json({ progression: data });
   } catch (error) {
     res.status(500).json({ message: error.message });
