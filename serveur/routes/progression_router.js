@@ -6,7 +6,7 @@ const progressionDBO = require("../db/progression_dbo");
 router.get("/GetAllOfUser/:userID", async (req, res) => {
   try {
     const userID = req.params.userID;
-    const data = await progressionDBO.getAllProgression(userID);
+    const data = await progressionDBO.getAll(userID);
     res.status(200).json({ progression: data });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -40,7 +40,7 @@ router.post("/InsertOne/", async (req, res) => {
     console.log(req.body);
     const data = await progressionDBO.insertOne(userID, progression);
     if (data != null) {
-      res.status(200).json({ message: "Success" });
+      res.status(201).json({ message: "Success" });
     } else {
       res.status(500).json({ message: "Error during insertion" });
     }

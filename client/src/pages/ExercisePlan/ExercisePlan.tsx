@@ -158,7 +158,7 @@ function ExercisePlan() {
       const FETCH_TIMER_NAME = "exercise-fetch-timer";
       console.log("fetching from " + FETCH_URL);
 
-      let params = new URLSearchParams();
+      const params = new URLSearchParams();
       exerciseCardData.map((item) => {
         if (item.isPinned) {
           params.append("bodyPart", "");
@@ -177,7 +177,7 @@ function ExercisePlan() {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
         const newExercises = data.map((item: ExerciseCardData["exercise"], i: number) => {
-          let _exercise = exerciseCardData[i].isPinned ? exerciseCardData[i].exercise : item;
+          const _exercise = exerciseCardData[i].isPinned ? exerciseCardData[i].exercise : item;
           return {
             exercise: _exercise,
             selectedBodyPart: exerciseCardData[i].selectedBodyPart,
@@ -204,22 +204,6 @@ function ExercisePlan() {
 
   /**
    *
-   * @param e
-   * @param cardID
-   */
-  let handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
-    const newExercises = exerciseCardData.map((item, i) => {
-      if (cardID == i) {
-        return { ...item, selectedBodyPart: e.target.value };
-      } else {
-        return item;
-      }
-    });
-    setExerciseCardData(newExercises);
-  };
-
-  /**
-   *
    */
   function handleAddExerciseOnClick() {
     setExerciseCardData([
@@ -237,8 +221,24 @@ function ExercisePlan() {
    * @param e
    * @param cardID
    */
-  let handleRemoveExerciseOnClick = (cardID: number): void => {
-    setExerciseCardData(exerciseCardData.filter((_item, i) => i !== cardID));
+  const handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
+    const newExercises = exerciseCardData.map((item, index) => {
+      if (cardID == index) {
+        return { ...item, selectedBodyPart: e.target.value };
+      } else {
+        return item;
+      }
+    });
+    setExerciseCardData(newExercises);
+  };
+
+  /**
+   *
+   * @param e
+   * @param cardID
+   */
+  const handleRemoveExerciseOnClick = (cardID: number): void => {
+    setExerciseCardData(exerciseCardData.filter((_item, index) => index !== cardID));
   };
 
   /**
@@ -246,7 +246,7 @@ function ExercisePlan() {
    * @param e
    * @param value
    */
-  let handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
+  const handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     //Make sure value is not null
     if (value != null && value != undefined) {
       //If checked (check if in array(in case of fuckery)) and add it otherwise filter from array
@@ -260,9 +260,9 @@ function ExercisePlan() {
     }
   };
 
-  let handleOnClickPin = (cardID: number): void => {
-    const newExercises = exerciseCardData.map((item, i) => {
-      if (cardID == i) {
+  const handleOnClickPin = (cardID: number): void => {
+    const newExercises = exerciseCardData.map((item, index) => {
+      if (cardID == index) {
         return { ...item, isPinned: !item.isPinned };
       } else {
         return item;
@@ -276,7 +276,7 @@ function ExercisePlan() {
    * @param e onError event of the image
    * @param cardID ID/Index of the card who's image triggered the event.
    */
-  let onImageError = (_e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
+  const onImageError = (_e: React.SyntheticEvent<HTMLImageElement>, cardID: number): void => {
     fetchCardData(cardID);
     console.log("onErrorCall");
     //e.currentTarget.src = 'https://v2.exercisedb.io/image/aQNsZ6BgDrucvz';
@@ -299,8 +299,8 @@ function ExercisePlan() {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        const arr = exerciseCardData.map((item, i) => {
-          if (i === cardID) {
+        const arr = exerciseCardData.map((item, index) => {
+          if (index === cardID) {
             return { ...item, exercise: data };
           }
           return item;
@@ -362,12 +362,12 @@ function ExercisePlan() {
         <section className="section-card-and-equipment-list">
           <div className="div-div-card">
             <div className="div-card">
-              {exerciseCardData.map((item, i) => (
+              {exerciseCardData.map((item, index) => (
                 <ExerciseCard
-                  key={i}
+                  key={index}
                   exercise={item.exercise}
                   bodyPartArray={initData.bodyPartArray}
-                  cardID={i}
+                  cardID={index}
                   handleSelectChangeCallback={handleCardSelectChange}
                   handleRemoveExerciseOnClickCallback={handleRemoveExerciseOnClick}
                   selectBodyPart={item.selectedBodyPart}

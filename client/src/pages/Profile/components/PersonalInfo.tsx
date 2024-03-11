@@ -105,7 +105,6 @@ const PersonalInfo: React.FC = () => {
     } catch (error) {
       console.log("Error on fetchProfile:" + error);
     }
-    console.log(formData);
   }
 
   async function fetchUpdateProfile(data: {

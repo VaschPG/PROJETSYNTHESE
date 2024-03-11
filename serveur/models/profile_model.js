@@ -1,14 +1,27 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const ProgressionModel = new mongoose.Schema(
   {
-    date: Date,
-    weight: Number,
+    date: {
+      type: Date,
+      required: true,
+    },
+    weight: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 600,
+    },
   },
   { _id: false }
 );
 
-const GoalsModel = new mongoose.Schema({});
+const GoalModel = new mongoose.Schema({
+  _id: ObjectId,
+  text: String,
+  status: Boolean,
+});
 
 const ProfileModel = new mongoose.Schema(
   {
@@ -44,10 +57,10 @@ const ProfileModel = new mongoose.Schema(
     age: {
       type: Number,
       required: false,
-      default: "",
+      default: 0,
     },
     progression: [ProgressionModel],
-    objectifs: [GoalsModel],
+    goals: [GoalModel],
   },
   { collection: "profiles" }
 );

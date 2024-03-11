@@ -39,7 +39,6 @@ function ProgressChart({ auth_id }: IProps) {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
         const newchartData = {
@@ -66,9 +65,11 @@ function ProgressChart({ auth_id }: IProps) {
     <>
       {auth_id != null && (
         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <div>
-            <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
-            <ProgressInfo propData={chartData?.progressionData} />
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }}>
+            <div>
+              <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
+              <ProgressInfo propData={chartData?.progressionData} />
+            </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             {chartData != null && chartData?.progressionData?.length > 0 && (
