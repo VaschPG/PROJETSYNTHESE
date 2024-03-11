@@ -10,11 +10,13 @@ function Menu() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">Traqueur</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            Traqueur
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Link className="nav-link" to="/exercise">
+              <Link className="nav-link" to="/">
                 Entrainement
               </Link>
               <Link className="nav-link" to="/profile">

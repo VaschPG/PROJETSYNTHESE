@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button, Row } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_GOALS_URL = import.meta.env.VITE_API_GOALS_URL;
@@ -26,21 +26,21 @@ function Goals() {
   async function postFormData(goal: Goal) {
     const userID = user?.sub?.substring(user?.sub.indexOf("|") + 1);
     const data = { userID: userID, goal: goal };
-    fetch(FULL_API_URL + "/InsertOne/", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+    fetch(FULL_API_URL + "InsertOne/", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
       .then((response) => response.json())
       .then((data) => setGoals([...goals, data]))
       .catch((error) => console.error("Erreur lors du chargement des objectifs:", error));
   }
 
   const handleRemoveGoal = async (index: number) => {
-    const goalID = goals[index];
+    const userID = user?.sub?.substring(user?.sub.indexOf("|") + 1);
+    const goalID = goals[index]._id;
     const updatedGoals = [...goals.slice(0, index), ...goals.slice(index + 1)];
+    const data = { userID: userID, goalID: goalID };
     setGoals(updatedGoals);
 
     try {
-      await fetch(`/api/goals/${goalID}`, {
-        method: "DELETE",
-      });
+      await fetch(FULL_API_URL + "DeleteOne/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
     } catch (error) {
       console.error("Erreur de suppression de l'objectif:", error);
     }
@@ -74,8 +74,12 @@ function Goals() {
           }}
         >
           <Form.Group as={Row} controlId="form">
-            <Form.Control name="text" type="text" placeholder="Nouvel objectif" />
-            <Button type="submit">Ajouter objectif</Button>
+            <Col sm="6">
+              <Form.Control name="text" type="text" placeholder="Nouvel objectif" />
+            </Col>
+            <Col sm="6">
+              <Button type="submit">Ajouter objectif</Button>
+            </Col>
           </Form.Group>
         </Form>
       </div>

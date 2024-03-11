@@ -78,10 +78,13 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
 
   return (
     <>
-      <Form onSubmit={submitForm} style={{ background: "black", color: "white", border: "solid 3px red", padding: "10px", margin: "auto" }}>
+      <Form
+        onSubmit={submitForm}
+        style={{ background: "#004d95", color: "white", border: "solid 1px black", borderRadius: "5px", padding: "10px", margin: "auto" }}
+      >
         <Form.Group as={Row} controlId="formWeight">
           <Form.Label column sm="4">
-            Weight
+            Poids:
           </Form.Label>
           <Col sm="6">
             <Form.Control name="weight" type="number" />
@@ -89,7 +92,7 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
         </Form.Group>
         <Form.Group as={Row} controlId="formDate">
           <Form.Label column sm="4">
-            Date
+            Date:
           </Form.Label>
           <Col sm="6">
             <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} />

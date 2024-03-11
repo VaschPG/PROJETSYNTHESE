@@ -10,7 +10,7 @@
   color: #fff;
   padding: 10px;
   border-radius: 10px;
-  width: 100%;
+  width: 98%;
   margin-bottom: 20px;
 }
 
@@ -21,13 +21,13 @@
 
 .profile-sections {
   display: flex;
-  width: 100%;
+  width: 98%;
 }
 
 .left-section {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 5;
   background-color: #004d95;
   padding: 20px;
   border-radius: 10px;
@@ -42,11 +42,18 @@
 }
 
 .left-section-top {
+  background-color: #1965ac;
+  padding: 20px;
+  border-radius: 10px;
+  border: solid 1px black;
   margin-bottom: 20px;
 }
 
 .left-section-bottom {
-  margin-top: 20px;
+  background-color: #1965ac;
+  padding: 20px;
+  border-radius: 10px;
+  border: solid 1px black;
 }
 
 .label {
@@ -103,62 +110,60 @@
 }
 
 .goals-container {
-    background-color: #bae2f9;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
-    width: 600px; 
+  background-color: #bae2f9;
+  border-radius: 10px;
+  padding: 20px;
+  min-width: 400px;
 }
-  
+
 .goals-header {
-    color: #333;
+  color: #333;
 }
-  
+
 .goals-list {
-    margin-top: 10px;
+  margin-top: 10px;
 }
-  
+
 .goal-item {
-    background-color: #ffffff;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 5px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 5px;
 }
-  
+
 .add-goal {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-  
+
 .add-goal input {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: white;
-    color: #000;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #000;
 }
-  
+
 .add-goal button {
-    padding: 8px 15px;
-    border-radius: 5px;
-    border: none;
-    background-color: #004d95;
-    color: #fff;
-    cursor: pointer;
-    margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #004d95;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .goal-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .goal-item button.remove-btn {
-    background-color: red; 
-    color: white; 
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.952);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
