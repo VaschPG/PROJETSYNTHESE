@@ -10,8 +10,6 @@ router.get("/GetProfile/:id", async function (req, res) {
     let profileData = await profileDBO.getProfile(id);
     const weight = await progression_dbo.getLatestWeight(id);
     profileData = profileData[0];
-    console.log(profileData);
-    console.log(weight);
     profileData.weight = weight[0].weight;
     res.status(200).json(profileData);
   } catch (error) {

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import "./Goals.css"
+import GoalsForm from "./GoalsForm";
+
+import "./Goals.css";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_GOALS_URL = import.meta.env.VITE_API_GOALS_URL;
@@ -18,20 +19,17 @@ function Goals() {
   const { user } = useAuth0();
 
   useEffect(() => {
-    fetch(FULL_API_URL + "/GetAllOfUser/" + user?.sub?.substring(user?.sub.indexOf("|") + 1))
-      .then((response) => response.json())
+    fetch(`${FULL_API_URL}GetAllOfUser/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw Error;
+        }
+      })
       .then((data) => setGoals(data.map((goal: Goal) => goal)))
       .catch((error) => console.error("Erreur lors du chargement des objectifs:", error));
   }, [user]);
-
-  async function postFormData(goal: Goal) {
-    const userID = user?.sub?.substring(user?.sub.indexOf("|") + 1);
-    const data = { userID: userID, goal: goal };
-    fetch(FULL_API_URL + "InsertOne/", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-      .then((response) => response.json())
-      .then((data) => setGoals([...goals, data]))
-      .catch((error) => console.error("Erreur lors du chargement des objectifs:", error));
-  }
 
   const handleRemoveGoal = async (index: number) => {
     const userID = user?.sub?.substring(user?.sub.indexOf("|") + 1);
@@ -41,10 +39,14 @@ function Goals() {
     setGoals(updatedGoals);
 
     try {
-      await fetch(FULL_API_URL + "DeleteOne/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      await fetch(`${FULL_API_URL}DeleteOne/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
     } catch (error) {
       console.error("Erreur de suppression de l'objectif:", error);
     }
+  };
+
+  const handleAddGoalToState = (goal: Goal) => {
+    setGoals([...goals, goal]);
   };
 
   return (
@@ -59,31 +61,7 @@ function Goals() {
           </div>
         ))}
       </div>
-      <div className="add-goal">
-        <Form
-          onSubmit={(e: React.SyntheticEvent) => {
-            e.preventDefault();
-            const target = e.target as typeof e.target & {
-              text: { value: string };
-            };
-            const data = {
-              text: target.text.value,
-              //Fix this when we add checkbox
-              status: false,
-            };
-            postFormData(data);
-          }}
-        >
-          <Form.Group as={Row} controlId="form">
-            <Col sm="6">
-              <Form.Control name="text" type="text" placeholder="Nouvel objectif" />
-            </Col>
-            <Col sm="6">
-              <Button type="submit">Ajouter objectif</Button>
-            </Col>
-          </Form.Group>
-        </Form>
-      </div>
+      <GoalsForm handleAddGoal={handleAddGoalToState} />
     </div>
   );
 }
