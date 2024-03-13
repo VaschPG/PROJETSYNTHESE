@@ -13,6 +13,8 @@ const LOCAL_STORAGE_CARD_DATA_NAME = "exerciseCardData";
 /**
  * TODO LIST: --Status-- Task. -Comment
  * --DONE-- Update gifurl when it's busted. -Fixes the issue on broken links from storage and pins C:-Need to do more tests to make sure it's working correctly without the possibility of an infinite loop.
+ * Transform fetch calls into custom hooks... You can pass the setBungus from [bungus, setBungus] in a function param, that's crazy.
+ *     Ex: function useFetchExercise(id, setData){ -Do the implementation here} and then in our component we just import it and do this: const fetchingState = useFetch(exercise.id, setExercise) and then we can even see if it's loading and stuff.
  * Make the equipment list it's own component.
  * Implement bootstrap.
  * Internationalisation.
