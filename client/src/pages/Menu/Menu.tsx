@@ -3,13 +3,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import AuthenticationButton from "../pages/Login/AuthenticationButton";
+import AuthenticationButton from "../Login/AuthenticationButton";
 
 function Menu() {
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
-        <Container style={{fontSize:"20px"}}>
+        <Container style={{ fontSize: "18px" }}>
           <Navbar.Brand as={Link} to="/">
             Traqueur
           </Navbar.Brand>
@@ -23,7 +23,7 @@ function Menu() {
                 Profile
               </Link>
             </Nav>
-            <AuthenticationButton/>
+            <AuthenticationButton />
           </Navbar.Collapse>
         </Container>
       </Navbar>

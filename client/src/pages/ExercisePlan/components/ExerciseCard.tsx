@@ -77,14 +77,15 @@ function ExerciseCard({
             </div>
             <img src={exercise.gifUrl} className="image" onError={(e) => onImageErrorCallback(e, cardID)}></img>
             <div>
-              {isInstructionsOpen && <ExerciseInstructions instructions={exercise.instructions} />}
               <button
                 onClick={() => {
                   setIsInstructionsOpen(!isInstructionsOpen);
                 }}
+                className="inst-button"
               >
                 {isInstructionsOpen ? "Close instructions" : "Open instructions"}
               </button>
+              {isInstructionsOpen && <ExerciseInstructions instructions={exercise.instructions} />}
             </div>
           </div>
         )}

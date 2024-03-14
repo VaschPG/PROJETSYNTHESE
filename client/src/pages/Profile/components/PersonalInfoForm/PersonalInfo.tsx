@@ -164,7 +164,7 @@ const PersonalInfo: React.FC = () => {
               <Form.Control
                 required
                 type="number"
-                min="0"
+                min={1}
                 value={formData.age}
                 onChange={(e) => setFormData({ ...formData, ["age"]: parseInt(e.target.value) })}
               ></Form.Control>
@@ -200,6 +200,7 @@ const PersonalInfo: React.FC = () => {
                 required
                 type="number"
                 step="0.01"
+                min={1}
                 value={formData.weight}
                 onChange={(e) => setFormData({ ...formData, ["weight"]: parseFloat(e.target.value) })}
               ></Form.Control>
@@ -216,6 +217,7 @@ const PersonalInfo: React.FC = () => {
                 required
                 type="number"
                 step="0.01"
+                min={1}
                 value={formData.height}
                 onChange={(e) => setFormData({ ...formData, ["height"]: parseFloat(e.target.value) })}
               ></Form.Control>

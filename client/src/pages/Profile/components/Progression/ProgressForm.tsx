@@ -104,7 +104,7 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
             <h5>Poids:</h5>
           </Form.Label>
           <Col sm="6">
-            <Form.Control name="weight" type="number" style={{ width: "100%" }} required />
+            <Form.Control name="weight" type="number" style={{ width: "100%" }} min={1} required />
             <Form.Control.Feedback></Form.Control.Feedback>
             <Form.Control.Feedback className="text-white" type="invalid">
               <b>Veuillez entrer un poids</b>

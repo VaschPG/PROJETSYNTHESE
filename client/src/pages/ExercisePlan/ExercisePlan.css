@@ -1,140 +1,144 @@
 .exercise-plan-root {
-	max-width: 100%;
-	margin: 0 auto;
-	padding: 1em;
-	text-align: center;
-	background-color: rgb(18, 15, 39);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1em;
+  text-align: center;
+  background-color: rgb(18, 15, 39);
 }
 
 .exercise-card {
-	flex: 1;
-	padding: 2em;
-	padding-bottom: 1em;
-	border: #888;
-	background: rgb(55, 47, 109);
-	filter: drop-shadow(0 0 5px black);
-	border-radius: 5px;
+  flex: 1;
+  padding: 2em;
+  padding-bottom: 1em;
+  border: #888;
+  background: rgb(55, 47, 109);
+  filter: drop-shadow(0 0 5px black);
+  border-radius: 5px;
 }
 
 .div-card {
-	max-width: 95%;
-	padding: 2em;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-evenly;
-	gap: 2em;
-	background-color: rgb(33, 27, 71);
-	margin-left: auto;
-	margin-right: auto;
-	border-radius: 5px;
+  max-width: 95%;
+  padding: 2em;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  gap: 2em;
+  background-color: rgb(33, 27, 71);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
 }
 
 .exercise-name {
-	margin: 0.2em;
-	color: white;
-	filter: none;
+  margin: 0.2em;
+  color: white;
+  filter: none;
 }
 
 .exercise-info-text {
-	margin: 0.1em;
-	color: white;
+  margin: 0.1em;
+  color: white;
 }
 
 .exercise-name-div {
-	height: 80%;
+  height: 80%;
 }
 
 .exercise-name-div-div {
-	border: 0.1em solid darkslateblue;
-	border-radius: 3px;
-	box-shadow: 0 0 3px white;
+  border: 0.1em solid darkslateblue;
+  border-radius: 3px;
+  box-shadow: 0 0 3px white;
 }
 
 .card-text-div {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .image {
-	border: 0.3em solid black;
-	margin-bottom: 1em;
-	border-radius: 10px;
+  border: 0.3em solid black;
+  margin-bottom: 1em;
+  border-radius: 10px;
 }
 
 .ex-button {
-	background-color: rgb(63, 76, 92);
-	border-radius: 5px;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	margin-left: 0.5em;
-	margin-right: 0.5em;
+  background-color: rgb(63, 76, 92);
+  border-radius: 5px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.inst-button {
+  font-size: 15px;
 }
 
 .card-bodypart-select {
-	padding: 0.5em;
-	padding-left: 10%;
-	padding-right: 7.5%;
-	margin: 0.2em;
-	margin-bottom: 1.5em;
-	margin-top: 1em;
-	border-radius: 3px;
+  padding: 0.5em;
+  padding-left: 10%;
+  padding-right: 7.5%;
+  margin: 0.2em;
+  margin-bottom: 1.5em;
+  margin-top: 1em;
+  border-radius: 3px;
 }
 
 .btn-pin {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-size: 10px;
-	border-radius: 40%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  border-radius: 5px;
 }
 
 .btn-pinned {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-size: 10px;
-	border-radius: 30%;
-	background-color: white;
-	color: black;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
 }
 
 .section-card-and-equipment-list {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .div-div-card {
-	flex: 8;
+  flex: 8;
 }
 
 .div-equipment-list {
-	flex: 1;
-	padding: 2em;
-	padding-bottom: 1em;
-	border: #888;
-	background-color: rgb(33, 27, 71);
-	filter: drop-shadow(0 0 5px black);
-	border-radius: 5px;
-	display: flex;
-	flex-direction: column;
-	gap: 0.3em;
+  flex: 1;
+  padding: 2em;
+  padding-bottom: 1em;
+  border: #888;
+  background-color: rgb(33, 27, 71);
+  filter: drop-shadow(0 0 5px black);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
 }
 
 .label-equipment {
-	color: white;
+  color: white;
 }
 
 .checkbox-equipment {
-	padding: 0.1em;
-	margin-left: 0.5em;
+  padding: 0.1em;
+  margin-left: 0.5em;
 }
 
 .div-equipment {
-	padding: 0.1em;
-	padding-bottom: 0.1em;
+  padding: 0.1em;
+  padding-bottom: 0.1em;
 
-	border: #888;
-	background: rgb(55, 47, 109);
-	filter: drop-shadow(0 0 2px black);
-	border-radius: 1px;
+  border: #888;
+  background: rgb(55, 47, 109);
+  filter: drop-shadow(0 0 2px black);
+  border-radius: 1px;
 }

@@ -102,7 +102,7 @@ function ExercisePlan() {
    */
   useEffect(() => {
     const arr = exerciseCardData.map((item) => {
-      if (item.selectedBodyPart == "" || item.selectedBodyPart == undefined) {
+      if (item.selectedBodyPart === "" || item.selectedBodyPart === undefined) {
         return {
           ...item,
           selectedBodyPart: Object.values(initData.bodyPartArray[0])[0],
@@ -224,7 +224,7 @@ function ExercisePlan() {
    */
   const handleCardSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, cardID: number): void => {
     const newExercises = exerciseCardData.map((item, index) => {
-      if (cardID == index) {
+      if (cardID === index) {
         return { ...item, selectedBodyPart: e.target.value };
       } else {
         return item;
@@ -249,7 +249,7 @@ function ExercisePlan() {
    */
   const handleOnCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>, value: string): void => {
     //Make sure value is not null
-    if (value != null && value != undefined) {
+    if (value != null) {
       //If checked (check if in array(in case of fuckery)) and add it otherwise filter from array
       if (e.target.checked) {
         if (!checkedEquipmentList.includes(value)) {
@@ -263,7 +263,7 @@ function ExercisePlan() {
 
   const handleOnClickPin = (cardID: number): void => {
     const newExercises = exerciseCardData.map((item, index) => {
-      if (cardID == index) {
+      if (cardID === index) {
         return { ...item, isPinned: !item.isPinned };
       } else {
         return item;
@@ -319,35 +319,7 @@ function ExercisePlan() {
   /**
    *
    */
-  function handleTestClick() {
-    /*
-		const bungus = {
-			exercise: {
-				_id: '65e3880bdd0996da4963923d',
-				bodyPart: 'upper arms',
-				equipment: 'body weight',
-				gifUrl: 'https://v2.exercisedb.io/image/bo0nCeGrclG0Y4',
-				id: 139,
-				name: 'biceps narrow pull-ups',
-				target: 'biceps',
-				secondaryMuscles: ['forearms', 'shoulders'],
-				instructions: [
-					'Hang from a pull-up bar with your palms facing towards you and your hands shoulder-width apart.',
-					'Engage your core and pull yourself up towards the bar, focusing on using your biceps to lift your body.',
-					'Pause for a moment at the top, then slowly lower yourself back down to the starting position.',
-					'Repeat for the desired number of repetitions.',
-				],
-			},
-			selectedBodyPart: '',
-			isPinned: false,
-		};
-
-		setExerciseCardData([...exerciseCardData, bungus]);*/
-    //console.log('Old link');
-    //('https://v2.exercisedb.io/image/bo0nCeGrclG0Y4');
-    //console.log('Working link');
-    //('https://v2.exercisedb.io/image/aQNsZ6BgDrucvz');
-  }
+  function handleTestClick() {}
 
   ///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id
 
@@ -389,11 +361,11 @@ function ExercisePlan() {
                     label={Object.values(item)[0]}
                     value={Object.values(item)[0]}
                     handleOnCheck={handleOnCheckEquipment}
-                    isDefaultChecked={Object.values(item)[0] == "body weight" ? true : false}
+                    isDefaultChecked={Object.values(item)[0] === "body weight" ? true : false}
                   />
                 ))
               ) : (
-                <div></div>
+                <div>Loading</div>
               )
             }
           </div>
