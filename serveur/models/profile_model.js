@@ -61,6 +61,16 @@ const ProfileModel = new mongoose.Schema(
     },
     progression: [ProgressionModel],
     goals: [GoalModel],
+    exercisePlans: [
+      {
+        _id: false,
+        name: {
+          type: String,
+          required: true,
+        },
+        exercises: [{ type: mongoose.Schema.Types.ObjectId, ref: "Exercise" }],
+      },
+    ],
   },
   { collection: "profiles" }
 );

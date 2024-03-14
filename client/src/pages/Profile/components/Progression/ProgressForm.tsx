@@ -2,9 +2,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useState } from "react";
 
 const DEFAULT_DATE = new Date(Date.now());
-//Eventually maybe move fetch stuff in it's own file and just import the functions inside it where we need them?
+//Eventually maybe move fetch stuff in it's own file and just import the functions where we need them?
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_PROGRESSION_URL = import.meta.env.VITE_API_PROGRESSION_URL;
 const FULL_API_URL = BASE_API_URL + API_PROGRESSION_URL;
@@ -41,14 +42,21 @@ interface IProgData {
  * @returns
  */
 function ProgressForm({ auth_id, updateDataHandler }: IProps) {
+  const [showValidation, setShowValidation] = useState(false);
+
   function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formJson = Object.fromEntries(new FormData(form).entries());
-    if (auth_id != null) {
-      const data = { userID: auth_id, progression: formJson };
-      postFormData(data);
+    const target = e.currentTarget;
+    if (target.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      const formJson = Object.fromEntries(new FormData(target).entries());
+      if (auth_id != null) {
+        const data = { userID: auth_id, progression: formJson };
+        postFormData(data);
+      }
     }
+    setShowValidation(true);
   }
 
   async function postFormData(formData: IProgData) {
@@ -80,33 +88,42 @@ function ProgressForm({ auth_id, updateDataHandler }: IProps) {
     <>
       <Form
         onSubmit={submitForm}
+        noValidate
+        validated={showValidation}
         style={{
           background: "#004d95",
           color: "white",
           border: "solid 1px black",
           borderRadius: "5px",
-          padding: "10px",
-          margin: "auto",
-          marginRight: "5px",
+          padding: "15px 30px 15px 30px",
+          marginBottom: "15px",
         }}
       >
-        <Form.Group as={Row} controlId="formWeight">
+        <Form.Group as={Row} controlId="formWeight" className="m-2">
           <Form.Label column sm="4">
-            Poids:
+            <h5>Poids:</h5>
           </Form.Label>
           <Col sm="6">
-            <Form.Control name="weight" type="number" />
+            <Form.Control name="weight" type="number" style={{ width: "100%" }} min={1} required />
+            <Form.Control.Feedback></Form.Control.Feedback>
+            <Form.Control.Feedback className="text-white" type="invalid">
+              <b>Veuillez entrer un poids</b>
+            </Form.Control.Feedback>
           </Col>
         </Form.Group>
-        <Form.Group as={Row} controlId="formDate">
+        <Form.Group as={Row} controlId="formDate" className="m-2">
           <Form.Label column sm="4">
-            Date:
+            <h5>Date:</h5>
           </Form.Label>
           <Col sm="6">
-            <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} />
+            <Form.Control name="date" type="date" defaultValue={DEFAULT_DATE.toISOString().substring(0, 10)} style={{ width: "100%" }} required />
+            <Form.Control.Feedback></Form.Control.Feedback>
+            <Form.Control.Feedback className="text-white" type="invalid">
+              <b>Veuillez entrer un date</b>
+            </Form.Control.Feedback>
           </Col>
+          <Button type="submit">Ajouter un mesurement de poids</Button>
         </Form.Group>
-        <Button type="submit">Ajouter un mesurement de poids</Button>
       </Form>
     </>
   );

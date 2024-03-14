@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import ProgressInfo from "./ProgressInfo";
 import ProgressForm from "./ProgressForm";
 import { dateFormatter } from "../../../../helpers/FormattingUtils";
@@ -64,33 +64,31 @@ function ProgressChart({ auth_id }: IProps) {
   return (
     <>
       {auth_id != null && (
-        <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignContent: "center" }}>
-            <div>
-              <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
-              <ProgressInfo propData={chartData?.progressionData} />
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: "1", margin: "30px 50px 0px 30px" }}>
+            <ProgressForm auth_id={auth_id} updateDataHandler={handleUpdateData} />
+            <ProgressInfo propData={chartData?.progressionData} />
+          </div>
+          {chartData != null && chartData?.progressionData?.length > 0 && (
+            <div style={{ flex: "1" }}>
+              <ResponsiveContainer width="90%" height={500} minWidth={300}>
+                <LineChart
+                  data={chartData.progressionData}
+                  style={{ border: "0.1em solid darkslateblue", backgroundColor: "#E6E5F1" }}
+                  margin={{ bottom: 5, top: 30, left: 5, right: 40 }}
+                >
+                  <XAxis dataKey={"date"} />
+                  <YAxis
+                    dataKey={"weight"}
+                    domain={[(dataMin: number) => Math.round((dataMin * 0.95) / 5) * 5, (dataMax: number) => Math.round((dataMax * 1.03) / 5) * 5]}
+                  />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {chartData != null && chartData?.progressionData?.length > 0 && (
-              <LineChart
-                width={500}
-                height={500}
-                data={chartData.progressionData}
-                style={{ border: "0.1em solid darkslateblue", backgroundColor: "white" }}
-                margin={{ top: 20, bottom: 5, left: 5, right: 20 }}
-              >
-                <XAxis dataKey={"date"} />
-                <YAxis
-                  dataKey={"weight"}
-                  domain={[(dataMin: number) => Math.round((dataMin * 0.95) / 5) * 5, (dataMax: number) => Math.round((dataMax * 1.03) / 5) * 5]}
-                />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey={"weight"} stroke="#8884d8" />
-              </LineChart>
-            )}
-          </div>
+          )}
         </div>
       )}
     </>

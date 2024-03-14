@@ -3,7 +3,8 @@ import Exercise from "../../../models/Exercise";
 import ExerciseInstructions from "./ExerciseInstructions";
 
 /**
- * Interface to ensure type security for our props.
+ * Interface to ensure at compiler type security for our props.
+ * It's javascript so you never get type security at run time C:.
  */
 interface IProps {
   exercise: Exercise | null;
@@ -55,7 +56,7 @@ function ExerciseCard({
           </select>
         </div>
         {exercise != null && (
-          <div style={{ height: "80%" }}>
+          <div>
             <div className="card-text-div">
               <div className="exercise-name-div">
                 <div className="exercise-name-div-div">
@@ -76,14 +77,15 @@ function ExerciseCard({
             </div>
             <img src={exercise.gifUrl} className="image" onError={(e) => onImageErrorCallback(e, cardID)}></img>
             <div>
-              {isInstructionsOpen && <ExerciseInstructions instructions={exercise.instructions} />}
               <button
                 onClick={() => {
                   setIsInstructionsOpen(!isInstructionsOpen);
                 }}
+                className="inst-button"
               >
                 {isInstructionsOpen ? "Close instructions" : "Open instructions"}
               </button>
+              {isInstructionsOpen && <ExerciseInstructions instructions={exercise.instructions} />}
             </div>
           </div>
         )}

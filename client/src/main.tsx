@@ -3,7 +3,7 @@ import ExercisePlan from "./pages/ExercisePlan/ExercisePlan";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Menu from "./components/Menu";
+import Menu from "./pages/Menu/Menu";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { StrictMode } from "react";
