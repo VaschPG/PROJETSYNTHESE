@@ -9,7 +9,7 @@ function Menu() {
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
-        <Container>
+        <Container style={{fontSize:"20px"}}>
           <Navbar.Brand as={Link} to="/">
             Traqueur
           </Navbar.Brand>
@@ -23,7 +23,7 @@ function Menu() {
                 Profile
               </Link>
             </Nav>
-            <AuthenticationButton />
+            <AuthenticationButton/>
           </Navbar.Collapse>
         </Container>
       </Navbar>
