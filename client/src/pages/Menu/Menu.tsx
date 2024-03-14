@@ -4,13 +4,16 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import AuthenticationButton from "../Login/AuthenticationButton";
+import Image from 'react-bootstrap/Image';
+import Logo from "../../assets/Logo";
 
 function Menu() {
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
         <Container style={{ fontSize: "18px" }}>
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand as={Link} to="/" style={{fontSize:"28px"}}>
+            <Logo/>
             Traqueur
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
