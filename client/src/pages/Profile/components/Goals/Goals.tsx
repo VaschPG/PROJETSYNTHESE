@@ -15,8 +15,11 @@ interface Goal {
 }
 
 function Goals() {
-  const [goals, setGoals] = useState<Goal[]>([]);
+  /////--State--/////
   const { user } = useAuth0();
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [isShowDeleteButton, setIsShowDeleteButton] = useState(false);
+  /////---------/////
 
   useEffect(() => {
     fetch(`${FULL_API_URL}GetAllOfUser/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`)
@@ -49,20 +52,38 @@ function Goals() {
     setGoals([...goals, goal]);
   };
 
+  //Fix delete button(replace with edit and do css) and add checkbox
   return (
-    <div className="goals-container">
-      <div className="goals-list">
-        {goals.map((goal, index) => (
-          <div key={goal._id} className="goal-item">
-            <span>{goal.text}</span>
-            <button className="remove-btn" onClick={() => handleRemoveGoal(index)}>
-              -
-            </button>
-          </div>
-        ))}
+    <>
+      <div className="goals-title" style={{ display: "inline-flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 className="h1" style={{ display: "inline" }}>
+          Vos objectifs
+        </h1>
+        <button
+          onClick={() => {
+            setIsShowDeleteButton(!isShowDeleteButton);
+          }}
+        >
+          Delete
+        </button>
       </div>
-      <GoalsForm handleAddGoal={handleAddGoalToState} />
-    </div>
+      <div className="goals-container">
+        <div className="goals-list">
+          {goals.map((goal, index) => (
+            <div key={goal._id} className="goal-item">
+              <span>{goal.text}</span>
+              <></>
+              {isShowDeleteButton && (
+                <button className="remove-btn" onClick={() => handleRemoveGoal(index)}>
+                  -
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <GoalsForm handleAddGoal={handleAddGoalToState} />
+      </div>
+    </>
   );
 }
 

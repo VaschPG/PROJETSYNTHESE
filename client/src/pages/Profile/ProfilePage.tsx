@@ -9,7 +9,7 @@ function ProfilePage() {
   const { isAuthenticated, user, isLoading } = useAuth0();
 
   if (isLoading) {
-    return <LoadingPage/>;
+    return <LoadingPage />;
   }
   return (
     <>
@@ -29,7 +29,6 @@ function ProfilePage() {
               </div>
             </div>
             <div className="right-section">
-              <h1 className="h1">Vos objectifs</h1>
               <Goals />
             </div>
           </div>

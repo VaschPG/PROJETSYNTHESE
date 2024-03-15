@@ -60,4 +60,14 @@ router.get("/GetExercisePlanByName", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get("/GetExercisePlanNames/:id", async (req, res) => {
+  try {
+    const userID = req.params.id;
+    const data = await profileDBO.getExercisePlanNames(userID);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

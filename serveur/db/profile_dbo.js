@@ -56,4 +56,24 @@ module.exports = {
     });
     return exercisePlan;
   },
+  getExercisePlanNames: async function (userID) {
+    return await profileModel
+      .aggregate([
+        {
+          $match: {
+            _id: userID,
+          },
+        },
+        {
+          $unwind: "$exercisePlans",
+        },
+        {
+          $project: {
+            _id: 0,
+            name: "$exercisePlans.name",
+          },
+        },
+      ])
+      .exec();
+  },
 };

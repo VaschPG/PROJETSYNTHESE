@@ -3,6 +3,7 @@ import ExerciseCard from "./components/ExerciseCard";
 import Exercise from "../../models/Exercise";
 import CheckBox from "./components/CheckBox";
 import "./ExercisePlan.css";
+import SaveExercisePlan from "./components/SaveExercisePlan";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_EXERCISES_URL;
@@ -326,13 +327,16 @@ function ExercisePlan() {
   return (
     <>
       <div className="exercise-plan-root">
-        <button className="ex-button" onClick={handleAddExerciseOnClick}>
-          +
-        </button>
-        <button className="ex-button" onClick={handleSearchClick}>
-          Search
-        </button>
-        <section className="section-card-and-equipment-list">
+        <section className="ex-header" style={{ display: "inline-block", justifyContent: "normal", alignItems: "center" }}>
+          <button className="ex-button" onClick={handleAddExerciseOnClick} style={{ marginBottom: "5px" }}>
+            +
+          </button>
+          <button className="ex-button" onClick={handleSearchClick} style={{ marginBottom: "5px" }}>
+            Search
+          </button>
+          <SaveExercisePlan />
+        </section>
+        <section className="section-card-and-equipment-list" style={{ marginTop: "5px" }}>
           <div className="div-div-card">
             <div className="div-card">
               {exerciseCardData.map((item, index) => (
@@ -370,7 +374,7 @@ function ExercisePlan() {
             }
           </div>
         </section>
-        <div style={{ display: "visible" }}>
+        <div style={{ display: "none" }}>
           <button className="ex-button" onClick={handleTestClick}>
             Test
           </button>
