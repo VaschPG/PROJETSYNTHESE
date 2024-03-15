@@ -3,7 +3,7 @@ import ExerciseCard from "./components/ExerciseCard";
 import Exercise from "../../models/Exercise";
 import CheckBox from "./components/CheckBox";
 import "./ExercisePlan.css";
-import SaveExercisePlan from "./components/SaveExercisePlan";
+import ExercisePlanMenu from "./components/ExercisePlanMenu";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_EXERCISES_URL;
@@ -36,9 +36,12 @@ interface BodyPartAndEquipmentArray {
 }
 
 /**
- *
+ * exercise: Exercise | null;
+ * selectedBodyPart: string;
+ * isPinned: boolean;
  */
 interface ExerciseCardData {
+  //Remove exercises from this so we don't have to map everytime we load a plan idiot.
   exercise: Exercise | null;
   selectedBodyPart: string;
   isPinned: boolean;
@@ -317,13 +320,41 @@ function ExercisePlan() {
     }
   }
 
+  async function fetchExercisePlan(userID: string, planName: string) {
+    try {
+      const FETCH_URL = `${BASE_API_URL}api/profile/GetExercisePlanByName/${userID}/${planName}`;
+      const FETCH_TIMER_NAME = "fetch-exercise-plan-data-timer";
+      console.log("fetching from " + FETCH_URL);
+      console.time(FETCH_TIMER_NAME);
+      const response = await fetch(FETCH_URL, {
+        method: "GET",
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        console.log("Successfully fetched in: ");
+        console.timeEnd(FETCH_TIMER_NAME);
+        console.log(data.exercises);
+        const toSet: ExerciseCardData[] = data.exercises.map((item: Exercise) => {
+          return { exercise: item, selectedBodyPart: item.bodyPart, isPinned: true };
+        });
+        setExerciseCardData(toSet);
+      } else {
+        console.log("Response not ok" + data.message);
+        console.timeEnd(FETCH_TIMER_NAME);
+      }
+    } catch (error) {
+      console.log("Error on fetchBodyPartArray:" + error);
+    }
+  }
+
   /**
    *
    */
   function handleTestClick() {}
 
-  const handleLoadExercisePlan = (planName: string) => {
-    console.log(planName);
+  const handleLoadExercisePlan = (userID: string, planName: string) => {
+    fetchExercisePlan(userID, planName);
   };
 
   ///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id
@@ -338,7 +369,7 @@ function ExercisePlan() {
           <button className="ex-button" onClick={handleSearchClick} style={{ marginBottom: "5px" }}>
             Search
           </button>
-          <SaveExercisePlan handleLoadExercisePlan={handleLoadExercisePlan} />
+          <ExercisePlanMenu handleLoadExercisePlan={handleLoadExercisePlan} />
         </section>
         <section className="section-card-and-equipment-list" style={{ marginTop: "5px" }}>
           <div className="div-div-card">

@@ -14,7 +14,7 @@ const ExerciseModel = new mongoose.Schema(
       type: String,
       required: true,
     },
-    id: {
+    _id: {
       type: Number,
       required: true,
     },

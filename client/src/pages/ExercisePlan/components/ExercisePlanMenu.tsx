@@ -10,10 +10,10 @@ interface ExercisePlan {
 }
 
 interface IProps {
-  handleLoadExercisePlan: (planName: string) => void;
+  handleLoadExercisePlan: (userID: string, planName: string) => void;
 }
 
-function SaveExercisePlan({ handleLoadExercisePlan }: IProps) {
+function ExercisePlanMenu({ handleLoadExercisePlan }: IProps) {
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [exercisePlanList, setExercisePlanList] = useState<ExercisePlan[]>([]);
   const [isShow, setIsShow] = useState(false);
@@ -71,7 +71,11 @@ function SaveExercisePlan({ handleLoadExercisePlan }: IProps) {
                 <button
                   className="ex-button"
                   style={{ marginTop: "0", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
-                  onClick={() => handleLoadExercisePlan(refSelectPlan.current.value)}
+                  onClick={() => {
+                    if (user?.sub != null) {
+                      handleLoadExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSelectPlan.current.value);
+                    }
+                  }}
                 >
                   Load exercisePlan
                 </button>
@@ -90,4 +94,4 @@ function SaveExercisePlan({ handleLoadExercisePlan }: IProps) {
   );
 }
 
-export default SaveExercisePlan;
+export default ExercisePlanMenu;

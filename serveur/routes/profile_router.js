@@ -50,10 +50,10 @@ router.put("/UpsertExercisePlan", async (req, res) => {
   }
 });
 
-router.get("/GetExercisePlanByName", async (req, res) => {
+router.get("/GetExercisePlanByName/:userID/:exercisePlanName", async (req, res) => {
   try {
-    const exercisePlanName = req.body.exercisePlanName;
-    const userID = req.body.userID;
+    const exercisePlanName = req.params.exercisePlanName;
+    const userID = req.params.userID;
     const data = await profileDBO.getExercisePlan(userID, exercisePlanName);
     res.status(200).json(data);
   } catch (error) {

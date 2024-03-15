@@ -33,7 +33,7 @@ async function getData() {
         bodyPart: reponse[i]["bodyPart"],
         equipment: reponse[i]["equipment"],
         gifUrl: reponse[i]["gifUrl"],
-        id: reponse[i]["id"],
+        _id: reponse[i]["id"],
         name: reponse[i]["name"],
         target: reponse[i]["target"],
         secondaryMuscles: reponse[i]["secondaryMuscles"],
