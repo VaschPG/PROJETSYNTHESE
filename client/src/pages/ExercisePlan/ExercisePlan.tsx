@@ -322,6 +322,10 @@ function ExercisePlan() {
    */
   function handleTestClick() {}
 
+  const handleLoadExercisePlan = (planName: string) => {
+    console.log(planName);
+  };
+
   ///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id
 
   return (
@@ -334,7 +338,7 @@ function ExercisePlan() {
           <button className="ex-button" onClick={handleSearchClick} style={{ marginBottom: "5px" }}>
             Search
           </button>
-          <SaveExercisePlan />
+          <SaveExercisePlan handleLoadExercisePlan={handleLoadExercisePlan} />
         </section>
         <section className="section-card-and-equipment-list" style={{ marginTop: "5px" }}>
           <div className="div-div-card">

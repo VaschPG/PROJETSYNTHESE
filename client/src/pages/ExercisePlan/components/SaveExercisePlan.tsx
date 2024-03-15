@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
@@ -10,13 +10,14 @@ interface ExercisePlan {
 }
 
 interface IProps {
-  handleLoadExercisePlan: () => void;
+  handleLoadExercisePlan: (planName: string) => void;
 }
 
-function SaveExercisePlan() {
+function SaveExercisePlan({ handleLoadExercisePlan }: IProps) {
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [exercisePlanList, setExercisePlanList] = useState<ExercisePlan[]>([]);
   const [isShow, setIsShow] = useState(false);
+  const refSelectPlan = useRef<any>();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -64,8 +65,14 @@ function SaveExercisePlan() {
           <div style={isShow ? { display: "" } : { display: "none" }}>
             <div style={{ padding: "10px", marginBottom: "4px", borderRadius: "5px", boxShadow: "0 0 4px 1px grey", alignItems: "center" }}>
               <div className="ex-select-plan">
-                <select>{exercisePlanList.length > 0 && exercisePlanList.map((item) => <option key={item.name}>{item.name}</option>)}</select>
-                <button className="ex-button" style={{ marginTop: "0", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}>
+                <select ref={refSelectPlan}>
+                  {exercisePlanList.length > 0 && exercisePlanList.map((item) => <option key={item.name}>{item.name}</option>)}
+                </select>
+                <button
+                  className="ex-button"
+                  style={{ marginTop: "0", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
+                  onClick={() => handleLoadExercisePlan(refSelectPlan.current.value)}
+                >
                   Load exercisePlan
                 </button>
               </div>
