@@ -287,6 +287,15 @@ function ExercisePlan() {
     //e.currentTarget.src = 'https://v2.exercisedb.io/image/aQNsZ6BgDrucvz';
   };
 
+  const handleLoadExercisePlan = (userID: string, planName: string) => {
+    fetchExercisePlan(userID, planName);
+  };
+
+  const handleSaveExercisePlan = (userID: string, planName: string) => {
+    if (planName != "" && planName.trim() != "") {
+      fetchSaveExercisePlan(userID, planName);
+    }
+  };
   /**
    * Fetches the data of the exercise of a specified card using the id of said exercise.
    * Used to refresh the info in the case of a broken gifurl.
@@ -294,7 +303,7 @@ function ExercisePlan() {
    */
   async function fetchCardData(cardID: number) {
     try {
-      const FETCH_URL = FULL_API_URL + "GetByID/" + exerciseCardData[cardID].exercise?.id;
+      const FETCH_URL = FULL_API_URL + "GetByID/" + exerciseCardData[cardID].exercise?._id;
       const FETCH_TIMER_NAME = "exercise-fetch-data-timer";
       console.log("fetching from " + FETCH_URL);
       console.time(FETCH_TIMER_NAME);
@@ -348,14 +357,43 @@ function ExercisePlan() {
     }
   }
 
+  async function fetchSaveExercisePlan(userID: string, planName: string) {
+    try {
+      const FETCH_URL = `${BASE_API_URL}api/profile/UpsertExercisePlan`;
+      const FETCH_TIMER_NAME = "fetch-exercise-plan-data-timer";
+      console.log("fetching from " + FETCH_URL);
+      console.time(FETCH_TIMER_NAME);
+      const exercises = exerciseCardData.map((item) => {
+        return { _id: item.exercise?._id };
+      });
+      const sentData = { userID: userID, exercisePlans: { name: planName, exercises: exercises } };
+      const response = await fetch(FETCH_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sentData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Successfully fetched in: ");
+        console.timeEnd(FETCH_TIMER_NAME);
+        console.log(data.exercises);
+        const toSet: ExerciseCardData[] = data.exercises.map((item: Exercise) => {
+          return { exercise: item, selectedBodyPart: item.bodyPart, isPinned: true };
+        });
+        setExerciseCardData(toSet);
+      } else {
+        console.log("Response not ok" + data.message);
+        console.timeEnd(FETCH_TIMER_NAME);
+      }
+    } catch (error) {
+      console.log("Error on fetchBodyPartArray:" + error);
+    }
+  }
+
   /**
    *
    */
   function handleTestClick() {}
-
-  const handleLoadExercisePlan = (userID: string, planName: string) => {
-    fetchExercisePlan(userID, planName);
-  };
 
   ///onError of image we call a callback function(e, cardID) where we just ask for the girlUrl with the exercisecarddata[cardID].exercises.id
 
@@ -366,10 +404,10 @@ function ExercisePlan() {
           <button className="ex-button" onClick={handleAddExerciseOnClick} style={{ marginBottom: "5px" }}>
             +
           </button>
+          <ExercisePlanMenu handlers={{ handleLoadExercisePlan: handleLoadExercisePlan, handleSaveExercisePlan: handleSaveExercisePlan }} />
           <button className="ex-button" onClick={handleSearchClick} style={{ marginBottom: "5px" }}>
             Search
           </button>
-          <ExercisePlanMenu handleLoadExercisePlan={handleLoadExercisePlan} />
         </section>
         <section className="section-card-and-equipment-list" style={{ marginTop: "5px" }}>
           <div className="div-div-card">
@@ -409,7 +447,7 @@ function ExercisePlan() {
             }
           </div>
         </section>
-        <div style={{ display: "none" }}>
+        <div style={{ display: "" }}>
           <button className="ex-button" onClick={handleTestClick}>
             Test
           </button>

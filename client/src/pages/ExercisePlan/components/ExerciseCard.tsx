@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Exercise from "../../../models/Exercise";
 import ExerciseInstructions from "./ExerciseInstructions";
+import Pin from "../../../assets/Pin";
 
 /**
  * Interface to ensure at compiler type security for our props.
@@ -43,7 +44,8 @@ function ExerciseCard({
     <>
       <div className="exercise-card">
         <button className={!isPinned ? "btn-pin" : "btn-pinned"} onClick={() => handleOnClickPinCallback(cardID)}>
-          {!isPinned ? "Pin" : "Pinned"}
+          {/*!isPinned ? "Pin" : "Pinned"*/}
+          <Pin />
         </button>
         <div className="card-bodypart-select-div">
           <select className="card-bodypart-select" value={selectBodyPart} onChange={(e) => handleSelectChangeCallback(e, cardID)}>
@@ -75,7 +77,7 @@ function ExerciseCard({
                 </p>
               </div>
             </div>
-            <img src={exercise.gifUrl} className="image" onError={(e) => onImageErrorCallback(e, cardID)}></img>
+            <img src={exercise.gifUrl} className="gif" onError={(e) => onImageErrorCallback(e, cardID)}></img>
             <div>
               <button
                 onClick={() => {

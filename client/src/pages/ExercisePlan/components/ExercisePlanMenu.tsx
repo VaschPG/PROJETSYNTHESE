@@ -9,15 +9,20 @@ interface ExercisePlan {
   name: string;
 }
 
-interface IProps {
+interface IHandlers {
   handleLoadExercisePlan: (userID: string, planName: string) => void;
+  handleSaveExercisePlan: (userID: string, planName: string) => void;
+}
+interface IProps {
+  handlers: IHandlers;
 }
 
-function ExercisePlanMenu({ handleLoadExercisePlan }: IProps) {
+function ExercisePlanMenu({ handlers: { handleLoadExercisePlan: handleLoadExercisePlan, handleSaveExercisePlan: handleSaveExercisePlan } }: IProps) {
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [exercisePlanList, setExercisePlanList] = useState<ExercisePlan[]>([]);
   const [isShow, setIsShow] = useState(false);
   const refSelectPlan = useRef<any>();
+  const refSaveInput = useRef<any>();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -48,10 +53,14 @@ function ExercisePlanMenu({ handleLoadExercisePlan }: IProps) {
     }
   }
 
+  function handleRefetchPlanNames() {
+    fetchExercisePlanList();
+  }
+
   return (
     <>
       {!isLoading && isAuthenticated && (
-        <div style={{}}>
+        <div style={{ display: "inline" }}>
           <button
             className="ex-button"
             onClick={() => {
@@ -81,8 +90,19 @@ function ExercisePlanMenu({ handleLoadExercisePlan }: IProps) {
                 </button>
               </div>
               <div className="ex-save-plan" style={{ marginLeft: "8px" }}>
-                <input name="chef"></input>
-                <button className="ex-button" style={{ marginTop: "8px", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}>
+                {/*Replace this pile of dogshit with a form to validate. */}
+                <input name="chef" required pattern="" ref={refSaveInput}></input>
+                <button
+                  className="ex-button"
+                  style={{ marginTop: "8px", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
+                  onClick={() => {
+                    if (user?.sub != null) {
+                      handleSaveExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSaveInput.current.value);
+                      //Do this better with a callback?
+                      handleRefetchPlanNames;
+                    }
+                  }}
+                >
                   Save
                 </button>
               </div>

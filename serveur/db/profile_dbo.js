@@ -54,7 +54,6 @@ module.exports = {
         exercisePlan = element;
       }
     });
-    console.log(exercisePlan);
     return exercisePlan;
   },
   getExercisePlanNames: async function (userID) {

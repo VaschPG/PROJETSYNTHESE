@@ -41,8 +41,10 @@ router.post("/UpdateProfile", async function (req, res) {
 
 router.put("/UpsertExercisePlan", async (req, res) => {
   try {
-    const exercisePlan = req.body.exercisePlan;
+    const exercisePlan = req.body.exercisePlans;
     const userID = req.body.userID;
+    console.log(exercisePlan);
+    console.log(userID);
     const data = await profileDBO.upsertExercisePlan(userID, exercisePlan);
     res.status(201).json({ message: "Success" });
   } catch (error) {
