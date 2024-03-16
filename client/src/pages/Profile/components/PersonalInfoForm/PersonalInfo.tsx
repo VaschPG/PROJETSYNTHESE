@@ -125,7 +125,7 @@ const PersonalInfo: React.FC = () => {
       <Container className="position-relative">
         <Form noValidate validated={showValidation} onSubmit={handleSubmit}>
           <Row>
-            <Form.Group as={Col} md="12" controlId="firstName">
+            <Form.Group as={Col} md="10" controlId="firstName">
               <Form.Label className="text-white">Prenom :</Form.Label>
               <Form.Control
                 name="firstName"
@@ -142,7 +142,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12" controlId="lastName">
+            <Form.Group as={Col} md="10" controlId="lastName">
               <Form.Label className="text-white">Nom :</Form.Label>
               <Form.Control
                 required
@@ -159,7 +159,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12" controlId="age">
+            <Form.Group as={Col} md="10" controlId="age">
               <Form.Label className="text-white">Âge :</Form.Label>
               <Form.Control
                 required
@@ -175,7 +175,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12" controlId="gender">
+            <Form.Group as={Col} md="10" controlId="gender">
               <Form.Label className="text-white">Genre :</Form.Label>
               <Form.Control as="select" required value={formData.gender} onChange={(e) => setFormData({ ...formData, ["gender"]: e.target.value })}>
                 <option disabled value="">
@@ -194,7 +194,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12" controlId="weight">
+            <Form.Group as={Col} md="10" controlId="weight">
               <Form.Label className="text-white">Poids (kg):</Form.Label>
               <Form.Control
                 required
@@ -211,7 +211,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} className="mb-3" md="12" controlId="height">
+            <Form.Group as={Col} className="mb-3" md="10" controlId="height">
               <Form.Label className="text-white">Taille (cm):</Form.Label>
               <Form.Control
                 required
