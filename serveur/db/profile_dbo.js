@@ -33,14 +33,10 @@ module.exports = {
         { _id: userID, "exercisePlans.name": { $eq: exercisePlan.name } },
         { $set: { "exercisePlans.$": exercisePlan } }
       );
-      console.log("gungus");
     } else {
       profile.exercisePlans.push(exercisePlan);
-      console.log("bungus");
       await profile.save();
     }
-    //If this works the exercise ids we inserted are good.
-    const test = await profileModel.findById(userID).populate("exercisePlans.exercises");
     return;
   },
   getExercisePlan: async function (userID, exercisePlanName) {
@@ -55,5 +51,25 @@ module.exports = {
       }
     });
     return exercisePlan;
+  },
+  getExercisePlanNames: async function (userID) {
+    return await profileModel
+      .aggregate([
+        {
+          $match: {
+            _id: userID,
+          },
+        },
+        {
+          $unwind: "$exercisePlans",
+        },
+        {
+          $project: {
+            _id: 0,
+            name: "$exercisePlans.name",
+          },
+        },
+      ])
+      .exec();
   },
 };

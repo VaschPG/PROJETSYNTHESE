@@ -54,12 +54,6 @@
   margin-bottom: 1em;
 }
 
-.image {
-  border: 0.3em solid black;
-  margin-bottom: 1em;
-  border-radius: 10px;
-}
-
 .ex-button {
   background-color: rgb(63, 76, 92);
   border-radius: 5px;
@@ -87,7 +81,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 12px;
+  margin: 0px;
+  padding: 1px 6px 2px 6px;
   border-radius: 5px;
 }
 
@@ -95,7 +90,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 12px;
+  margin: 0px;
+  padding: 1px 6px 2px 6px;
   border-radius: 5px;
   background-color: white;
   color: black;
@@ -141,4 +137,14 @@
   background: rgb(55, 47, 109);
   filter: drop-shadow(0 0 2px black);
   border-radius: 1px;
+}
+
+.gif {
+  border: 1px solid white;
+  box-shadow: 0 0 4px 1px white;
+  height: auto;
+  width: auto;
+  max-height: 400px;
+  margin-bottom: 1em;
+  border-radius: 10px;
 }

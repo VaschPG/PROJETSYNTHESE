@@ -1,6 +1,6 @@
 const DEFAULT_DATE_LOCALE = "fr-CA";
 
-export const dateFormatter = (date: Date | undefined, locale?: string) => {
+export function dateFormatter (date: Date | undefined, locale?: string) {
   if (date != null) {
     const formattingOptions: Intl.DateTimeFormatOptions = {
       year: "numeric",

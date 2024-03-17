@@ -68,7 +68,7 @@ const ProfileModel = new mongoose.Schema(
           type: String,
           required: true,
         },
-        exercises: [{ type: mongoose.Schema.Types.ObjectId, ref: "Exercise" }],
+        exercises: [{ type: Number, ref: "Exercise" }],
       },
     ],
   },

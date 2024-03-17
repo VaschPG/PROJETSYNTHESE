@@ -36,9 +36,7 @@ const Calcul = () => {
 
   async function fetchProfile() {
     try {
-      const FETCH_URL = `${FULL_API_URL}GetProfile/${user?.sub?.substring(
-        user?.sub.indexOf("|") + 1
-      )}`;
+      const FETCH_URL = `${FULL_API_URL}GetProfile/${user?.sub?.substring(user?.sub.indexOf("|") + 1)}`;
 
       console.log("fetching from " + FETCH_URL);
       const response = await fetch(FETCH_URL, {
@@ -59,9 +57,7 @@ const Calcul = () => {
     fetchProfile();
     const IMCFIELD = document.getElementById("IMCField");
     const tailleEnM = formData.height / 100;
-    IMCFIELD!.textContent =
-      "Votre IMC est : " +
-      (formData.weight / (tailleEnM * tailleEnM)).toFixed(2).toString();
+    IMCFIELD!.textContent = "Votre IMC est : " + (formData.weight / (tailleEnM * tailleEnM)).toFixed(2).toString();
   }
 
   function calculIBW() {
@@ -102,40 +98,27 @@ const Calcul = () => {
       calorie = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
     }
 
-    CalorieField!.textContent =
-      "Calories quotidiennes : " + calorie.toFixed(2) + " kg minimum";
+    CalorieField!.textContent = "Calories quotidiennes : " + calorie.toFixed(2) + " calories minimum";
   }
 
   return (
     <Container className="d-flex flex-column h-100">
       <Container className="d-flex flex-row align-items-center">
-        <Button
-          onClick={calculIMC}
-          className="w-100"
-          style={{ marginRight: "5px" }}
-        >
+        <Button onClick={calculIMC} className="w-100" style={{ marginRight: "5px" }}>
           Calculer votre IMC
         </Button>
         <InfoIMC />
       </Container>
       <h5 id="IMCField" className="text-white text-center mt-3 mb-3"></h5>
       <Container className="d-flex flex-row align-items-center">
-        <Button
-          onClick={calculIBW}
-          className="w-100"
-          style={{ marginRight: "5px" }}
-        >
+        <Button onClick={calculIBW} className="w-100" style={{ marginRight: "5px" }}>
           Calculer votre poids ideal
         </Button>
         <InfoIdeal />
       </Container>
       <h5 id="IBWField" className="text-white text-center mt-3 mb-3"></h5>
       <Container className="d-flex flex-row align-items-center">
-        <Button
-          onClick={calculCalorie}
-          className="w-100"
-          style={{ marginRight: "5px" }}
-        >
+        <Button onClick={calculCalorie} className="w-100" style={{ marginRight: "5px" }}>
           Calculer votre calories quotidiennes
         </Button>
         <InfoCalorie />

@@ -50,7 +50,7 @@
 }
 
 .left-section-top-left {
-  width: 50%;
+  flex: 1;
   background-color: #1965ac;
   padding: 20px;
   border-radius: 10px;
@@ -59,7 +59,7 @@
 }
 
 .left-section-top-right {
-  width: 50%;
+  flex: 1;
   background-color: #1965ac;
   padding: 20px;
   border-radius: 10px;
