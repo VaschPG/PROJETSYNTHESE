@@ -11,8 +11,8 @@ function Menu() {
     <>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
         <Container style={{ fontSize: "18px" }}>
-          <Navbar.Brand as={Link} to="/" style={{fontSize:"28px"}}>
-            <Logo/>
+          <Navbar.Brand as={Link} to="/" style={{ fontSize: "28px" }}>
+            <Logo />
             Traqueur
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -22,7 +22,7 @@ function Menu() {
                 Entrainement
               </Link>
               <Link className="nav-link" to="/profile">
-                Profile
+                Profil
               </Link>
             </Nav>
             <AuthenticationButton />
