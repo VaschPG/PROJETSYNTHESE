@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Goal } from "./Goals";
 import { useAuth0 } from "@auth0/auth0-react";
 import Spinner from "react-bootstrap/esm/Spinner";

@@ -24,8 +24,8 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [exercisePlanList, setExercisePlanList] = useState<ExercisePlan[]>([]);
   const [isShow, setIsShow] = useState(false);
-  const refSelectPlan = useRef<any>();
-  const refSaveInput = useRef<any>();
+  const refSelectPlan = useRef<HTMLSelectElement>(null);
+  const refSaveInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -102,7 +102,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
                   className="ex-button"
                   style={{ marginTop: "0", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
                   onClick={() => {
-                    if (user?.sub != null) {
+                    if (user?.sub != null && refSelectPlan.current != null) {
                       Handler.handleLoadExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSelectPlan.current.value);
                     }
                   }}
@@ -117,7 +117,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
                   className="ex-button"
                   style={{ marginTop: "8px", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
                   onClick={() => {
-                    if (user?.sub != null) {
+                    if (user?.sub != null && refSaveInput.current != null) {
                       Handler.handleSaveExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSaveInput.current.value);
                       //Do this better with a callback?
                       handleRefetchPlanNames;
