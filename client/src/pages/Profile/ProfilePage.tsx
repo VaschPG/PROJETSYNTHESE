@@ -3,6 +3,7 @@ import PersonalInfo from "./components/PersonalInfoForm/PersonalInfo";
 import Goals from "./components/Goals/Goals";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingPage from "../Login/LoadingPage";
+import Calcul from "./components/Calcul/Calcul";
 import { lazy, Suspense } from "react";
 
 //Lazy loading
@@ -24,7 +25,12 @@ function ProfilePage() {
           <div className="profile-sections">
             <div className="left-section">
               <div className="left-section-top">
-                <PersonalInfo />
+                <div className="left-section-top-left">
+                  <PersonalInfo />
+                </div>
+                <div className="left-section-top-right">
+                  <Calcul />
+                </div>
               </div>
               <div className="left-section-bottom">
                 <h1 className="h1">Progression</h1>

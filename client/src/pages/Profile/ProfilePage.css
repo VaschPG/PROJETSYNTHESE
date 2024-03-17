@@ -43,6 +43,23 @@
 }
 
 .left-section-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+
+.left-section-top-left {
+  width: 50%;
+  background-color: #1965ac;
+  padding: 20px;
+  border-radius: 10px;
+  border: solid 1px black;
+  margin-bottom: 20px;
+}
+
+.left-section-top-right {
+  width: 50%;
   background-color: #1965ac;
   padding: 20px;
   border-radius: 10px;
@@ -108,4 +125,8 @@
   background-color: #000;
   text-align: center;
   color: #fff;
+}
+
+.modal-50w {
+  min-width: 50%;
 }
