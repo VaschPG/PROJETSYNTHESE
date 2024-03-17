@@ -439,7 +439,7 @@ function ExercisePlan() {
             }
           </div>
         </section>
-        <div style={{ display: "" }}>
+        <div style={{ display: "none" }}>
           <button className="ex-button" onClick={handleTestClick}>
             Test
           </button>
