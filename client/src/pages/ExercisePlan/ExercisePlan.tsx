@@ -340,7 +340,6 @@ function ExercisePlan() {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        console.log(data.exercises);
         const toSet: ExerciseCardData[] = data.exercises.map((item: Exercise) => {
           return { exercise: item, selectedBodyPart: item.bodyPart, isPinned: true };
         });
@@ -373,11 +372,6 @@ function ExercisePlan() {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
-        console.log(data.exercises);
-        const toSet: ExerciseCardData[] = data.exercises.map((item: Exercise) => {
-          return { exercise: item, selectedBodyPart: item.bodyPart, isPinned: true };
-        });
-        setExerciseCardData(toSet);
       } else {
         console.log("Response not ok" + data.message);
         console.timeEnd(FETCH_TIMER_NAME);

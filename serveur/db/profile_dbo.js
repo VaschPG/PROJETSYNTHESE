@@ -37,8 +37,6 @@ module.exports = {
       profile.exercisePlans.push(exercisePlan);
       await profile.save();
     }
-    //If this works the exercise ids we inserted are good.
-    const test = await profileModel.findById(userID).populate("exercisePlans.exercises");
     return;
   },
   getExercisePlan: async function (userID, exercisePlanName) {
