@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Spinner } from "react-bootstrap";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_EXERCISES_URL = import.meta.env.VITE_API_PROFILE_URL;
@@ -12,12 +13,14 @@ interface ExercisePlan {
 interface IHandlers {
   handleLoadExercisePlan: (userID: string, planName: string) => void;
   handleSaveExercisePlan: (userID: string, planName: string) => void;
+  handleSearch: () => void;
+  handleAdd: () => void;
 }
 interface IProps {
   handlers: IHandlers;
 }
 
-function ExercisePlanMenu({ handlers: { handleLoadExercisePlan: handleLoadExercisePlan, handleSaveExercisePlan: handleSaveExercisePlan } }: IProps) {
+function ExercisePlanMenu({ handlers: Handler }: IProps) {
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [exercisePlanList, setExercisePlanList] = useState<ExercisePlan[]>([]);
   const [isShow, setIsShow] = useState(false);
@@ -59,17 +62,35 @@ function ExercisePlanMenu({ handlers: { handleLoadExercisePlan: handleLoadExerci
 
   return (
     <>
+      <div style={{ display: "inline" }}>
+        <button className="ex-button" onClick={Handler.handleAdd} style={{ marginBottom: "5px" }}>
+          +
+        </button>
+        {!isLoading ? (
+          isAuthenticated && (
+            <button
+              className="ex-button"
+              onClick={() => {
+                setIsShow(!isShow);
+              }}
+            >
+              {isShow ? "Close Menu" : "Open Menu"}
+            </button>
+          )
+        ) : (
+          <button className="ex-button" style={{ display: "inline" }}>
+            <Spinner animation="border" role="status" style={{ width: "1em", height: "1em", color: "gray" }}>
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </button>
+        )}
+
+        <button className="ex-button" onClick={Handler.handleSearch} style={{ marginBottom: "5px" }}>
+          Search
+        </button>
+      </div>
       {!isLoading && isAuthenticated && (
         <div style={{ display: "inline" }}>
-          <button
-            className="ex-button"
-            onClick={() => {
-              setIsShow(!isShow);
-            }}
-            style={{ color: "white", padding: "5px 10px 5px 10px" }}
-          >
-            {isShow ? "Close exercisePlan Menu" : "Open exercisePlan Menu"}
-          </button>
           {/* Put form here */}
           <div style={isShow ? { display: "" } : { display: "none" }}>
             <div style={{ padding: "10px", marginBottom: "4px", borderRadius: "5px", boxShadow: "0 0 4px 1px grey", alignItems: "center" }}>
@@ -82,22 +103,22 @@ function ExercisePlanMenu({ handlers: { handleLoadExercisePlan: handleLoadExerci
                   style={{ marginTop: "0", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
                   onClick={() => {
                     if (user?.sub != null) {
-                      handleLoadExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSelectPlan.current.value);
+                      Handler.handleLoadExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSelectPlan.current.value);
                     }
                   }}
                 >
-                  Load exercisePlan
+                  Load
                 </button>
               </div>
               <div className="ex-save-plan" style={{ marginLeft: "8px" }}>
                 {/*Replace this pile of dogshit with a form to validate. */}
-                <input name="chef" required pattern="" ref={refSaveInput}></input>
+                <input name="save-input" required pattern="" ref={refSaveInput}></input>
                 <button
                   className="ex-button"
                   style={{ marginTop: "8px", marginBottom: "0", marginRight: "0", padding: "5px 8px 5px 8px" }}
                   onClick={() => {
                     if (user?.sub != null) {
-                      handleSaveExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSaveInput.current.value);
+                      Handler.handleSaveExercisePlan(user?.sub?.substring(user?.sub.indexOf("|") + 1), refSaveInput.current.value);
                       //Do this better with a callback?
                       handleRefetchPlanNames;
                     }

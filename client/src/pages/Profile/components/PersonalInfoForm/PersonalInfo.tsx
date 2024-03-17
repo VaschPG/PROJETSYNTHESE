@@ -194,24 +194,7 @@ const PersonalInfo: React.FC = () => {
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12" controlId="weight">
-              <Form.Label className="text-white">Poids (kg):</Form.Label>
-              <Form.Control
-                required
-                type="number"
-                step="0.01"
-                min={1}
-                value={formData.weight}
-                onChange={(e) => setFormData({ ...formData, ["weight"]: parseFloat(e.target.value) })}
-              ></Form.Control>
-              <Form.Control.Feedback></Form.Control.Feedback>
-              <Form.Control.Feedback className="text-white" type="invalid">
-                <b>Entrez votre poids en kg.</b>
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Row>
-            <Form.Group as={Col} className="mb-3" md="12" controlId="height">
+            <Form.Group as={Col} md="12" controlId="height">
               <Form.Label className="text-white">Taille (cm):</Form.Label>
               <Form.Control
                 required
@@ -227,6 +210,25 @@ const PersonalInfo: React.FC = () => {
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
+          <Row>
+            <Form.Group as={Col} md="12" controlId="weight">
+              <Form.Label className="text-white">Poids (kg):</Form.Label>
+              <Form.Control
+                required
+                type="number"
+                step="0.01"
+                min={1}
+                value={formData.weight}
+                onChange={(e) => setFormData({ ...formData, ["weight"]: parseFloat(e.target.value) })}
+                readOnly
+                style={{ background: "DarkGray", border: "solid black 1px" }}
+              ></Form.Control>
+              <Form.Control.Feedback></Form.Control.Feedback>
+              <Form.Control.Feedback className="text-white" type="invalid">
+                <b>Entrez votre poids en kg.</b>
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           {/* TOAST */}
           <Toast onClose={() => setShow(false)} show={show} delay={4000} bg="info" autohide className="position-absolute end-0 bottom-0">
             <Toast.Header>
@@ -237,7 +239,7 @@ const PersonalInfo: React.FC = () => {
               Les informations de {formData.firstName} {formData.lastName} ont été sauvegardées!
             </Toast.Body>
           </Toast>
-          <Button className="btn-info" type="submit">
+          <Button className="btn-info mt-3" type="submit">
             Sauvegarder
           </Button>
         </Form>

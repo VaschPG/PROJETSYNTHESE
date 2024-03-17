@@ -149,9 +149,6 @@ function ExercisePlan() {
   }
 
   /**
-   * ---DISREGARD-Requires a if(fetchSpecificExercises.length > 0) check before otherwise it could throw error cos there's no equipment.
-   * ---Or a change to the back end that uses the no equipment one if there's no equipment
-   * -ABOUT ^ DO IT BACK END, BACK END IS WHERE WE ALWAYS NEED TO VERIFY-
    * NEED TO ADD A MESSAGE ON RECIEVING NULL SINCE THAT MEANS THERE'S NO EQUIPMENT
    *
    * MEDIUM ISSUE, INTRODUCING PIN MEANS WE NEED TO SEND OVER THE PINNED IDS SO WE CAN MAKE SURE NOT TO GET DUPLICATES.
@@ -292,7 +289,7 @@ function ExercisePlan() {
   };
 
   const handleSaveExercisePlan = (userID: string, planName: string) => {
-    if (planName != "" && planName.trim() != "") {
+    if (planName.trim() != "") {
       fetchSaveExercisePlan(userID, planName);
     }
   };
@@ -401,13 +398,14 @@ function ExercisePlan() {
     <>
       <div className="exercise-plan-root">
         <section className="ex-header" style={{ display: "inline-block", justifyContent: "normal", alignItems: "center" }}>
-          <button className="ex-button" onClick={handleAddExerciseOnClick} style={{ marginBottom: "5px" }}>
-            +
-          </button>
-          <ExercisePlanMenu handlers={{ handleLoadExercisePlan: handleLoadExercisePlan, handleSaveExercisePlan: handleSaveExercisePlan }} />
-          <button className="ex-button" onClick={handleSearchClick} style={{ marginBottom: "5px" }}>
-            Search
-          </button>
+          <ExercisePlanMenu
+            handlers={{
+              handleAdd: handleAddExerciseOnClick,
+              handleSearch: handleSearchClick,
+              handleLoadExercisePlan: handleLoadExercisePlan,
+              handleSaveExercisePlan: handleSaveExercisePlan,
+            }}
+          />
         </section>
         <section className="section-card-and-equipment-list" style={{ marginTop: "5px" }}>
           <div className="div-div-card">
