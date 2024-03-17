@@ -37,6 +37,10 @@ module.exports = {
     }
   },
 
+  updateOne: async function (userID, updatedGoal) {
+    return await profileModel.findOneAndUpdate({ _id: userID, "goals._id": { $eq: updatedGoal._id } }, { $set: { "goals.$": updatedGoal } });
+  },
+
   removeOne: async function (userID, goalID) {
     return await profileModel.findOneAndUpdate({ _id: userID }, { $pull: { goals: { _id: goalID } } });
   },

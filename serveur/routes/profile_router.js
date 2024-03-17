@@ -9,8 +9,12 @@ router.get("/GetProfile/:id", async function (req, res) {
     const id = req.params["id"];
     let profileData = await profileDBO.getProfile(id);
     const weight = await progression_dbo.getLatestWeight(id);
+    console.log(weight);
     profileData = profileData[0];
-    profileData.weight = weight[0].weight;
+    if (weight.length != 0) {
+      profileData.weight = weight[0].weight;
+    }
+    console.log("postDataChange");
     res.status(200).json(profileData);
   } catch (error) {
     res.status(500).json({ message: error.message });

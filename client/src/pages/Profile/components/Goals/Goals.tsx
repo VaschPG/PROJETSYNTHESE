@@ -68,8 +68,15 @@ function Goals() {
           onClick={() => {
             setIsShowDeleteButton(!isShowDeleteButton);
           }}
-          className="m-0 p-0"
-          style={{ background: "none" }}
+          style={{
+            backgroundColor: "transparent",
+            borderRadius: "100%",
+            borderColor: "transparent",
+            height: "fit-content",
+            width: "fit-content",
+            padding: "0px",
+            margin: "0px",
+          }}
         >
           <Settings />
         </button>

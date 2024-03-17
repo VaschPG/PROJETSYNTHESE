@@ -75,7 +75,7 @@ router.get("/DistinctEquipmentValues", async (req, res) => {
  * @responds With status(200) and a json that looks like this:
  * {"equipmentArray": [ { "equipment": "body weight"}, { "equipment": "dumbbell"}],
  *  "bodyPart": [ { "bodyPart": "upper arms" }, { "bodyPart": "upper legs" } ] }
- *  or with a status(500) and a json with the error message.
+ * @error On error we respond with a status(500) and a json with the error message.
  */
 router.get("/DistinctBodyPartAndEquipmentValues", async (req, res) => {
   try {

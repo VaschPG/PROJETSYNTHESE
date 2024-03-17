@@ -70,9 +70,13 @@ function ProgressChart({ auth_id }: IProps) {
             <ProgressInfo propData={chartData?.progressionData} />
           </div>
           {chartData != null && chartData?.progressionData?.length > 0 && (
-            <div style={{ flex: "1", border: "1px solid black" }}>
+            <div style={{ flex: "1" }}>
               <ResponsiveContainer width="100%" height={500} minWidth={300}>
-                <LineChart data={chartData.progressionData} style={{ backgroundColor: "white" }} margin={{ bottom: 5, top: 30, left: 5, right: 40 }}>
+                <LineChart
+                  data={chartData.progressionData}
+                  style={{ backgroundColor: "white", border: "1px solid black", borderRadius: "3px" }}
+                  margin={{ bottom: 5, top: 30, left: 5, right: 40 }}
+                >
                   <XAxis dataKey={"date"} />
                   <YAxis
                     dataKey={"weight"}

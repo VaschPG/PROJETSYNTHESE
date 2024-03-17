@@ -1,6 +1,7 @@
 .goals-container {
-  background-color: #bae2f9;
-  border-radius: 10px;
+  background-color: #1965ac;
+  border-radius: 5px;
+  border: solid 1px black;
   padding: 20px;
   min-width: 400px;
 }
@@ -14,10 +15,12 @@
 }
 
 .goal-item {
-  background-color: #ffffff;
+  background-color: rgb(0, 77, 149);
+  border: solid 1px black;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 5px;
+  color: white;
 }
 
 .add-goal {
@@ -27,19 +30,22 @@
 .add-goal input {
   padding: 8px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: solid 1px black;
   background-color: white;
   color: #000;
 }
 
-.add-goal button {
-  padding: 8px 15px;
-  border-radius: 5px;
-  border: none;
+.button {
+  padding: 10px;
   background-color: #004d95;
   color: #fff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  margin-left: 10px;
+}
+
+.button:hover {
+  background-color: #003366;
 }
 
 .goal-item {

@@ -1,6 +1,7 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./Goals.css";
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 const API_GOALS_URL = import.meta.env.VITE_API_GOALS_URL;
@@ -64,15 +65,15 @@ function GoalsForm({ handleAddGoal }: IProps) {
       <div className="add-goal">
         <Form noValidate validated={showValidation} onSubmit={handleSubmit}>
           <Form.Group as={Row} controlId="form">
-            <Col sm="6">
+            <Col sm="7">
               <Form.Control name="goalText" type="text" placeholder="Nouvel objectif" required pattern="(?=.*\S).{1,}" />
               <Form.Control.Feedback></Form.Control.Feedback>
-              <Form.Control.Feedback className="text-black" type="invalid">
+              <Form.Control.Feedback className="text-white" type="invalid">
                 <b>Veuillez entrer un objectif</b>
               </Form.Control.Feedback>
             </Col>
 
-            <Col sm="6">
+            <Col sm="5" style={{ float: "right" }}>
               <Button type="submit">Ajouter objectif</Button>
             </Col>
           </Form.Group>

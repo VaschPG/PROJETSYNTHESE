@@ -33,10 +33,8 @@ module.exports = {
         { _id: userID, "exercisePlans.name": { $eq: exercisePlan.name } },
         { $set: { "exercisePlans.$": exercisePlan } }
       );
-      console.log("gungus");
     } else {
       profile.exercisePlans.push(exercisePlan);
-      console.log("bungus");
       await profile.save();
     }
     //If this works the exercise ids we inserted are good.
