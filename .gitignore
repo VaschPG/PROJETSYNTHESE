@@ -7,3 +7,4 @@ serveur/.dockerignore
 serveur/compose.yaml
 serveur/Dockerfile
 serveur/README.Docker.md
+serveur/node_modules
