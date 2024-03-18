@@ -74,7 +74,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
                 setIsShow(!isShow);
               }}
             >
-              {isShow ? "Close Menu" : "Open Menu"}
+              {isShow ? "Fermer Menu" : "Ouvrir Menu"}
             </button>
           )
         ) : (
@@ -86,7 +86,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
         )}
 
         <button className="ex-button" onClick={Handler.handleSearch} style={{ marginBottom: "5px" }}>
-          Search
+          Recherche
         </button>
       </div>
       {!isLoading && isAuthenticated && (
@@ -107,7 +107,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
                     }
                   }}
                 >
-                  Load
+                  Charger
                 </button>
               </div>
               <div className="ex-save-plan" style={{ marginLeft: "8px" }}>
@@ -124,7 +124,7 @@ function ExercisePlanMenu({ handlers: Handler }: IProps) {
                     }
                   }}
                 >
-                  Save
+                  Sauvegarder
                 </button>
               </div>
             </div>

@@ -19,9 +19,9 @@ interface IProps {
   onImageErrorCallback: (e: React.SyntheticEvent<HTMLImageElement>, cardID: number) => void;
 }
 
-const EXERCISE_NAME_LABEL = "Exercise name: ";
-const EXERCISE_EQUIPMENT_LABEL = "Equipment required: ";
-const EXERCISE_BODYPART_LABEL = "Primary muscle group: ";
+const EXERCISE_NAME_LABEL = "Nom de l'exercise: ";
+const EXERCISE_EQUIPMENT_LABEL = "Equipment requis: ";
+const EXERCISE_BODYPART_LABEL = "Muscle primaire: ";
 
 //Eventually switch this from divs with fixed spacing to flex col? Idk we'll see when we switch to bootstrap
 //TODO- Add instructions/gif button that switches between gif and instructions when pressed.
