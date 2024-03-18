@@ -178,6 +178,7 @@ function ExercisePlan() {
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);
+        if(exerciseCardData.length > 1){
         const newExercises = data.map((item: ExerciseCardData["exercise"], i: number) => {
           const _exercise = exerciseCardData[i].isPinned ? exerciseCardData[i].exercise : item;
           return {
@@ -186,7 +187,16 @@ function ExercisePlan() {
             isPinned: exerciseCardData[i].isPinned,
           };
         });
+        
+        
+        console.log(newExercises);
         setExerciseCardData(newExercises);
+        }else{
+            const _exercise = exerciseCardData[0].isPinned ? exerciseCardData[0].exercise : data[0];
+            setExerciseCardData([{exercise: _exercise, selectedBodyPart: exerciseCardData[0].selectedBodyPart, isPinned: exerciseCardData[0].isPinned}]);
+            console.log(data);
+        }
+        
       } else {
         console.log("Response not ok" + data.message);
         console.timeEnd(FETCH_TIMER_NAME);
@@ -306,7 +316,6 @@ function ExercisePlan() {
       console.time(FETCH_TIMER_NAME);
       const response = await fetch(FETCH_URL);
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         console.log("Successfully fetched in: ");
         console.timeEnd(FETCH_TIMER_NAME);

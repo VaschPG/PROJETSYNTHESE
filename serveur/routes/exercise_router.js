@@ -114,11 +114,14 @@ router.get("/WithBodyPartQuery/", async (req, res) => {
  */
 router.get("/WithBodyPartsAndEquipmentQuery/", async (req, res) => {
   try {
-    const bodyPartArray = req.query.bodyPart;
+    let bodyPartArray = req.query.bodyPart;
     let equipmentArray = req.query.equipment;
     if (typeof equipmentArray === "string") {
       equipmentArray = [equipmentArray];
     }
+    if (typeof bodyPartArray === "string") {
+        bodyPartArray = [bodyPartArray];
+      }
     const returnedArray = new Array();
     const noDuplicateCheckingArray = new Array();
     for (let i = 0; i < bodyPartArray.length; i++) {
