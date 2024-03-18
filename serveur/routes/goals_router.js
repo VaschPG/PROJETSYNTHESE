@@ -31,7 +31,6 @@ router.post("/UpdateOne", async (req, res) => {
   try {
     const userID = req.body.userID;
     const updatedGoal = req.body.goal;
-    console.log(updatedGoal);
     const resGoal = await goalsDBO.updateOne(userID, updatedGoal);
     if (resGoal._id != null) {
       res.status(200).json({ status: updatedGoal.status });
