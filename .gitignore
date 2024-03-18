@@ -1,10 +1,4 @@
-serveur/.env
 client.bat
 populatedb.bat
 server.bat
 start server and client.bat
-serveur/.dockerignore
-serveur/compose.yaml
-serveur/Dockerfile
-serveur/README.Docker.md
-serveur/node_modules
