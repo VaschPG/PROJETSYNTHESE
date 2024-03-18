@@ -9,3 +9,5 @@ Etapes pour commencer le projet :
 - Etre sur de faire npm install dans la partie client et la partie serveur
 - Aller dans le fichier client -> npm start pour commencer le client
 - Aller dans le fichier serveur -> npm start pour commencer le serveur
+
+- Lien vers le GitHub - https://github.com/VaschPG/PROJETSYNTHESE
