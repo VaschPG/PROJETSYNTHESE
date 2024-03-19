@@ -4,3 +4,4 @@ node_modules
 compose.yaml
 Dockerfile
 README.Docker.md
+/db_test_data/Test
