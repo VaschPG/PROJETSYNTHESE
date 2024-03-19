@@ -142,9 +142,9 @@
 .gif {
   border: 1px solid white;
   box-shadow: 0 0 4px 1px white;
-  height: auto;
-  width: auto;
-  max-height: 400px;
+  height: 360;
+  width: 360;
+  max-height: 360px;
   margin-bottom: 1em;
   border-radius: 10px;
 }

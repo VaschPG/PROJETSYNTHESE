@@ -9,12 +9,10 @@ router.get("/GetProfile/:id", async function (req, res) {
     const id = req.params["id"];
     let profileData = await profileDBO.getProfile(id);
     const weight = await progression_dbo.getLatestWeight(id);
-    console.log(weight);
     profileData = profileData[0];
     if (weight.length != 0) {
       profileData.weight = weight[0].weight;
     }
-    console.log("postDataChange");
     res.status(200).json(profileData);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -35,7 +33,6 @@ router.put("/Insert", async function (req, res) {
 router.post("/UpdateProfile", async function (req, res) {
   try {
     const body = req.body;
-    console.log(body);
     const profileData = await profileDBO.updateProfile(body);
     res.status(200).json(profileData[0]);
   } catch (error) {
@@ -47,8 +44,6 @@ router.put("/UpsertExercisePlan", async (req, res) => {
   try {
     const exercisePlan = req.body.exercisePlans;
     const userID = req.body.userID;
-    console.log(exercisePlan);
-    console.log(userID);
     const data = await profileDBO.upsertExercisePlan(userID, exercisePlan);
     res.status(201).json({ message: "Success" });
   } catch (error) {
